@@ -593,7 +593,7 @@
         })
         .join("\n");
     }
-    if (field.type === "radio" || field.type === "application-type") {
+    if (field.type === "radio" || field.type === "select" || field.type === "application-type") {
       var opt = (field.options || []).filter(function (o) {
         return o.value === v;
       })[0];

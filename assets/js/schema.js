@@ -290,7 +290,21 @@ window.SCHEMA = (function () {
             { type: "text", id: "agency.acronym", required: true, half: true, label: { tr: "Kısaltma", en: "Acronym" }, placeholder: { tr: "ör. MÜDEK", en: "e.g. MÜDEK" } },
             { type: "number", id: "agency.foundedYear", required: true, half: true, min: 1900, max: 2100, label: { tr: "Kuruluş yılı", en: "Year of establishment" } },
             { type: "text", id: "agency.country", required: true, half: true, label: { tr: "Ülke", en: "Country" }, showIf: { field: "applicationType", equals: "taninma" } },
-            { type: "text", id: "agency.legalForm", required: true, half: true, label: { tr: "Hukuki statü / tüzel kişilik türü", en: "Legal form / type of legal entity" }, placeholder: { tr: "ör. Dernek, Vakıf, Kamu tüzel kişisi", en: "e.g. Association, Foundation, Public body" } },
+            {
+              type: "select", id: "agency.legalForm", required: true, half: true,
+              label: { tr: "Hukuki statü / tüzel kişilik türü", en: "Legal form / type of legal entity" },
+              options: [
+                { value: "dernek", label: { tr: "Dernek (Kâr Amacı Gütmeyen)", en: "Association (Non-profit)" } },
+                { value: "vakif", label: { tr: "Vakıf (Kâr Amacı Gütmeyen)", en: "Foundation (Non-profit)" } },
+                { value: "diger", label: { tr: "Diğer", en: "Other" } },
+              ],
+            },
+            {
+              type: "text", id: "agency.legalFormOther", required: true, half: true,
+              label: { tr: "Hukuki statü (belirtiniz)", en: "Legal form (please specify)" },
+              placeholder: { tr: "ör. Kamu tüzel kişisi", en: "e.g. Public body" },
+              showIf: { field: "agency.legalForm", equals: "diger" },
+            },
             { type: "url", id: "agency.website", required: true, half: true, label: { tr: "Web sitesi", en: "Website" }, placeholder: { tr: "https://…", en: "https://…" } },
             { type: "text", id: "agency.taxNo", half: true, label: { tr: "Vergi kimlik / tescil numarası", en: "Tax ID / registration number" } },
             {
