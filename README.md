@@ -172,6 +172,14 @@ beklediği bütüncül kapsamanın boşluklarını görünür kılar.
 > **Veri kaynağı:** `program_akred_ölçütleri_Geri_Bildirim.xlsx`,
 > "Değerlendirme Ölçütleri" sayfası, "Ana ölçüt" sütunu.
 
+### Logo
+Marka `index.html` içinde satır içi SVG'dir: üç mavi şerit, `--yk-mark-navy`
+`#2b4f8e`, `--yk-mark-blue` `#1c7cc1`, `--yk-mark-sky` `#74c3ef` jetonlarını
+kullanır. Aynı yollar `<link rel="icon">` içinde favicon olarak da geçer.
+Resmî SVG dosyanız varsa `.brand__mark` bloğunun yerine koymanız yeterlidir.
+
+> Marka renkleri yalnızca logoda kullanılır; genel renk paleti ayrıdır.
+
 ### Yeni alan / adım ekleme
 `assets/js/schema.js` içine alan nesnesi ekleyin. Desteklenen türler:
 `text`, `email`, `url`, `tel`, `number`, `date`, `textarea`, `select`,
