@@ -313,6 +313,46 @@ window.SCHEMA = (function () {
               hint: { tr: "ESG 3.1 gereği kamuya açık misyon bildiriminizi ve buradaki amaç ve hedeflerinizi belirtiniz.", en: "Per ESG 3.1, state your publicly available mission statement and the goals and objectives it contains." },
             },
             { type: "url", id: "agency.missionUrl", label: { tr: "Misyon bildiriminin yayımlandığı adres", en: "URL where the mission statement is published" }, placeholder: { tr: "https://…", en: "https://…" } },
+            {
+              type: "repeater", id: "agency.networks", minItems: 0,
+              label: {
+                tr: "Ajansın üye olduğu ağlar ve çatı kuruluşlar",
+                en: "Networks and umbrella organisations the agency is a member of",
+              },
+              hint: {
+                tr:
+                  "Üyesi olduğunuz ulusal ve uluslararası kalite güvencesi ağlarını ve çatı kuruluşlarını ekleyiniz. Her üyelik için üyeliği doğrulayan bir bağlantı vermeniz gerekir.",
+                en:
+                  "Add the national and international quality assurance networks and umbrella organisations you belong to. A link evidencing each membership is required.",
+              },
+              addLabel: { tr: "Üyelik ekle", en: "Add membership" },
+              itemFields: [
+                {
+                  type: "text", id: "name", required: true,
+                  label: { tr: "Ağ / çatı kuruluş adı", en: "Network / umbrella organisation" },
+                  placeholder: { tr: "ör. ENQA, INQAAHE, ECA, CEENQA, APQN", en: "e.g. ENQA, INQAAHE, ECA, CEENQA, APQN" },
+                },
+                {
+                  type: "select", id: "membership",
+                  label: { tr: "Üyelik türü", en: "Type of membership" },
+                  options: [
+                    { value: "tam", label: { tr: "Tam üye", en: "Full member" } },
+                    { value: "aday", label: { tr: "Aday üye", en: "Candidate member" } },
+                    { value: "ortak", label: { tr: "Ortak / iştirakçi üye", en: "Affiliate member" } },
+                    { value: "gozlemci", label: { tr: "Gözlemci", en: "Observer" } },
+                  ],
+                },
+                {
+                  type: "number", id: "since", min: 1900, max: 2100,
+                  label: { tr: "Üyelik başlangıç yılı", en: "Member since (year)" },
+                },
+                {
+                  type: "url", id: "evidenceUrl", required: true,
+                  label: { tr: "Kanıt bağlantısı", en: "Evidence link" },
+                  placeholder: { tr: "https://…", en: "https://…" },
+                },
+              ],
+            },
           ],
         },
         {
@@ -349,8 +389,13 @@ window.SCHEMA = (function () {
             },
             {
               type: "repeater", id: "legal.recognitions", minItems: 0,
-              label: { tr: "Üyelik, tescil ve tanınma durumları", en: "Memberships, registrations and recognitions" },
-              hint: { tr: "ENQA üyeliği, EQAR tescili ve diğer uluslararası tanınma durumlarınızı ekleyiniz.", en: "Add ENQA membership, EQAR registration and other international recognitions." },
+              label: { tr: "Tescil ve resmî tanınma durumları", en: "Registrations and official recognitions" },
+              hint: {
+                tr:
+                  "EQAR tescili ve yetkili otoritelerce verilen resmî tanınma durumlarınızı ekleyiniz. Ağ ve çatı kuruluş üyelikleri için Kimlik adımındaki alanı kullanınız.",
+                en:
+                  "Add your EQAR registration and official recognitions granted by competent authorities. Use the field in the Identity step for network and umbrella memberships.",
+              },
               addLabel: { tr: "Kayıt ekle", en: "Add entry" },
               itemFields: [
                 { type: "text", id: "body", required: true, label: { tr: "Kuruluş / sicil", en: "Body / register" }, placeholder: { tr: "ör. EQAR", en: "e.g. EQAR" } },
