@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>YÖKAK · Kalite Güvencesi Ajansı Başvuru Sistemi</title>
+    <meta
+      name="description"
+      content="YÖKAK — Ulusal akreditasyon ajansları için yetkilendirme, uluslararası ajanslar için tanınma başvuru sistemi. ESG 2027 (Draft 3) uyumlu."
+    />
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="stylesheet" href="assets/css/tokens.css" />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/glass.css" />
+    <link rel="stylesheet" href="assets/css/app.css" />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a4270'/%3E%3Cpath d='M16 7l7 4v10l-7 4-7-4V11z' fill='none' stroke='%2326aab9' stroke-width='2.2' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%2326aab9'/%3E%3C/svg%3E"
+    />
+  </head>
+
+  <body>
+    <!-- Ortam aurası / ambient background -->
+    <div class="aurora" aria-hidden="true">
+      <span class="aurora__blob aurora__blob--1"></span>
+      <span class="aurora__blob aurora__blob--2"></span>
+      <span class="aurora__blob aurora__blob--3"></span>
+    </div>
+
+    <a class="skip-link" href="#stepview">Ana içeriğe geç</a>
+
+    <div class="app">
+      <!-- ============================ ÜST BAR ============================ -->
+      <header class="app-header glass">
+        <a class="brand" href="#" onclick="return false">
+          <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true">
+            <rect width="40" height="40" rx="9" fill="var(--color-brand)" />
+            <path
+              d="M20 8.5l9.5 5.5v11L20 30.5 10.5 25V14z"
+              fill="none"
+              stroke="var(--color-accent)"
+              stroke-width="2.4"
+              stroke-linejoin="round"
+            />
+            <circle cx="20" cy="19.5" r="3.4" fill="var(--color-accent)" />
+          </svg>
+          <span class="brand__text">
+            <span class="brand__name">YÖKAK</span>
+            <span class="brand__sub" id="brand-sub">Başvuru Sistemi</span>
+          </span>
+        </a>
+
+        <span class="app-header__divider" aria-hidden="true"></span>
+
+        <span class="app-header__context">
+          <span class="app-header__context-label" id="ctx-label">Başvuru</span>
+          <span class="app-header__context-value" id="ctx-value">
+            Kalite Güvencesi Ajansı Başvuru Formu
+          </span>
+        </span>
+
+        <span class="app-header__spacer"></span>
+
+        <div class="app-header__actions" id="header-actions"></div>
+      </header>
+
+      <!-- ============================ GÖVDE ============================= -->
+      <div class="app-body">
+        <aside class="app-sidebar" id="sidebar"></aside>
+
+        <main class="app-main">
+          <div class="tabbar-wrap">
+            <nav class="tabbar glass" id="tabbar"></nav>
+            <div id="topprogress"></div>
+          </div>
+
+          <div id="stepview"></div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Bildirimler / toasts -->
+    <div class="toast-region" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+    <!-- Onay penceresi / confirm dialog -->
+    <dialog class="modal" id="confirm-dialog"></dialog>
+
+    <!-- ============================ BETİKLER ========================== -->
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/esg-data.js"></script>
+    <script src="assets/data/programs.js"></script>
+    <script src="assets/js/store.js"></script>
+    <script src="assets/js/validate.js"></script>
+    <script src="assets/js/schema.js"></script>
+    <script src="assets/js/fields.js"></script>
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>
