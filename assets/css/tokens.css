@@ -5,8 +5,10 @@
    SADECE bu dosyadaki "BRAND PRIMITIVES" bloğu değiştirilir; bileşenler
    semantik değişkenleri kullandığı için otomatik olarak uyum sağlar.
 
-   Renkler YÖKAK logosundan alınmıştır: lacivert #2b4f8e, orta mavi #1c7cc1,
-   açık mavi #74c3ef. Ölçekler bu üç renk çevresinde kurulmuştur.
+   NOTE / NOT: The brand hex values below are a faithful institutional
+   navy + teal system. Resmî YÖKAK Kurumsal Kimlik Kılavuzu'ndaki hex
+   değerleri elinizde ise yalnızca --yk-blue-* ve --yk-teal-* ölçeklerini
+   değiştirmeniz yeterlidir.
    ========================================================================== */
 
 :root {
@@ -14,37 +16,29 @@
      1. BRAND PRIMITIVES — ham renk ölçekleri
      --------------------------------------------------------------------- */
 
-  /* --------------------------------------------------------------------
-     Kurumsal logo renkleri / brand mark colours
-     YÖKAK logosundaki üç mavi. Ölçekler bu üç renk çevresinde kurulmuştur.
-     -------------------------------------------------------------------- */
-  --yk-mark-navy: #2b4f8e;  /* büyük dalga ve yazı */
-  --yk-mark-blue: #1c7cc1;  /* orta dalga */
-  --yk-mark-sky: #74c3ef;   /* açık mavi üçgen */
+  /* Kurumsal Lacivert / Institutional Navy */
+  --yk-blue-50: #eff5fb;
+  --yk-blue-100: #d9e7f5;
+  --yk-blue-200: #b3ceea;
+  --yk-blue-300: #82aeda;
+  --yk-blue-400: #5189c4;
+  --yk-blue-500: #2f6bab;
+  --yk-blue-600: #21538b;
+  --yk-blue-700: #1a4270;
+  --yk-blue-800: #163556;
+  --yk-blue-900: #0f2440;
 
-  /* Kurumsal Lacivert / Institutional Navy — 600 = logo lacivertidir */
-  --yk-blue-50: #eef3fa;
-  --yk-blue-100: #d8e4f4;
-  --yk-blue-200: #b4cae8;
-  --yk-blue-300: #85a8d6;
-  --yk-blue-400: #5583bf;
-  --yk-blue-500: #3763a2;
-  --yk-blue-600: #2b4f8e;
-  --yk-blue-700: #244174;
-  --yk-blue-800: #1f365d;
-  --yk-blue-900: #172743;
-
-  /* Vurgu Mavi / Accent Blue — 500 = logonun orta mavisidir */
-  --yk-teal-50: #eaf5fc;
-  --yk-teal-100: #cde8f8;
-  --yk-teal-200: #9dd2f1;
-  --yk-teal-300: #66b6e6;
-  --yk-teal-400: #3897d4;
-  --yk-teal-500: #1c7cc1;
-  --yk-teal-600: #1667a6;
-  --yk-teal-700: #145488;
-  --yk-teal-800: #14466f;
-  --yk-teal-900: #123a5c;
+  /* Vurgu Turkuaz / Accent Teal */
+  --yk-teal-50: #e8f8f9;
+  --yk-teal-100: #c7eef1;
+  --yk-teal-200: #93dde4;
+  --yk-teal-300: #57c6d2;
+  --yk-teal-400: #26aab9;
+  --yk-teal-500: #0e8c9c;
+  --yk-teal-600: #0a7080;
+  --yk-teal-700: #0a5a67;
+  --yk-teal-800: #0b4853;
+  --yk-teal-900: #0a3b44;
 
   /* Nötr / Neutral */
   --yk-gray-0: #ffffff;
@@ -180,7 +174,7 @@
   --shadow-sm: 0 1px 3px rgba(15, 36, 64, 0.08), 0 1px 2px rgba(15, 36, 64, 0.04);
   --shadow-md: 0 4px 12px rgba(15, 36, 64, 0.08), 0 2px 4px rgba(15, 36, 64, 0.04);
   --shadow-lg: 0 12px 28px rgba(15, 36, 64, 0.12), 0 4px 8px rgba(15, 36, 64, 0.05);
-  --shadow-focus: 0 0 0 3px rgba(56, 151, 212, 0.35);
+  --shadow-focus: 0 0 0 3px rgba(38, 170, 185, 0.35);
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -208,9 +202,9 @@
   --glass-sheen: rgba(255, 255, 255, 0.45);
 
   /* Arka plan aurora renkleri / ambient aurora */
-  --aurora-1: rgba(43, 79, 142, 0.26);
-  --aurora-2: rgba(28, 124, 193, 0.22);
-  --aurora-3: rgba(116, 195, 239, 0.22);
+  --aurora-1: rgba(47, 107, 171, 0.28);
+  --aurora-2: rgba(38, 170, 185, 0.24);
+  --aurora-3: rgba(130, 174, 218, 0.2);
 
   /* ---------------------------------------------------------------------
      7. LAYOUT

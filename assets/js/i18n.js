@@ -12,7 +12,6 @@ window.I18N = (function () {
       "app.title": "Kalite Güvencesi Ajansı Başvuru Sistemi",
       "app.subtitle": "YÖKAK · Yetkilendirme ve Tanınma",
       "app.org": "Yükseköğretim Kalite Kurulu",
-      "brand.name": "Yükseköğretim\nKalite Kurulu",
 
       "header.application": "Başvuru",
       "header.noType": "Başvuru türü seçilmedi",
@@ -126,8 +125,7 @@ window.I18N = (function () {
     en: {
       "app.title": "Quality Assurance Agency Application System",
       "app.subtitle": "YÖKAK · Authorisation & Recognition",
-      "app.org": "Turkish Higher Education Quality Council",
-      "brand.name": "Turkish Higher Education\nQuality Council",
+      "app.org": "Higher Education Quality Council of Türkiye",
 
       "header.application": "Application",
       "header.noType": "No application type selected",

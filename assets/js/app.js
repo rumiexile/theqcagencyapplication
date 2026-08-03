@@ -67,7 +67,6 @@
      ================================================================== */
   function buildHeader() {
     // Sabit başlık metinlerini de dile uydur
-    document.getElementById("brand-name").textContent = t("brand.name");
     document.getElementById("brand-sub").textContent = t("app.subtitle").split("·").pop().trim();
     document.getElementById("ctx-label").textContent = t("header.application");
     document.getElementById("ctx-value").textContent = t("app.title");
