@@ -331,6 +331,13 @@ window.Fields = (function () {
           if (sub.type === "textarea") {
             control = el("textarea", { class: "textarea", id: subId, rows: "3" });
             control.value = row[sub.id] || "";
+          } else if (sub.type === "select") {
+            control = el("select", { class: "select", id: subId });
+            control.appendChild(el("option", { value: "", text: t("field.selectPlaceholder") }));
+            (sub.options || []).forEach(function (o) {
+              control.appendChild(el("option", { value: o.value, text: pick(o.label) }));
+            });
+            control.value = row[sub.id] || "";
           } else {
             control = el("input", {
               class: "input",

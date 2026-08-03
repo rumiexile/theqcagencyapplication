@@ -575,7 +575,16 @@
             i + 1 + ". " +
             field.itemFields
               .map(function (sf) {
-                return row[sf.id] ? pick(sf.label) + ": " + row[sf.id] : null;
+                if (!row[sf.id]) return null;
+                var shown = row[sf.id];
+                // Seçim alanlarında ham değer yerine etiketi göster
+                if (sf.options) {
+                  var opt = sf.options.filter(function (o) {
+                    return o.value === row[sf.id];
+                  })[0];
+                  if (opt) shown = pick(opt.label);
+                }
+                return pick(sf.label) + ": " + shown;
               })
               .filter(Boolean)
               .join(" | ")

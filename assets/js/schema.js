@@ -471,7 +471,14 @@ window.SCHEMA = (function () {
                 { type: "text", id: "code", required: true, label: { tr: "Ölçüt no", en: "Criterion no." }, placeholder: { tr: "ör. 1", en: "e.g. 1" } },
                 { type: "text", id: "title", required: true, label: { tr: "Ölçüt başlığı", en: "Criterion title" }, placeholder: { tr: "ör. Öğrenciler", en: "e.g. Students" } },
                 { type: "textarea", id: "desc", required: true, minLength: 50, label: { tr: "Ölçüt tanımı", en: "Criterion description" } },
-                { type: "text", id: "esgLink", label: { tr: "İlişkili ESG 1 standardı", en: "Related ESG 1 standard" }, placeholder: { tr: "ör. 1.4", en: "e.g. 1.4" } },
+                {
+                  type: "select", id: "esgLink", required: true,
+                  label: {
+                    tr: "İlişkili YÖKAK Program Akreditasyon Ölçütü (ESG 1)",
+                    en: "Related YÖKAK Programme Accreditation Criterion (ESG 1)",
+                  },
+                  options: window.YOKAK_CRITERIA.options(),
+                },
               ],
             },
             { type: "url", id: "criteria.generalUrl", label: { tr: "Genel ölçütlerin yayımlandığı adres", en: "URL where the general criteria are published" }, placeholder: { tr: "https://…", en: "https://…" } },

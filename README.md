@@ -107,7 +107,8 @@ assets/
     fields.js               Alan render motoru
     app.js                  Gezinme, ilerleme, önizleme
   data/
-    programs.js             ← Program listesi (temel alan → lisans programı)
+    programs.js             ← Program listesi (ISCED-F alan → lisans programı)
+    yokak-criteria.js       ← YÖKAK Program Akreditasyon Ölçütleri (ana başlıklar)
 ```
 
 `←` işaretli dosyalar, içerik güncellemesi için düzenlemeniz gereken yerlerdir.
@@ -153,6 +154,18 @@ birlikte çalışır.
 > **Veri kaynağı:** Liste, 491 lisans programını ISCED-F 2013 ayrıntılı alan
 > kodlarıyla eşleştiren `ISCED_Program_Listesi.xlsx` dosyasından üretilmiştir.
 > Geniş alan (2 haneli) adları ISCED-F 2013 standart adlandırmasıdır.
+
+### YÖKAK Program Akreditasyon Ölçütleri
+`assets/data/yokak-criteria.js`, YÖKAK Program Akreditasyon Ölçütleri'nin
+**9 ana başlığını** tutar. Genel ölçüt girişinde her ölçüt bunlardan biriyle
+ilişkilendirilir. Ana başlıklar ESG 2027 (Draft 3) Bölüm 1'in 9 standardıyla
+birebir örtüşür; `esg1` alanı bu karşılığı taşır ve seçim listesinde etiketin
+sonunda gösterilir (ör. *"3. Öğrenci Merkezli Öğrenme… (ESG 1.3)"*).
+
+Alt ölçütler ve göstergeler bu uygulamanın kapsamı dışındadır.
+
+> **Veri kaynağı:** `program_akred_ölçütleri_Geri_Bildirim.xlsx`,
+> "Değerlendirme Ölçütleri" sayfası, "Ana ölçüt" sütunu.
 
 ### Yeni alan / adım ekleme
 `assets/js/schema.js` içine alan nesnesi ekleyin. Desteklenen türler:
