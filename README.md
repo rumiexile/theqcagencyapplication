@@ -7,6 +7,10 @@ Ulusal akreditasyon ajanslarının **yetkilendirme**, uluslararası ajansların 
 Draft 3, July 2026**) ile uyumlu biçimde toplayan, sekme ve adım tabanlı HTML
 başvuru uygulaması.
 
+Sistem **yalnızca program akreditasyonu** içindir; ayrı bir kapsam seçimi
+bulunmaz. Dışa aktarılan JSON bunu `_meta.scope: "program-accreditation"`
+alanıyla belirtir.
+
 Türkçe ve İngilizce çalışır. Kurulum, derleme adımı ve sunucu gerektirmez.
 
 ---
@@ -48,7 +52,7 @@ Sekmeler (`tabs`) → adımlar (`steps`) → alanlar (`fields`):
 
 | # | Sekme | Adımlar |
 |---|-------|---------|
-| 1 | **Başvuru Türü** | Tür seçimi (Yetkilendirme / Tanınma), kapsam, nitelik · **Önceki dış değerlendirme (EQAR)** |
+| 1 | **Başvuru Türü** | Tür seçimi (Yetkilendirme / Tanınma), başvuru niteliği · **Önceki dış değerlendirme (EQAR)** |
 | 2 | **Ajans Bilgileri** | Kimlik · İletişim · Yasal statü · Yönetişim ve kaynaklar |
 | 3 | **ESG 3** — Kalite Güvencesi Ajansları | 3.1 → 3.6 (her standart bir adım) · *EQAR raporu sunulduysa muaf* |
 | 4 | **ESG 2** — Dış Kalite Güvencesi | 2.1 → 2.7 · *EQAR raporu sunulduysa muaf* |

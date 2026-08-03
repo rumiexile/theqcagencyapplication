@@ -114,6 +114,8 @@ window.Store = (function () {
         _meta: {
           format: "YOKAK-QA-Agency-Application",
           version: 1,
+          // Sistem yalnızca program akreditasyonunu kapsar; kapsam sabittir.
+          scope: "program-accreditation",
           esg: window.ESG ? window.ESG.version : null,
           exportedAt: new Date().toISOString(),
         },

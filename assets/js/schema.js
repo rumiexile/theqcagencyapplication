@@ -116,9 +116,9 @@ window.SCHEMA = (function () {
           short: { tr: "Tür seçimi", en: "Type selection" },
           desc: {
             tr:
-              "Başvurunuzun türünü seçiniz. Seçiminiz, formun ilerleyen bölümlerinde sizden istenecek bilgi ve belgeleri belirler.",
+              "Bu başvuru sistemi yalnızca program akreditasyonu içindir. Başvurunuzun türünü seçiniz; seçiminiz, formun ilerleyen bölümlerinde sizden istenecek bilgi ve belgeleri belirler.",
             en:
-              "Select the type of your application. Your choice determines the information and documents requested in the following sections.",
+              "This application system covers programme accreditation only. Select the type of your application; your choice determines the information and documents requested in the following sections.",
           },
           fields: [
             {
@@ -150,42 +150,6 @@ window.SCHEMA = (function () {
                       "Application by international quality assurance and accreditation organisations established abroad to be recognised by YÖKAK.",
                   },
                   icon: "globe",
-                },
-              ],
-            },
-            {
-              type: "radio",
-              id: "applicationScope",
-              required: true,
-              label: { tr: "Başvuru kapsamı", en: "Scope of application" },
-              hint: {
-                tr: "Hangi düzeyde değerlendirme yapmak üzere başvuruyorsunuz?",
-                en: "At which level are you applying to carry out evaluations?",
-              },
-              options: [
-                {
-                  value: "program",
-                  label: { tr: "Program akreditasyonu", en: "Programme accreditation" },
-                  desc: {
-                    tr: "Belirli programların akreditasyonu.",
-                    en: "Accreditation of specific programmes.",
-                  },
-                },
-                {
-                  value: "kurumsal",
-                  label: { tr: "Kurumsal akreditasyon", en: "Institutional accreditation" },
-                  desc: {
-                    tr: "Yükseköğretim kurumunun bütünü için akreditasyon.",
-                    en: "Accreditation of the higher education institution as a whole.",
-                  },
-                },
-                {
-                  value: "her-ikisi",
-                  label: { tr: "Her ikisi", en: "Both" },
-                  desc: {
-                    tr: "Hem program hem kurumsal düzeyde akreditasyon.",
-                    en: "Both programme and institutional accreditation.",
-                  },
                 },
               ],
             },
