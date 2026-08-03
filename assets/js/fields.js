@@ -456,7 +456,8 @@ window.Fields = (function () {
           if (!q) return true;
           return (
             pick(p.name).toLocaleLowerCase("tr").indexOf(q) !== -1 ||
-            pick(area.name).toLocaleLowerCase("tr").indexOf(q) !== -1
+            pick(area.name).toLocaleLowerCase("tr").indexOf(q) !== -1 ||
+            pick(PD.fieldName(p.field)).toLocaleLowerCase("tr").indexOf(q) !== -1
           );
         });
         if (progs.length === 0) return;
@@ -465,8 +466,14 @@ window.Fields = (function () {
           return sel.indexOf(p.code) !== -1;
         }).length;
 
-        var body = el("div", { class: "picker__grid" });
+        /* Programlar ISCED-F ayrıntılı alanlarına göre alt gruplanır */
+        var body = el("div", {});
+        var grouped = {};
         progs.forEach(function (p) {
+          (grouped[p.field] = grouped[p.field] || []).push(p);
+        });
+
+        function programmeChoice(p) {
           var input = el("input", { type: "checkbox", value: p.code });
           if (sel.indexOf(p.code) !== -1) input.checked = true;
           input.addEventListener("change", function () {
@@ -478,12 +485,37 @@ window.Fields = (function () {
             renderChips();
             updateAreaBadge();
           });
+          return el("label", { class: "choice" }, [
+            input,
+            el("span", { class: "choice__body" }, [
+              el("span", { class: "choice__label", text: pick(p.name) }),
+              p.count
+                ? el("span", {
+                    class: "choice__desc",
+                    text:
+                      p.count +
+                      " " +
+                      (window.I18N.lang === "tr" ? "kurumda yürütülüyor" : "institutions offer this"),
+                  })
+                : null,
+            ]),
+          ]);
+        }
+
+        PD.fieldsOfArea(area.code).forEach(function (f) {
+          var list = grouped[f.code];
+          if (!list || !list.length) return;
           body.appendChild(
-            el("label", { class: "choice" }, [
-              input,
-              el("span", { class: "choice__body" }, [el("span", { class: "choice__label", text: pick(p.name) })]),
+            el("h4", { class: "picker__field" }, [
+              el("span", { class: "picker__field-code", text: f.code }),
+              el("span", { class: "picker__field-name", text: pick(f.name) }),
             ])
           );
+          var grid = el("div", { class: "picker__grid" });
+          list.forEach(function (p) {
+            grid.appendChild(programmeChoice(p));
+          });
+          body.appendChild(grid);
         });
 
         var areaBadge = el("span", { class: "badge badge--neutral" });
@@ -587,7 +619,7 @@ window.Fields = (function () {
 
         box.appendChild(
           el("summary", { class: "crit__head" }, [
-            el("span", { class: "crit__area", text: pick(PD.areaName(p.area)) }),
+            el("span", { class: "crit__area", text: pick(PD.fieldName(p.field)) }),
             el("span", { class: "crit__name", text: pick(p.name) }),
             badge,
           ])

@@ -944,3 +944,34 @@
   color: var(--color-warning-text);
   font-weight: var(--weight-semibold);
 }
+
+/* --------------------------------------------------------------------------
+   ISCED-F ayrıntılı alan alt başlığı / detailed-field subheading
+   -------------------------------------------------------------------------- */
+.picker__field {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  color: var(--color-text-muted);
+}
+
+.picker__field:first-child {
+  margin-top: 0;
+}
+
+.picker__field-code {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+  font-weight: var(--weight-bold);
+}
+
+.picker__field-name {
+  font-weight: var(--weight-semibold);
+}

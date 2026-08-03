@@ -127,20 +127,32 @@ otomatik uyum sağlar; koyu tema dâhil.
 > ölçeği değiştirmeniz yeterlidir.
 
 ### Program listesi
-`assets/data/programs.js` içindeki `programmes` dizisini değiştirin. Şema:
+`assets/data/programs.js` üç düzeyli bir veri seti içerir:
 
 ```js
-{ code: "muhendislik.bilgisayar", area: "muhendislik", level: "lisans",
-  name: { tr: "Bilgisayar Mühendisliği", en: "Computer Engineering" } }
+areas       // ISCED-F 2013 geniş alan (2 haneli) — 10 adet, açılır başlıklar
+fields      // ISCED-F 2013 ayrıntılı alan (4 haneli) — 74 adet, alt başlıklar
+programmes  // 491 lisans programı
 ```
 
-> **Veri kaynağı notu:** Mevcut liste, YÖK temel alan sınıflandırmasına göre
-> hazırlanmış **temsilî** bir veri setidir (12 temel alan, 120+ lisans
-> programı). YÖKAK MİS'teki resmî ajans program listesi
-> (`mis.yokak.gov.tr/Prg/AgencyPrograms/Program`) bu geliştirme ortamından ağ
-> politikası nedeniyle çekilemediği için içeri aktarılmamıştır. Resmî listeyi
-> kullanmak için yalnızca bu dosyadaki diziyi değiştirmeniz yeterlidir;
-> uygulamanın geri kalanında değişiklik gerekmez.
+Program şeması:
+
+```js
+{ code: "0112.300", area: "01", field: "0112", count: 88,
+  name: "Okul Öncesi Öğretmenliği" }
+```
+
+`count`, programın kaç yükseköğretim kurumunda yürütüldüğünü belirtir ve
+program adının altında gösterilir. Program adları resmî Türkçe adlardır;
+İngilizce resmî karşılıkları bulunmadığından her iki dilde de aynı gösterilir —
+İngilizce bağlamı, üstündeki ISCED-F ayrıntılı alan başlığı sağlar.
+
+Arama kutusu program adı, geniş alan adı ve ayrıntılı alan adı üzerinde
+birlikte çalışır.
+
+> **Veri kaynağı:** Liste, 491 lisans programını ISCED-F 2013 ayrıntılı alan
+> kodlarıyla eşleştiren `ISCED_Program_Listesi.xlsx` dosyasından üretilmiştir.
+> Geniş alan (2 haneli) adları ISCED-F 2013 standart adlandırmasıdır.
 
 ### Yeni alan / adım ekleme
 `assets/js/schema.js` içine alan nesnesi ekleyin. Desteklenen türler:
