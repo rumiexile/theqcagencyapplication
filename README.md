@@ -56,7 +56,7 @@ Sekmeler (`tabs`) → adımlar (`steps`) → alanlar (`fields`):
 | 2 | **Ajans Bilgileri** | Kimlik (kuruluş bilgileri · **ağ ve çatı kuruluş üyelikleri**) · İletişim · Yasal statü · Yönetişim ve kaynaklar |
 | 3 | **ESG 3** — Kalite Güvencesi Ajansları | 3.1 → 3.6 (her standart bir adım) · *EQAR raporu sunulduysa muaf* |
 | 4 | **ESG 2** — Dış Kalite Güvencesi | 2.1 → 2.7 · *EQAR raporu sunulduysa muaf* |
-| 5 | **ESG 1** — Kapsam ve Ölçütler | Program seçimi · Genel ölçütler · Programa özel ölçütler · ESG 1 kapsama matrisi |
+| 5 | **ESG 1** — Kapsam ve Ölçütler | Program seçimi · Genel ölçütler · Programa özel ölçütler · ESG 1 kapsama matrisi · **Karar sistemi** |
 | 6 | **Belgeler** | Zorunlu belgeler · Ek destekleyici belgeler |
 | 7 | **Beyan ve Gönderim** | Taahhüt ve beyan · Önizleme ve gönderim |
 
@@ -185,6 +185,13 @@ showIf: { all: [
   { field: "applicationType", equals: "yetkilendirme" },
   { field: "agency.legalForm", equals: "dernek" },
 ] }
+```
+
+"En az biri" kuralı — kanıtın dosya *veya* bağlantı olarak verilebildiği
+yerlerde kullanılır; listelenen alanlardan biri dolduğunda kural karşılanır:
+
+```js
+requireOneOf: ["decision.evidenceFile", "decision.evidenceUrl"]
 ```
 
 Bölüm muafiyeti (sekme düzeyinde) — muaf bölümün zorunlu alanları tamamlanma

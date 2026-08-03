@@ -47,8 +47,9 @@
     F.onDirty(function (field) {
       // Bir alan başka alanların görünürlüğünü (showIf) veya bir bölümün
       // muafiyetini (exemptIf) denetliyorsa adımı yeniden çiz.
-      if (controlsVisibility(field)) render();
-      else refreshChrome();
+      if (controlsVisibility(field)) return render();
+      clearSatisfiedErrors();
+      refreshChrome();
     });
 
     buildHeader();
@@ -408,6 +409,22 @@
     buildSidebar();
     buildTopProgress();
     buildTabs();
+  }
+
+  /**
+   * Görünen hataları tazele — artık geçerli olanları gizle.
+   * Bir alanın doldurulması başka bir alanın hatasını giderebilir
+   * (ör. requireOneOf: dosya ya da bağlantı). Yeni hata göstermez;
+   * hata eklemek adım geçişine ve alandan çıkışa bırakılır.
+   */
+  function clearSatisfiedErrors() {
+    var step = tabs[state.tab].steps[state.step];
+    step.fields.forEach(function (f) {
+      if (!f.id) return;
+      var node = document.getElementById("err_" + F.safeId(f.id));
+      if (!node || node.hidden) return;
+      if (!V.field(f, S)) F.showError(f.id, null);
+    });
   }
 
   /* Bu alanın değeri başka alanların görünürlüğünü denetliyor mu? */

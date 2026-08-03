@@ -62,6 +62,7 @@ window.I18N = (function () {
       "validate.number": "Geçerli bir sayı giriniz.",
       "validate.year": "Geçerli bir yıl giriniz (1900–2100).",
       "validate.summary": "{n} alan düzeltilmeli",
+      "validate.requireOneOf": "Dosya veya bağlantıdan en az birini sağlayınız.",
       "validate.stepIncomplete": "Bu adımda eksik veya hatalı alanlar var.",
 
       "repeater.add": "Ekle",
@@ -172,6 +173,7 @@ window.I18N = (function () {
       "validate.number": "Enter a valid number.",
       "validate.year": "Enter a valid year (1900–2100).",
       "validate.summary": "{n} field(s) need attention",
+      "validate.requireOneOf": "Provide at least a file or a link.",
       "validate.stepIncomplete": "This step has missing or invalid fields.",
 
       "repeater.add": "Add",

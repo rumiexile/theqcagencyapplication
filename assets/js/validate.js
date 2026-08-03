@@ -72,6 +72,17 @@ window.Validate = (function () {
 
     var v = store.get(field.id);
 
+    /* --- "en az biri" kuralı ---------------------------------------
+       requireOneOf: listelenen alanlardan en az biri dolu olmalıdır.
+       Örn. kanıt ya dosya olarak ya da bağlantı olarak verilebilir. */
+    if (field.requireOneOf) {
+      var satisfied = field.requireOneOf.some(function (id) {
+        return !isEmpty(store.get(id));
+      });
+      if (!satisfied) return t("validate.requireOneOf");
+      if (isEmpty(v)) return null; // kural başka alandan karşılandı
+    }
+
     /* --- bileşik alanlar --- */
     if (field.type === "repeater") {
       var rows = Array.isArray(v) ? v : [];

@@ -610,6 +610,105 @@ window.SCHEMA = (function () {
           },
           fields: [{ type: "esg1-coverage", id: "esg1.coverage", required: true }],
         },
+        {
+          id: "decision-system",
+          title: { tr: "Karar Sistemi", en: "Decision System" },
+          short: { tr: "Karar sistemi", en: "Decision system" },
+          eyebrow: PART1_LABEL,
+          desc: {
+            tr:
+              "Değerlendirme sonucunda verdiğiniz akreditasyon karar türlerini tanımlayınız. Her karar türü için geçerlilik süresini ve hangi durumda verildiğini belirtiniz.",
+            en:
+              "Define the accreditation decision types you issue as a result of an evaluation. For each type, state its period of validity and the conditions under which it is granted.",
+          },
+          fields: [
+            {
+              type: "repeater", id: "decision.types", required: true, minItems: 1,
+              label: { tr: "Akreditasyon karar türleri", en: "Accreditation decision types" },
+              hint: {
+                tr:
+                  "Her karar türünü ayrı kayıt olarak ekleyiniz. Süre tanımlanmayan karar türleri (ör. ret) için süre alanını boş bırakabilirsiniz.",
+                en:
+                  "Add each decision type as a separate entry. Leave the period blank for types without one (e.g. refusal).",
+              },
+              addLabel: { tr: "Karar türü ekle", en: "Add decision type" },
+              itemFields: [
+                {
+                  type: "text", id: "name", required: true,
+                  label: { tr: "Karar türünün adı", en: "Name of the decision type" },
+                  placeholder: {
+                    tr: "ör. Tam Akreditasyon, Koşullu Akreditasyon",
+                    en: "e.g. Full Accreditation, Conditional Accreditation",
+                  },
+                },
+                {
+                  type: "select", id: "outcome", required: true,
+                  label: { tr: "Karar niteliği", en: "Nature of the decision" },
+                  options: [
+                    { value: "olumlu", label: { tr: "Olumlu — akreditasyon verilir", en: "Positive — accreditation granted" } },
+                    { value: "kosullu", label: { tr: "Koşullu — şartlı akreditasyon", en: "Conditional — accreditation with conditions" } },
+                    { value: "olumsuz", label: { tr: "Olumsuz — akreditasyon verilmez", en: "Negative — accreditation refused" } },
+                  ],
+                },
+                {
+                  type: "number", id: "durationValue", min: 0, max: 100,
+                  label: { tr: "Geçerlilik süresi", en: "Period of validity" },
+                  placeholder: { tr: "ör. 5", en: "e.g. 5" },
+                },
+                {
+                  type: "select", id: "durationUnit",
+                  label: { tr: "Süre birimi", en: "Unit of the period" },
+                  options: [
+                    { value: "yil", label: { tr: "Yıl", en: "Years" } },
+                    { value: "ay", label: { tr: "Ay", en: "Months" } },
+                  ],
+                },
+                {
+                  type: "textarea", id: "conditions", required: true, minLength: 40,
+                  label: { tr: "Hangi durumda verilir?", en: "When is it granted?" },
+                  placeholder: {
+                    tr: "Bu kararın verilmesi için sağlanması gereken koşulları açıklayınız.",
+                    en: "Describe the conditions that must be met for this decision.",
+                  },
+                },
+              ],
+            },
+            {
+              type: "file-upload", id: "decision.evidenceFile", required: true, maxSizeMB: 4,
+              accept: ".pdf,.doc,.docx",
+              requireOneOf: ["decision.evidenceFile", "decision.evidenceUrl"],
+              label: { tr: "Karar sistemi belgesi (dosya)", en: "Decision system document (file)" },
+              hint: {
+                tr:
+                  "Karar türlerini ve sürelerini tanımlayan yönerge veya el kitabını yükleyiniz. Dosya veya aşağıdaki bağlantıdan en az birini sağlamanız gerekir.",
+                en:
+                  "Upload the regulation or handbook defining the decision types and their periods. You must provide either this file or the link below.",
+              },
+            },
+            {
+              type: "url", id: "decision.evidenceUrl",
+              label: { tr: "Karar sisteminin yayımlandığı adres (bağlantı)", en: "URL where the decision system is published (link)" },
+              hint: {
+                tr: "ESG 2.6 gereği karar ölçütlerinin yayımlanmış olması beklenir.",
+                en: "Per ESG 2.6, the criteria for outcomes are expected to be published.",
+              },
+              placeholder: { tr: "https://…", en: "https://…" },
+            },
+            {
+              type: "repeater", id: "decision.extraEvidence", minItems: 0,
+              label: { tr: "Ek kanıtlar", en: "Additional evidence" },
+              hint: {
+                tr: "Örnek karar yazıları, karar kurulu tutanakları gibi ek kanıtları bağlantı olarak ekleyebilirsiniz.",
+                en: "You may add further evidence as links, such as sample decision letters or minutes of the decision-making body.",
+              },
+              addLabel: { tr: "Kanıt ekle", en: "Add evidence" },
+              itemFields: [
+                { type: "text", id: "name", required: true, label: { tr: "Kanıt adı", en: "Evidence name" } },
+                { type: "url", id: "url", required: true, label: { tr: "Bağlantı", en: "Link" } },
+              ],
+            },
+          ],
+        },
       ],
     },
 
