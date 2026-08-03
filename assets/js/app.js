@@ -44,8 +44,11 @@
       state.step = Math.min(prefs.position.step || 0, tabs[state.tab].steps.length - 1);
     }
 
-    F.onDirty(function () {
-      refreshChrome();
+    F.onDirty(function (field) {
+      // Bir alan başka alanların görünürlüğünü (showIf) veya bir bölümün
+      // muafiyetini (exemptIf) denetliyorsa adımı yeniden çiz.
+      if (controlsVisibility(field)) render();
+      else refreshChrome();
     });
 
     buildHeader();
@@ -184,13 +187,14 @@
 
     tabs.forEach(function (tab, i) {
       var prog = V.tabProgress(tab, S);
-      var complete = prog.total > 0 && prog.done === prog.total;
+      var exempt = V.isTabExempt(tab, S);
+      var complete = !exempt && prog.total > 0 && prog.done === prog.total;
 
       var btn = el("button", {
         type: "button",
         role: "tab",
         id: "tab_" + tab.id,
-        class: "tab" + (complete ? " tab--complete" : ""),
+        class: "tab" + (complete ? " tab--complete" : "") + (exempt ? " tab--exempt" : ""),
         "aria-selected": i === state.tab ? "true" : "false",
         "aria-controls": "panel_" + tab.id,
         tabindex: i === state.tab ? "0" : "-1",
@@ -198,12 +202,16 @@
 
       var index = el("span", { class: "tab__index" });
       if (complete) index.appendChild(icon("check"));
+      else if (exempt) index.textContent = "—";
       else index.textContent = String(i + 1);
       btn.appendChild(index);
 
       var labelBox = el("span", { class: "tab__label" }, [
         el("span", { class: "tab__label-main", text: pick(tab.label) }),
-        tab.sublabel ? el("span", { class: "tab__label-sub", text: pick(tab.sublabel) }) : null,
+        el("span", {
+          class: "tab__label-sub",
+          text: exempt ? t("exempt.badge") : tab.sublabel ? pick(tab.sublabel) : "",
+        }),
       ]);
       btn.appendChild(labelBox);
 
@@ -360,6 +368,19 @@
     if (step.desc) head.appendChild(el("p", { class: "step-head__desc", text: pick(step.desc) }));
     view.appendChild(head);
 
+    /* Muafiyet uyarısı — EQAR kayıtlı ajans değerlendirmesi sunulduğunda */
+    if (V.isTabExempt(tab, S)) {
+      view.appendChild(
+        el("div", { class: "alert alert--success", style: "margin-bottom:var(--space-8)" }, [
+          icon("check", "alert__icon"),
+          el("div", {}, [
+            el("div", { class: "alert__title", text: t("exempt.title") }),
+            el("div", { text: t("exempt.body", { agency: S.get("priorReview.agency") || "—" }) }),
+          ]),
+        ])
+      );
+    }
+
     /* Alanlar */
     if (step.fields.some(function (f) { return f.type === "review"; })) {
       view.appendChild(renderReview());
@@ -387,6 +408,27 @@
     buildSidebar();
     buildTopProgress();
     buildTabs();
+  }
+
+  /* Bu alanın değeri başka alanların görünürlüğünü denetliyor mu? */
+  var CONTROLLERS = (function () {
+    var set = {};
+    tabs.forEach(function (tab) {
+      if (tab.exemptIf) set[tab.exemptIf.field] = true;
+      tab.steps.forEach(function (step) {
+        step.fields.forEach(function (f) {
+          if (f.showIf) set[f.showIf.field] = true;
+        });
+      });
+    });
+    return set;
+  })();
+
+  function controlsVisibility(field) {
+    if (!field || !field.id || !CONTROLLERS[field.id]) return false;
+    // Yalnızca ayrık seçim alanlarında yeniden çiz — metin girerken
+    // yeniden çizim odağı bozar.
+    return ["radio", "select", "checkboxes", "application-type"].indexOf(field.type) !== -1;
   }
 
   function buildActions() {

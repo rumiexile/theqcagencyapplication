@@ -25,6 +25,20 @@ window.Validate = (function () {
     return true;
   }
 
+  /**
+   * Sekme muafiyeti / tab exemption.
+   * EQAR kayıtlı bir ajans tarafından yapılmış dış değerlendirme raporu
+   * sunulduğunda ESG 3 ve ESG 2 bölümleri zorunlu olmaktan çıkar.
+   */
+  function isTabExempt(tab, store) {
+    if (!tab.exemptIf) return false;
+    var c = tab.exemptIf;
+    var v = store.get(c.field);
+    if (c.equals !== undefined) return v === c.equals;
+    if (c.in !== undefined) return c.in.indexOf(v) !== -1;
+    return false;
+  }
+
   function isEmpty(v) {
     if (v === undefined || v === null) return true;
     if (typeof v === "string") return v.trim() === "";
@@ -85,6 +99,12 @@ window.Validate = (function () {
         if (isEmpty(row.how)) missing++;
       });
       if (missing > 0) return t("validate.summary", { n: missing });
+      return null;
+    }
+
+    if (field.type === "file-upload") {
+      if (!field.required) return null;
+      if (!v || !v.name) return t("validate.required");
       return null;
     }
 
@@ -168,6 +188,7 @@ window.Validate = (function () {
     var total = 0;
     var done = 0;
     tabs.forEach(function (tab) {
+      if (isTabExempt(tab, store)) return; // muaf bölüm toplama girmez
       tab.steps.forEach(function (step) {
         step.fields.forEach(function (f) {
           if (!f.id || !f.required || !isVisible(f, store)) return;
@@ -187,6 +208,7 @@ window.Validate = (function () {
   function tabProgress(tab, store) {
     var total = 0;
     var done = 0;
+    if (isTabExempt(tab, store)) return { total: 0, done: 0, percent: 100, exempt: true };
     tab.steps.forEach(function (step) {
       step.fields.forEach(function (f) {
         if (!f.id || !f.required || !isVisible(f, store)) return;
@@ -199,6 +221,7 @@ window.Validate = (function () {
 
   return {
     isVisible: isVisible,
+    isTabExempt: isTabExempt,
     isEmpty: isEmpty,
     field: validateField,
     step: validateStep,

@@ -799,6 +799,153 @@ window.Fields = (function () {
   }
 
   /* ------------------------------------------------------------------
+     Dosya yükleme / file upload (sürükle-bırak)
+     Dosya, base64 olarak başvuru verisine gömülür; böylece dışa aktarılan
+     JSON dosyası raporu da taşır.
+     ------------------------------------------------------------------ */
+  function fileUpload(field) {
+    var maxMB = field.maxSizeMB || 4;
+    var holder = el("div", {});
+    var input = el("input", {
+      type: "file",
+      class: "sr-only",
+      id: "f_" + safeId(field.id),
+      accept: field.accept || "",
+    });
+
+    function current() {
+      var v = S.get(field.id);
+      return v && typeof v === "object" ? v : null;
+    }
+
+    function fmtSize(bytes) {
+      if (bytes < 1024) return bytes + " B";
+      if (bytes < 1048576) return (bytes / 1024).toFixed(0) + " KB";
+      return (bytes / 1048576).toFixed(1) + " MB";
+    }
+
+    var zone = el("div", { class: "dropzone", tabindex: "0", role: "button" });
+
+    function render() {
+      zone.innerHTML = "";
+      var f = current();
+
+      if (f) {
+        zone.classList.add("dropzone--filled");
+        zone.appendChild(
+          el("div", { class: "dropzone__file" }, [
+            el("span", { class: "dropzone__file-icon" }, [icon("check")]),
+            el("span", { class: "dropzone__file-meta" }, [
+              el("strong", { class: "dropzone__file-name", text: f.name }),
+              el("span", { class: "dropzone__file-size", text: fmtSize(f.size) + (f.data ? "" : " · " + (window.I18N.lang === "tr" ? "yalnızca bilgi" : "metadata only")) }),
+            ]),
+            (function () {
+              var rm = el("button", {
+                type: "button",
+                class: "btn btn--ghost btn--icon",
+                "aria-label": t("repeater.remove"),
+                title: t("repeater.remove"),
+              }, [icon("trash", "btn__icon")]);
+              rm.addEventListener("click", function (e) {
+                e.stopPropagation();
+                S.set(field.id, null);
+                showError(field.id, V.field(field, S));
+                onDirty(field);
+                render();
+              });
+              return rm;
+            })(),
+          ])
+        );
+      } else {
+        zone.classList.remove("dropzone--filled");
+        zone.appendChild(el("span", { class: "dropzone__icon" }, [icon("upload")]));
+        zone.appendChild(
+          el("span", {
+            class: "dropzone__title",
+            text: window.I18N.lang === "tr" ? "Dosyayı sürükleyip bırakın veya seçmek için tıklayın" : "Drag and drop the file, or click to choose",
+          })
+        );
+        zone.appendChild(
+          el("span", {
+            class: "dropzone__hint",
+            text: (field.accept || "PDF, DOC, DOCX") + " · " + (window.I18N.lang === "tr" ? "en fazla" : "max") + " " + maxMB + " MB",
+          })
+        );
+      }
+    }
+
+    function accept(file) {
+      if (!file) return;
+      if (file.size > maxMB * 1048576) {
+        showError(
+          field.id,
+          window.I18N.lang === "tr"
+            ? "Dosya çok büyük (" + fmtSize(file.size) + "). En fazla " + maxMB + " MB yükleyebilirsiniz; daha büyük dosyalar için bağlantı alanını kullanınız."
+            : "File too large (" + fmtSize(file.size) + "). Maximum is " + maxMB + " MB; use the link field for larger files."
+        );
+        return;
+      }
+      var reader = new FileReader();
+      reader.onload = function () {
+        var payload = {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          data: String(reader.result),
+          uploadedAt: new Date().toISOString(),
+        };
+        try {
+          S.set(field.id, payload);
+        } catch (e) {
+          // Depolama kotası dolduysa yalnızca üstveriyi sakla
+          delete payload.data;
+          S.set(field.id, payload);
+        }
+        showError(field.id, V.field(field, S));
+        onDirty(field);
+        render();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    input.addEventListener("change", function () {
+      accept(input.files && input.files[0]);
+      input.value = "";
+    });
+
+    zone.addEventListener("click", function () {
+      input.click();
+    });
+    zone.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        input.click();
+      }
+    });
+    ["dragenter", "dragover"].forEach(function (evt) {
+      zone.addEventListener(evt, function (e) {
+        e.preventDefault();
+        zone.classList.add("dropzone--over");
+      });
+    });
+    ["dragleave", "drop"].forEach(function (evt) {
+      zone.addEventListener(evt, function (e) {
+        e.preventDefault();
+        zone.classList.remove("dropzone--over");
+      });
+    });
+    zone.addEventListener("drop", function (e) {
+      accept(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]);
+    });
+
+    render();
+    holder.appendChild(zone);
+    holder.appendChild(input);
+    return wrap(field, holder);
+  }
+
+  /* ------------------------------------------------------------------
      Dağıtıcı / dispatcher
      ------------------------------------------------------------------ */
   function render(field) {
@@ -833,6 +980,8 @@ window.Fields = (function () {
         return esg1Coverage(field);
       case "document-list":
         return documentList(field);
+      case "file-upload":
+        return fileUpload(field);
       default:
         return null;
     }

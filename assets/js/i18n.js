@@ -107,6 +107,11 @@ window.I18N = (function () {
       "confirm.cancel": "Vazgeç",
       "confirm.confirm": "Evet, sıfırla",
 
+      "exempt.badge": "Muaf",
+      "exempt.title": "Bu bölüm muaf tutulmuştur",
+      "exempt.body":
+        "EQAR'a kayıtlı bir ajans ({agency}) tarafından yapılan dış değerlendirme raporunu sunduğunuz için bu bölümü doldurmanız zorunlu değildir. İsterseniz yine de doldurabilirsiniz; alanlar tamamlanma oranına dâhil edilmez.",
+
       "a11y.skip": "Ana içeriğe geç",
       "a11y.tabs": "Başvuru bölümleri",
       "a11y.steps": "Bölüm adımları",
@@ -212,6 +217,11 @@ window.I18N = (function () {
         "All entered data will be deleted. This cannot be undone. Continue?",
       "confirm.cancel": "Cancel",
       "confirm.confirm": "Yes, reset",
+
+      "exempt.badge": "Exempt",
+      "exempt.title": "This section is exempted",
+      "exempt.body":
+        "Because you submitted an external review report by an EQAR-registered agency ({agency}), completing this section is not required. You may still fill it in; its fields are excluded from the completion rate.",
 
       "a11y.skip": "Skip to main content",
       "a11y.tabs": "Application sections",

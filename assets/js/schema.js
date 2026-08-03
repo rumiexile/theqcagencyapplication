@@ -209,6 +209,101 @@ window.SCHEMA = (function () {
             },
           ],
         },
+
+        /* ---- Önceki dış değerlendirme (EQAR) ---- */
+        {
+          id: "prior-review",
+          title: { tr: "Önceki Dış Değerlendirme", en: "Previous External Review" },
+          short: { tr: "Önceki değerlendirme", en: "Previous review" },
+          desc: {
+            tr:
+              "Kuruluşunuzun daha önce ESG kapsamında, EQAR'a kayıtlı bir ajans tarafından dış değerlendirmeden geçip geçmediğini belirtiniz. Geçerli bir dış değerlendirme raporu sunmanız hâlinde ESG 3 ve ESG 2 bölümlerini doldurmanız gerekmez.",
+            en:
+              "State whether your organisation has previously undergone an external review under the ESG by an EQAR-registered agency. If you submit a valid external review report, you do not need to complete the ESG 3 and ESG 2 sections.",
+          },
+          fields: [
+            {
+              type: "radio",
+              id: "priorReview.has",
+              required: true,
+              label: {
+                tr:
+                  "Kuruluşunuz ESG kapsamında, EQAR'a kayıtlı bir ajans tarafından dış değerlendirmeden geçti mi?",
+                en:
+                  "Has your organisation undergone an external review under the ESG by an EQAR-registered agency?",
+              },
+              options: [
+                {
+                  value: "evet",
+                  label: { tr: "Evet", en: "Yes" },
+                  desc: {
+                    tr:
+                      "Rapor sunulduğunda ESG 3 ve ESG 2 bölümleri muaf tutulur; yalnızca ESG 1 kapsam ve ölçüt bilgileri istenir.",
+                    en:
+                      "When the report is provided, the ESG 3 and ESG 2 sections are exempted; only ESG 1 scope and criteria are required.",
+                  },
+                },
+                {
+                  value: "hayir",
+                  label: { tr: "Hayır", en: "No" },
+                  desc: {
+                    tr: "ESG 3 ve ESG 2 bölümlerinin tamamını doldurmanız gerekir.",
+                    en: "You must complete the ESG 3 and ESG 2 sections in full.",
+                  },
+                },
+              ],
+            },
+
+            { type: "text", id: "priorReview.agency", required: true, half: true, label: { tr: "Değerlendirmeyi yapan ajans", en: "Reviewing agency" }, placeholder: { tr: "ör. ENQA / EQAR kayıtlı ajans adı", en: "e.g. name of the EQAR-registered agency" }, showIf: { field: "priorReview.has", equals: "evet" } },
+            { type: "number", id: "priorReview.year", required: true, half: true, min: 1900, max: 2100, label: { tr: "Değerlendirme yılı", en: "Year of the review" }, showIf: { field: "priorReview.has", equals: "evet" } },
+            {
+              type: "radio", id: "priorReview.outcome", required: true, half: false,
+              label: { tr: "Değerlendirme sonucu", en: "Outcome of the review" },
+              showIf: { field: "priorReview.has", equals: "evet" },
+              options: [
+                { value: "full", label: { tr: "ESG ile tam uyumlu", en: "Full compliance with the ESG" } },
+                { value: "substantial", label: { tr: "Büyük ölçüde uyumlu", en: "Substantial compliance" } },
+                { value: "partial", label: { tr: "Kısmen uyumlu", en: "Partial compliance" } },
+              ],
+            },
+            { type: "text", id: "priorReview.eqarStatus", half: true, label: { tr: "EQAR tescil durumu", en: "EQAR registration status" }, placeholder: { tr: "ör. Tescilli — 2024-2029", en: "e.g. Registered — 2024-2029" }, showIf: { field: "priorReview.has", equals: "evet" } },
+            { type: "date", id: "priorReview.validUntil", half: true, label: { tr: "Geçerlilik bitiş tarihi", en: "Valid until" }, showIf: { field: "priorReview.has", equals: "evet" } },
+
+            {
+              type: "file-upload", id: "priorReview.report", required: true, maxSizeMB: 4,
+              accept: ".pdf,.doc,.docx",
+              label: { tr: "Dış değerlendirme raporu (dosya yükleme)", en: "External review report (file upload)" },
+              hint: {
+                tr:
+                  "Raporu PDF veya Word olarak yükleyiniz. Dosya, başvurunuzla birlikte tarayıcınızda saklanır ve dışa aktarılan JSON dosyasına gömülür.",
+                en:
+                  "Upload the report as PDF or Word. The file is stored with your application in your browser and embedded in the exported JSON file.",
+              },
+              showIf: { field: "priorReview.has", equals: "evet" },
+            },
+            {
+              type: "url", id: "priorReview.reportUrl", required: true,
+              label: { tr: "Raporun yayımlandığı adres (bağlantı)", en: "URL where the report is published (link)" },
+              hint: {
+                tr: "Raporun EQAR/DEQAR veya ajansın kendi sitesindeki yayımlanmış hâline bağlantı veriniz.",
+                en: "Provide a link to the published report on EQAR/DEQAR or the agency's own website.",
+              },
+              placeholder: { tr: "https://…", en: "https://…" },
+              showIf: { field: "priorReview.has", equals: "evet" },
+            },
+            {
+              type: "repeater", id: "priorReview.extraDocs", minItems: 0,
+              label: { tr: "Ek bağlantılar ve belgeler", en: "Additional links and documents" },
+              hint: { tr: "İzleme raporu, karar yazısı gibi ek belgeleri ekleyebilirsiniz.", en: "You may add follow-up reports, decision letters and similar documents." },
+              addLabel: { tr: "Bağlantı ekle", en: "Add link" },
+              showIf: { field: "priorReview.has", equals: "evet" },
+              itemFields: [
+                { type: "text", id: "name", required: true, label: { tr: "Belge adı", en: "Document name" } },
+                { type: "url", id: "url", required: true, label: { tr: "Bağlantı", en: "Link" } },
+              ],
+            },
+          ],
+        },
       ],
     },
 
@@ -335,6 +430,9 @@ window.SCHEMA = (function () {
       label: { tr: "ESG 3", en: "ESG 3" },
       sublabel: { tr: "Kalite Güvencesi Ajansları", en: "Quality Assurance Agencies" },
       intro: PART3_LABEL,
+      /* EQAR kayıtlı ajans tarafından yapılmış geçerli bir dış değerlendirme
+         raporu sunulduysa bu bölüm muaf tutulur. */
+      exemptIf: { field: "priorReview.has", equals: "evet" },
       steps: esg.part3.map(function (s) {
         return esgStep(s, PART3_LABEL);
       }),
@@ -346,6 +444,7 @@ window.SCHEMA = (function () {
       label: { tr: "ESG 2", en: "ESG 2" },
       sublabel: { tr: "Dış Kalite Güvencesi", en: "External Quality Assurance" },
       intro: PART2_LABEL,
+      exemptIf: { field: "priorReview.has", equals: "evet" },
       steps: esg.part2.map(function (s) {
         return esgStep(s, PART2_LABEL);
       }),

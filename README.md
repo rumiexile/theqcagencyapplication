@@ -30,6 +30,7 @@ Derleme, paket kurulumu veya ağ bağlantısı gerekmez — tüm varlıklar yere
 | | |
 |---|---|
 | **Başvuru türü** | İlk adımda seçilir: *Yetkilendirme* (Ulusal Ajanslar) veya *Tanınma* (Uluslararası Ajanslar). Seçim, formun ilerleyen alanlarını koşullu olarak değiştirir. |
+| **EQAR muafiyeti** | İkinci adımda, ajansın daha önce EQAR'a kayıtlı bir ajans tarafından ESG kapsamında dış değerlendirmeden geçip geçmediği sorulur. *Evet* yanıtında rapor **dosya yükleme** (sürükle-bırak) ve **bağlantı** alanları açılır; **ESG 3 ve ESG 2 bölümleri muaf tutulur** ve tamamlanma oranına dâhil edilmez. |
 | **İki dil** | Tüm arayüz ve içerik TR/EN. Başlıktaki `TR · EN` düğmesiyle anında geçiş; tercih saklanır. |
 | **Tamamlanma çubuğu** | Sekme çubuğunun altında kalıcı yüzde göstergesi (`%` ve `tamamlanan/toplam`), ayrıca kenar çubuğunda özet. |
 | **Yarıda bırak, sonra devam et** | Her değişiklik `localStorage`'a otomatik kaydedilir; kaldığınız sekme ve adım da saklanır. JSON olarak dışa/içe aktarılabilir. |
@@ -47,10 +48,10 @@ Sekmeler (`tabs`) → adımlar (`steps`) → alanlar (`fields`):
 
 | # | Sekme | Adımlar |
 |---|-------|---------|
-| 1 | **Başvuru Türü** | Tür seçimi (Yetkilendirme / Tanınma), kapsam, nitelik |
+| 1 | **Başvuru Türü** | Tür seçimi (Yetkilendirme / Tanınma), kapsam, nitelik · **Önceki dış değerlendirme (EQAR)** |
 | 2 | **Ajans Bilgileri** | Kimlik · İletişim · Yasal statü · Yönetişim ve kaynaklar |
-| 3 | **ESG 3** — Kalite Güvencesi Ajansları | 3.1 → 3.6 (her standart bir adım) |
-| 4 | **ESG 2** — Dış Kalite Güvencesi | 2.1 → 2.7 |
+| 3 | **ESG 3** — Kalite Güvencesi Ajansları | 3.1 → 3.6 (her standart bir adım) · *EQAR raporu sunulduysa muaf* |
+| 4 | **ESG 2** — Dış Kalite Güvencesi | 2.1 → 2.7 · *EQAR raporu sunulduysa muaf* |
 | 5 | **ESG 1** — Kapsam ve Ölçütler | Program seçimi · Genel ölçütler · Programa özel ölçütler · ESG 1 kapsama matrisi |
 | 6 | **Belgeler** | Zorunlu belgeler · Ek destekleyici belgeler |
 | 7 | **Beyan ve Gönderim** | Taahhüt ve beyan · Önizleme ve gönderim |
@@ -142,21 +143,35 @@ otomatik uyum sağlar; koyu tema dâhil.
 `text`, `email`, `url`, `tel`, `number`, `date`, `textarea`, `select`,
 `radio`, `checkboxes`, `repeater`, `application-type`, `programme-picker`,
 `programme-criteria`, `esg-standard`, `esg1-coverage`, `document-list`,
-`review`.
+`file-upload`, `review`.
 
-Koşullu görünürlük:
+Koşullu görünürlük (alan düzeyinde):
 
 ```js
 showIf: { field: "applicationType", equals: "taninma" }
 showIf: { field: "applicationKind", in: ["yenileme", "kapsam"] }
 ```
 
+Bölüm muafiyeti (sekme düzeyinde) — muaf bölümün zorunlu alanları tamamlanma
+oranından düşülür, sekme "Muaf" rozetiyle işaretlenir:
+
+```js
+exemptIf: { field: "priorReview.has", equals: "evet" }
+```
+
+Bir alanın değeri başka alanların görünürlüğünü denetliyorsa
+(`radio`, `select`, `checkboxes`, `application-type` türlerinde) adım
+otomatik olarak yeniden çizilir.
+
 ---
 
 ## Veri ve gizlilik
 
-Girilen tüm veriler yalnızca kullanıcının tarayıcısında (`localStorage`)
-saklanır; hiçbir sunucuya gönderilmez. Başvuru, **Dışa aktar** ile JSON olarak
+Girilen tüm veriler — yüklenen dış değerlendirme raporu dâhil — yalnızca
+kullanıcının tarayıcısında (`localStorage`) saklanır; hiçbir sunucuya
+gönderilmez. Yüklenen dosya base64 olarak başvuru verisine gömülür ve dışa
+aktarılan JSON ile birlikte taşınır (varsayılan üst sınır 4 MB; daha büyük
+raporlar için bağlantı alanı kullanılmalıdır). Başvuru, **Dışa aktar** ile JSON olarak
 indirilir ve YÖKAK'a bu dosya iletilir. **İçe aktar** ile aynı dosyadan kaldığı
 yerden devam edilebilir.
 
