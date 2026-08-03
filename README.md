@@ -106,6 +106,8 @@ assets/
     schema.js               ← Form şeması (sekme → adım → alan)
     fields.js               Alan render motoru
     app.js                  Gezinme, ilerleme, önizleme
+  img/
+    logo.png                ← YÖKAK markası (başlık ve favicon)
   data/
     programs.js             ← Program listesi (ISCED-F alan → lisans programı)
     yokak-criteria.js       ← YÖKAK Program Akreditasyon Ölçütleri (ana başlıklar)
@@ -171,6 +173,17 @@ beklediği bütüncül kapsamanın boşluklarını görünür kılar.
 
 > **Veri kaynağı:** `program_akred_ölçütleri_Geri_Bildirim.xlsx`,
 > "Değerlendirme Ölçütleri" sayfası, "Ana ölçüt" sütunu.
+
+### Logo
+Başlıktaki marka `assets/img/logo.png` dosyasıdır — resmî YÖKAK logosunun
+şeffaf arka planlı hâli, kenar boşlukları kırpılıp 303×176 px'e indirilmiştir.
+Aynı görsel kareye ortalanarak favicon olarak `index.html` içine base64
+gömülüdür.
+
+Logoyu değiştirmek için `assets/img/logo.png` dosyasını değiştirmeniz yeterli;
+CSS yüksekliği sabitler, genişlik en-boy oranına göre kendiliğinden ayarlanır.
+Tek dosyalık sürüm üretilirken `assets/img` altındaki görseller otomatik olarak
+data URI'ye çevrilir.
 
 ### Yeni alan / adım ekleme
 `assets/js/schema.js` içine alan nesnesi ekleyin. Desteklenen türler:
