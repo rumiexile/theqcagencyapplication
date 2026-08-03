@@ -722,15 +722,32 @@ window.Fields = (function () {
   function esg1Coverage(field) {
     var holder = el("div", {});
 
+    /**
+     * Ajansın Genel Ölçütler adımında tanımladığı ölçütlerden, verilen ESG 1
+     * standardına eşlenmiş olanları döndürür. Her genel ölçüt bir YÖKAK ana
+     * ölçütüne (esgLink) bağlanır; ana ölçütlerin de ESG 1 karşılığı vardır.
+     */
+    function mappedCriteria(esgCode) {
+      var rows = S.get("criteria.general", []) || [];
+      return rows.filter(function (row) {
+        if (!row || !row.esgLink) return false;
+        var main = window.YOKAK_CRITERIA.find(row.esgLink);
+        return main && main.esg1 === esgCode;
+      });
+    }
+
     window.ESG.part1.forEach(function (std) {
       var key = field.id + "." + std.code.replace(".", "_");
       var box = el("details", { class: "crit glass" });
       var badge = el("span", { class: "badge badge--neutral" });
 
       function refresh() {
-        var v = S.get(key + ".how", "");
-        var ok = v && v.trim().length >= 50;
-        badge.textContent = ok ? (window.I18N.lang === "tr" ? "Tamam" : "Complete") : (window.I18N.lang === "tr" ? "Eksik" : "Missing");
+        var how = S.get(key + ".how", "");
+        var lvl = S.get(key + ".level", "");
+        var ok = lvl && how && how.trim().length >= 100;
+        badge.textContent = ok
+          ? window.I18N.lang === "tr" ? "Tamam" : "Complete"
+          : window.I18N.lang === "tr" ? "Eksik" : "Missing";
         badge.className = "badge " + (ok ? "badge--success" : "badge--warning");
       }
 
@@ -743,34 +760,122 @@ window.Fields = (function () {
       );
 
       var body = el("div", { class: "crit__body" });
-      body.appendChild(el("blockquote", { class: "standard__text", text: pick(std.statement) }));
 
+      /* Standardın resmî metni — ESG 2/3 bölümleriyle aynı biçimde TR + EN */
+      body.appendChild(el("blockquote", { class: "standard__text", text: pick(std.statement) }));
+      body.appendChild(
+        el("p", {
+          class: "standard__text-en",
+          text: window.I18N.lang === "tr" ? std.statement.en : std.statement.tr,
+        })
+      );
+
+      /* Bu standarda eşlenen kendi genel ölçütleri — Genel Ölçütler
+         adımındaki eşleştirmeden türetilir, ayrıca girilmez. */
+      var mapped = mappedCriteria(std.code);
+      var mapBox = el("div", { class: "esg1-map" });
+      mapBox.appendChild(
+        el("p", { class: "esg1-map__title", text: t("esg1.mappedCriteria") })
+      );
+      if (mapped.length) {
+        var chips = el("div", { class: "esg1-map__chips" });
+        mapped.forEach(function (row) {
+          chips.appendChild(
+            el("span", { class: "chip" }, [
+              document.createTextNode((row.code ? row.code + ". " : "") + (row.title || "—")),
+            ])
+          );
+        });
+        mapBox.appendChild(chips);
+      } else {
+        mapBox.appendChild(
+          el("div", { class: "alert alert--warning" }, [
+            icon("alert", "alert__icon"),
+            el("div", { text: t("esg1.noMapped") }),
+          ])
+        );
+      }
+      body.appendChild(mapBox);
+
+      /* Kapsama düzeyi */
+      body.appendChild(
+        radio({
+          id: key + ".level",
+          type: "radio",
+          required: true,
+          label: { tr: "Kapsama düzeyi", en: "Level of coverage" },
+          options: [
+            {
+              value: "tam",
+              label: { tr: "Tam kapsanıyor", en: "Fully covered" },
+              desc: {
+                tr: "Standardın tüm gerekleri ölçütlerimizce karşılanmaktadır.",
+                en: "All requirements of the standard are addressed by our criteria.",
+              },
+            },
+            {
+              value: "kismen",
+              label: { tr: "Kısmen kapsanıyor", en: "Partially covered" },
+              desc: {
+                tr: "Standardın bir bölümü ölçütlerimizce karşılanmaktadır.",
+                en: "Part of the standard is addressed by our criteria.",
+              },
+            },
+            {
+              value: "kapsanmiyor",
+              label: { tr: "Kapsanmıyor", en: "Not covered" },
+              desc: {
+                tr: "Bu standart mevcut ölçütlerimizle kapsanmamaktadır.",
+                en: "This standard is not addressed by our current criteria.",
+              },
+            },
+          ],
+        })
+      );
+
+      /* Açıklama — odak: ölçütlerin standardı nasıl kapsadığı */
       body.appendChild(
         textarea({
           id: key + ".how",
           type: "textarea",
           required: true,
-          minLength: 50,
+          minLength: 100,
           maxLength: 3000,
-          label: { tr: "Bu standart süreçlerinizde nasıl kapsanıyor?", en: "How is this standard covered in your processes?" },
+          label: {
+            tr: "Ölçütleriniz bu standardı nasıl kapsıyor?",
+            en: "How do your criteria cover this standard?",
+          },
           hint: {
-            tr: "İlgili ölçütlerinizi, kanıt taleplerinizi ve değerlendirme yönteminizi belirtiniz.",
-            en: "State the related criteria, evidence requirements and evaluation method.",
+            tr:
+              "İlgili ölçüt maddelerinizi, bu ölçütler kapsamında talep ettiğiniz kanıtları ve değerlendirmede nasıl karara bağlandığını açıklayınız.",
+            en:
+              "Explain the relevant criterion items, the evidence you require under them, and how they are judged in the evaluation.",
           },
         })
       );
 
+      /* Kanıtlar */
       body.appendChild(
-        textInput({
-          id: key + ".criteria",
-          type: "text",
-          half: false,
-          label: { tr: "İlişkili genel/özel ölçüt numaraları", en: "Related general/specific criterion numbers" },
-          placeholder: { tr: "ör. 1, 3.2, 5", en: "e.g. 1, 3.2, 5" },
+        repeater({
+          id: key + ".evidence",
+          type: "repeater",
+          minItems: 0,
+          label: { tr: "Kanıtlar", en: "Evidence" },
+          hint: {
+            tr: "Ölçüt dokümanınızın ilgili bölümü, rehber veya şablon gibi kanıtları ekleyiniz.",
+            en: "Add evidence such as the relevant section of your criteria document, a guide or a template.",
+          },
+          addLabel: { tr: "Kanıt ekle", en: "Add evidence" },
+          itemFields: [
+            { type: "text", id: "name", required: true, label: { tr: "Kanıt adı", en: "Evidence name" } },
+            { type: "url", id: "url", label: { tr: "Bağlantı", en: "Link" } },
+            { type: "text", id: "ref", label: { tr: "Belge / bölüm referansı", en: "Document / section reference" } },
+          ],
         })
       );
 
       body.addEventListener("input", refresh);
+      body.addEventListener("change", refresh);
       refresh();
       box.appendChild(body);
       holder.appendChild(box);

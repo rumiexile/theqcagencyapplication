@@ -599,14 +599,14 @@ window.SCHEMA = (function () {
         },
         {
           id: "esg1-coverage",
-          title: { tr: "ESG 1 Standartlarının Kapsanması", en: "Coverage of the ESG 1 Standards" },
-          short: { tr: "ESG 1 kapsama", en: "ESG 1 coverage" },
+          title: { tr: "Ölçütlerin ESG 1 Uyumu", en: "ESG 1 Compliance of the Criteria" },
+          short: { tr: "Ölçütlerin ESG 1 uyumu", en: "ESG 1 compliance" },
           eyebrow: PART1_LABEL,
           desc: {
             tr:
-              "ESG 2.1 gereği, dış kalite güvencesi süreçlerinizin ESG Bölüm 1'in tüm standartlarını bütüncül biçimde nasıl kapsadığını her standart için açıklayınız.",
+              "ESG 2.1 gereği, ajansın dış değerlendirmede kullandığı ölçütlerin ESG Bölüm 1'in tüm standartlarını bütüncül biçimde nasıl kapsadığını her standart için açıklayınız.",
             en:
-              "Per ESG 2.1, explain for each standard how your external quality assurance processes cover all standards of ESG Part 1 holistically.",
+              "Per ESG 2.1, explain for each standard how the criteria the agency uses in external evaluation cover all standards of ESG Part 1 holistically.",
           },
           fields: [{ type: "esg1-coverage", id: "esg1.coverage", required: true }],
         },

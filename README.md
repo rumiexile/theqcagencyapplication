@@ -56,7 +56,7 @@ Sekmeler (`tabs`) → adımlar (`steps`) → alanlar (`fields`):
 | 2 | **Ajans Bilgileri** | Kimlik (kuruluş bilgileri · **ağ ve çatı kuruluş üyelikleri**) · İletişim · Yasal statü · Yönetişim ve kaynaklar |
 | 3 | **ESG 3** — Kalite Güvencesi Ajansları | 3.1 → 3.6 (her standart bir adım) · *EQAR raporu sunulduysa muaf* |
 | 4 | **ESG 2** — Dış Kalite Güvencesi | 2.1 → 2.7 · *EQAR raporu sunulduysa muaf* |
-| 5 | **ESG 1** — Kapsam ve Ölçütler | Program seçimi · Genel ölçütler · Programa özel ölçütler · ESG 1 kapsama matrisi · **Karar sistemi** |
+| 5 | **ESG 1** — Kapsam ve Ölçütler | Program seçimi · Genel ölçütler · Programa özel ölçütler · **Ölçütlerin ESG 1 uyumu** · Karar sistemi |
 | 6 | **Belgeler** | Zorunlu belgeler · Ek destekleyici belgeler |
 | 7 | **Beyan ve Gönderim** | Taahhüt ve beyan · Önizleme ve gönderim |
 
@@ -163,6 +163,11 @@ birebir örtüşür; `esg1` alanı bu karşılığı taşır ve seçim listesind
 sonunda gösterilir (ör. *"3. Öğrenci Merkezli Öğrenme… (ESG 1.3)"*).
 
 Alt ölçütler ve göstergeler bu uygulamanın kapsamı dışındadır.
+
+Bu eşleştirme "Ölçütlerin ESG 1 uyumu" adımını besler: her ESG 1 standardının
+altında, ajansın o standarda eşlenmiş genel ölçütleri otomatik olarak listelenir.
+Hiçbir ölçütün eşlenmediği standartlar uyarıyla işaretlenir — ESG 2.1'in
+beklediği bütüncül kapsamanın boşluklarını görünür kılar.
 
 > **Veri kaynağı:** `program_akred_ölçütleri_Geri_Bildirim.xlsx`,
 > "Değerlendirme Ölçütleri" sayfası, "Ana ölçüt" sütunu.

@@ -122,7 +122,10 @@ window.Validate = (function () {
       var missing = 0;
       window.ESG.part1.forEach(function (s) {
         var row = cov[s.code.replace(".", "_")] || {};
-        if (isEmpty(row.how)) missing++;
+        // Her standart için kapsama düzeyi ve yeterli uzunlukta açıklama
+        if (isEmpty(row.level) || isEmpty(row.how) || String(row.how).trim().length < 100) {
+          missing++;
+        }
       });
       if (missing > 0) return t("validate.summary", { n: missing });
       return null;
