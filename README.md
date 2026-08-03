@@ -189,8 +189,8 @@ data URI'ye çevrilir.
 ### Önerilen kanıtlar
 `assets/data/evidence-suggestions.js`, YÖKAK yetkilendirme ölçütlerinde sayılan
 kanıtları ESG standartlarına dağıtır. Her ESG adımının kanıt listesinin üstünde
-"Önerilen kanıtlar" paneli çıkar; bir öneriye tıklandığında listeye adı
-doldurulmuş yeni bir kayıt eklenir, eklenen öneri işaretlenir.
+açılır "Önerilen kanıtlar" paneli çıkar. Panel **yalnızca bilgilendirme
+amaçlıdır**; okunur bir listedir, forma veri girmez.
 
 Yetkilendirme ölçütü → ESG eşlemesi dosyanın başındaki açıklamada yer alır.
 Yeni öneri eklemek için ilgili standardın dizisine `{ tr, en }` çifti eklemeniz

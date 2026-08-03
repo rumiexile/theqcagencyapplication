@@ -399,60 +399,26 @@ window.Fields = (function () {
       }
     });
 
-    /* ---- Önerilen kanıtlar / suggested evidence -------------------
-       Tıklanan öneri, listeye adı doldurulmuş yeni bir kayıt olarak
-       eklenir. Zaten eklenmiş öneriler işaretli görünür. */
+    /* ---- Önerilen kanıtlar / suggested evidence ---------------------
+       Yalnızca bilgilendirme amaçlı okunur liste. */
     var suggestBox = null;
     if (field.suggestions && field.suggestions.length) {
-      var keyField = field.suggestionField || "name";
-      suggestBox = el("details", { class: "suggest glass" });
-      var suggestList = el("div", { class: "suggest__list" });
+      var suggestList = el("ul", { class: "suggest__list" });
+      field.suggestions.forEach(function (s) {
+        suggestList.appendChild(el("li", { class: "suggest__item", text: pick(s) }));
+      });
 
-      function renderSuggestions() {
-        suggestList.innerHTML = "";
-        var used = rows().map(function (r) {
-          return (r && r[keyField]) || "";
-        });
-        field.suggestions.forEach(function (s) {
-          var label = pick(s);
-          var isUsed = used.indexOf(label) !== -1;
-          var btn = el("button", {
-            type: "button",
-            class: "suggest__item" + (isUsed ? " suggest__item--used" : ""),
-            "aria-pressed": isUsed ? "true" : "false",
-          }, [
-            el("span", { class: "suggest__tick" }, [icon(isUsed ? "check" : "plus")]),
-            el("span", { text: label }),
-          ]);
-          btn.addEventListener("click", function () {
-            if (isUsed) return;
-            var next = rows().slice();
-            var row = {};
-            row[keyField] = label;
-            next.push(row);
-            persist(next);
-            render();
-            renderSuggestions();
-          });
-          suggestList.appendChild(btn);
-        });
-      }
-
-      suggestBox.appendChild(
+      suggestBox = el("details", { class: "suggest glass" }, [
         el("summary", { class: "suggest__head" }, [
           icon("info", "suggest__icon"),
           el("span", { class: "suggest__title", text: t("evidence.suggestedTitle") }),
           el("span", { class: "badge badge--neutral", text: String(field.suggestions.length) }),
-        ])
-      );
-      suggestBox.appendChild(
+        ]),
         el("div", { class: "suggest__body" }, [
           el("p", { class: "suggest__hint", text: t("evidence.suggestedHint") }),
           suggestList,
-        ])
-      );
-      renderSuggestions();
-      holder.__renderSuggestions = renderSuggestions;
+        ]),
+      ]);
     }
 
     render();
