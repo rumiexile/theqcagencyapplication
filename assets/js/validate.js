@@ -15,14 +15,29 @@ window.Validate = (function () {
      showIf: { field: "applicationKind", equals: "yenileme" }
      showIf: { field: "applicationKind", in: ["yenileme", "kapsam"] }
      ------------------------------------------------------------------ */
-  function isVisible(field, store) {
-    if (!field.showIf) return true;
-    var c = field.showIf;
+  function matches(c, store) {
     var v = store.get(c.field);
     if (c.equals !== undefined) return v === c.equals;
     if (c.in !== undefined) return c.in.indexOf(v) !== -1;
     if (c.truthy !== undefined) return !!v === !!c.truthy;
     return true;
+  }
+
+  function isVisible(field, store) {
+    if (!field.showIf) return true;
+    var c = field.showIf;
+    // all: koşulların tamamı · any: en az biri · yoksa tek koşul
+    if (c.all) {
+      return c.all.every(function (x) {
+        return matches(x, store);
+      });
+    }
+    if (c.any) {
+      return c.any.some(function (x) {
+        return matches(x, store);
+      });
+    }
+    return matches(c, store);
   }
 
   /**

@@ -179,6 +179,12 @@ Koşullu görünürlük (alan düzeyinde):
 ```js
 showIf: { field: "applicationType", equals: "taninma" }
 showIf: { field: "applicationKind", in: ["yenileme", "kapsam"] }
+
+// Birden çok koşul — all: tamamı, any: en az biri
+showIf: { all: [
+  { field: "applicationType", equals: "yetkilendirme" },
+  { field: "agency.legalForm", equals: "dernek" },
+] }
 ```
 
 Bölüm muafiyeti (sekme düzeyinde) — muaf bölümün zorunlu alanları tamamlanma

@@ -306,7 +306,47 @@ window.SCHEMA = (function () {
               showIf: { field: "agency.legalForm", equals: "diger" },
             },
             { type: "url", id: "agency.website", required: true, half: true, label: { tr: "Web sitesi", en: "Website" }, placeholder: { tr: "https://…", en: "https://…" } },
-            { type: "text", id: "agency.taxNo", half: true, label: { tr: "Vergi kimlik / tescil numarası", en: "Tax ID / registration number" } },
+
+            /* --- Ulusal sicil numaraları (yalnızca yetkilendirme başvurusunda,
+                   hukuki statüye göre) --------------------------------------- */
+            {
+              type: "text", id: "agency.registryDernek", required: true, half: true,
+              label: { tr: "Dernek Kütük Numarası", en: "Association Registry Number" },
+              showIf: {
+                all: [
+                  { field: "applicationType", equals: "yetkilendirme" },
+                  { field: "agency.legalForm", equals: "dernek" },
+                ],
+              },
+            },
+            {
+              type: "text", id: "agency.registryVakif", required: true, half: true,
+              label: { tr: "Vakıf Sicil Numarası", en: "Foundation Registry Number" },
+              showIf: {
+                all: [
+                  { field: "applicationType", equals: "yetkilendirme" },
+                  { field: "agency.legalForm", equals: "vakif" },
+                ],
+              },
+            },
+            {
+              type: "text", id: "agency.registryTicaret", required: true, half: true,
+              label: { tr: "Ticaret Sicil Gazetesi Numarası", en: "Trade Registry Gazette Number" },
+              showIf: {
+                all: [
+                  { field: "applicationType", equals: "yetkilendirme" },
+                  { field: "agency.legalForm", equals: "diger" },
+                ],
+              },
+            },
+            {
+              type: "text", id: "agency.mersis", half: true,
+              label: { tr: "MERSİS Numarası", en: "MERSIS Number" },
+              placeholder: { tr: "16 haneli numara", en: "16-digit number" },
+              showIf: { field: "applicationType", equals: "yetkilendirme" },
+            },
+
+            { type: "text", id: "agency.taxNo", half: true, label: { tr: "Vergi kimlik numarası", en: "Tax identification number" } },
             {
               type: "textarea", id: "agency.mission", required: true, minLength: 100, maxLength: 2500,
               label: { tr: "Misyon bildirimi", en: "Mission statement" },

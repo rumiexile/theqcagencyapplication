@@ -413,11 +413,17 @@
   /* Bu alanın değeri başka alanların görünürlüğünü denetliyor mu? */
   var CONTROLLERS = (function () {
     var set = {};
+    function note(cond) {
+      if (!cond) return;
+      if (cond.all) return cond.all.forEach(note);
+      if (cond.any) return cond.any.forEach(note);
+      if (cond.field) set[cond.field] = true;
+    }
     tabs.forEach(function (tab) {
-      if (tab.exemptIf) set[tab.exemptIf.field] = true;
+      note(tab.exemptIf);
       tab.steps.forEach(function (step) {
         step.fields.forEach(function (f) {
-          if (f.showIf) set[f.showIf.field] = true;
+          note(f.showIf);
         });
       });
     });
