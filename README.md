@@ -123,9 +123,24 @@ assets/
 katmanı (`--color-brand`, `--color-accent` …) kullandığı için tüm uygulama
 otomatik uyum sağlar; koyu tema dâhil.
 
-> Varsayılan palet, kurumsal lacivert + turkuaz temelli tutarlı bir sistemdir.
-> Resmî YÖKAK Kurumsal Kimlik Kılavuzu'ndaki hex değerleri elinizdeyse bu iki
-> ölçeği değiştirmeniz yeterlidir.
+> Palet YÖKAK logosundan alınmıştır: lacivert `#2b4f8e`, orta mavi `#1c7cc1`,
+> açık mavi `#74c3ef`. Bu üç renk `--yk-mark-*` olarak ayrıca tutulur ve
+> logo markasında doğrudan kullanılır.
+
+### Logo
+Marka `index.html` içinde satır içi SVG'dir; üç mavi şerit `--yk-mark-*`
+jetonlarını kullanır, aralarındaki boşluklar yüzey rengiyle çizildiğinden açık
+ve koyu temada da ayrım korunur. Kelime markası görüntü değil canlı metindir ve
+dile göre değişir:
+
+| Dil | Kelime markası |
+|-----|----------------|
+| TR | Yükseköğretim / Kalite Kurulu |
+| EN | Turkish Higher Education / Quality Council |
+
+Metin `i18n.js` içindeki `brand.name` anahtarında, satır sonu `\n` ile
+belirlenir. Resmî SVG dosyanız varsa `index.html` içindeki `.brand__mark`
+bloğunun yerine koymanız yeterlidir.
 
 ### Program listesi
 `assets/data/programs.js` üç düzeyli bir veri seti içerir:
