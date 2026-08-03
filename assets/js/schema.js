@@ -345,6 +345,19 @@ window.SCHEMA = (function () {
               placeholder: { tr: "16 haneli numara", en: "16-digit number" },
               showIf: { field: "applicationType", equals: "yetkilendirme" },
             },
+            {
+              type: "email", id: "agency.kep", required: true, half: true,
+              label: {
+                tr: "Kayıtlı Elektronik Posta (KEP) Adresi",
+                en: "Registered Electronic Mail (KEP) Address",
+              },
+              hint: {
+                tr: "Resmî tebligatlar bu adrese yapılır.",
+                en: "Official notifications are served to this address.",
+              },
+              placeholder: { tr: "kurum@hs01.kep.tr", en: "organisation@hs01.kep.tr" },
+              showIf: { field: "applicationType", equals: "yetkilendirme" },
+            },
 
             { type: "text", id: "agency.taxNo", half: true, label: { tr: "Vergi kimlik numarası", en: "Tax identification number" } },
             {
