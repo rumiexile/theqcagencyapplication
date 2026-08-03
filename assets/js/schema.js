@@ -68,6 +68,7 @@ window.SCHEMA = (function () {
               "Add documents, regulations, reports or web links supporting your statement.",
           },
           addLabel: { tr: "Kanıt ekle", en: "Add evidence" },
+          suggestions: window.EVIDENCE_SUGGESTIONS.forStandard(std.code),
           itemFields: [
             {
               type: "text",

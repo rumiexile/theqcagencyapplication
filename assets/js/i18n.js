@@ -88,6 +88,9 @@ window.I18N = (function () {
       "esg.evidence": "Kanıtlar",
       "esg.compliance": "Öz değerlendirme",
       "esg.coverage": "Kapsama biçimi",
+      "evidence.suggestedTitle": "Önerilen kanıtlar",
+      "evidence.suggestedHint":
+        "Bu standart için sunulması önerilen kanıtlar. Eklemek istediğinize tıklayınız; listeye adı doldurulmuş olarak eklenir. Liste bağlayıcı değildir, kendi kanıtlarınızı da ekleyebilirsiniz.",
       "esg1.mappedCriteria": "Bu standarda eşlenen genel ölçütleriniz",
       "esg1.noMapped":
         "Genel ölçütlerinizden hiçbiri bu standarda eşlenmemiş. ESG 2.1 bütüncül kapsama beklediğinden, bu standardın nasıl karşılandığını aşağıda açıklamanız gerekir.",
@@ -202,6 +205,9 @@ window.I18N = (function () {
       "esg.evidence": "Evidence",
       "esg.compliance": "Self-assessment",
       "esg.coverage": "How it is covered",
+      "evidence.suggestedTitle": "Suggested evidence",
+      "evidence.suggestedHint":
+        "Evidence suggested for this standard. Click an item to add it to the list with its name filled in. The list is indicative — you may add your own evidence as well.",
       "esg1.mappedCriteria": "Your general criteria mapped to this standard",
       "esg1.noMapped":
         "None of your general criteria is mapped to this standard. As ESG 2.1 expects holistic coverage, explain below how this standard is addressed.",

@@ -111,6 +111,7 @@ assets/
   data/
     programs.js             ← Program listesi (ISCED-F alan → lisans programı)
     yokak-criteria.js       ← YÖKAK Program Akreditasyon Ölçütleri (ana başlıklar)
+    evidence-suggestions.js ← Standart bazında önerilen kanıtlar
 ```
 
 `←` işaretli dosyalar, içerik güncellemesi için düzenlemeniz gereken yerlerdir.
@@ -184,6 +185,17 @@ Logoyu değiştirmek için `assets/img/logo.png` dosyasını değiştirmeniz yet
 CSS yüksekliği sabitler, genişlik en-boy oranına göre kendiliğinden ayarlanır.
 Tek dosyalık sürüm üretilirken `assets/img` altındaki görseller otomatik olarak
 data URI'ye çevrilir.
+
+### Önerilen kanıtlar
+`assets/data/evidence-suggestions.js`, YÖKAK yetkilendirme ölçütlerinde sayılan
+kanıtları ESG standartlarına dağıtır. Her ESG adımının kanıt listesinin üstünde
+"Önerilen kanıtlar" paneli çıkar; bir öneriye tıklandığında listeye adı
+doldurulmuş yeni bir kayıt eklenir, eklenen öneri işaretlenir.
+
+Yetkilendirme ölçütü → ESG eşlemesi dosyanın başındaki açıklamada yer alır.
+Yeni öneri eklemek için ilgili standardın dizisine `{ tr, en }` çifti eklemeniz
+yeterlidir. Herhangi bir tekrarlayıcı alana `suggestions` özelliği vererek aynı
+panel başka yerlerde de kullanılabilir.
 
 ### Yeni alan / adım ekleme
 `assets/js/schema.js` içine alan nesnesi ekleyin. Desteklenen türler:
