@@ -321,8 +321,21 @@ window.Fields = (function () {
       }
       data.forEach(function (row, idx) {
         var item = el("div", { class: "repeater__item" });
+
+        /* Başlık satırı: sıra numarası + kaldır düğmesi.
+           Akış içinde durur, alan etiketleriyle çakışmaz. */
+        var del = el("button", {
+          type: "button",
+          class: "btn btn--ghost btn--icon repeater__remove",
+          "aria-label": t("a11y.remove"),
+          title: t("repeater.remove"),
+        }, [icon("trash", "btn__icon")]);
+
         item.appendChild(
-          el("span", { class: "repeater__item-index", text: t("repeater.item") + " " + (idx + 1) })
+          el("div", { class: "repeater__item-head" }, [
+            el("span", { class: "repeater__item-index", text: t("repeater.item") + " " + (idx + 1) }),
+            del,
+          ])
         );
 
         field.itemFields.forEach(function (sub) {
@@ -363,12 +376,6 @@ window.Fields = (function () {
           item.appendChild(el("div", { class: "field field--inline" }, [lbl, control]));
         });
 
-        var del = el("button", {
-          type: "button",
-          class: "btn btn--ghost btn--icon repeater__remove",
-          "aria-label": t("a11y.remove"),
-          title: t("repeater.remove"),
-        }, [icon("trash", "btn__icon")]);
         del.addEventListener("click", function () {
           item.classList.add("repeater__item--leaving");
           setTimeout(function () {
@@ -378,7 +385,6 @@ window.Fields = (function () {
             render();
           }, 180);
         });
-        item.appendChild(del);
         list.appendChild(item);
       });
     }
