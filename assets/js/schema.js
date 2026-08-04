@@ -399,12 +399,8 @@ window.SCHEMA = (function () {
             },
 
             { type: "text", id: "agency.taxNo", half: true, label: { tr: "Vergi kimlik numarası", en: "Tax identification number" } },
-            {
-              type: "textarea", id: "agency.mission", required: true, minLength: 100, maxLength: 2500,
-              label: { tr: "Misyon bildirimi", en: "Mission statement" },
-              hint: { tr: "ESG 3.1 gereği kamuya açık misyon bildiriminizi ve buradaki amaç ve hedeflerinizi belirtiniz.", en: "Per ESG 3.1, state your publicly available mission statement and the goals and objectives it contains." },
-            },
-            { type: "url", id: "agency.missionUrl", label: { tr: "Misyon bildiriminin yayımlandığı adres", en: "URL where the mission statement is published" }, placeholder: { tr: "https://…", en: "https://…" } },
+            /* Misyon bildirimi ve yayım adresi ESG 3.1 bölümünde istendiğinden
+               kimlik adımından çıkarılmıştır. */
             {
               type: "repeater", id: "agency.networks", minItems: 0,
               label: {
