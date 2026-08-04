@@ -779,7 +779,7 @@ window.SCHEMA = (function () {
               label: { tr: "Beyanlar", en: "Declarations" },
               options: [
                 { value: "accurate", label: { tr: "Başvuruda verilen tüm bilgilerin doğru ve eksiksiz olduğunu beyan ederim.", en: "I declare that all information given in this application is accurate and complete." } },
-                { value: "esg", label: { tr: "Kuruluşumuzun ESG 2027 (Draft 3) ile uyumlu biçimde faaliyet gösterdiğini beyan ederim.", en: "I declare that our organisation operates in compliance with ESG 2027 (Draft 3)." } },
+                { value: "esg", label: { tr: "Kuruluşumuzun YÖKAK Dış Değerlendirme ve Akreditasyon Kuruluşlarının Yetkilendirilmesi, Tanınması ve İzlenmesine İlişkin Kılavuz ile uyumlu biçimde faaliyet gösterdiğini beyan ederim.", en: "I declare that our organisation operates in compliance with the YÖKAK Guidelines on the Authorisation, Recognition and Monitoring of External Review and Accreditation Bodies." } },
                 { value: "evidence", label: { tr: "Beyan edilen tüm kanıtların YÖKAK tarafından incelenebileceğini kabul ederim.", en: "I accept that all declared evidence may be examined by YÖKAK." } },
                 { value: "monitoring", label: { tr: "Yetkilendirme/tanınma sonrası izleme süreçlerine katılmayı taahhüt ederim.", en: "I undertake to participate in monitoring processes following authorisation/recognition." } },
                 { value: "notify", label: { tr: "Kuruluşumuzun statüsündeki değişiklikleri YÖKAK'a bildirmeyi taahhüt ederim.", en: "I undertake to notify YÖKAK of any change in our organisation's status." } },
