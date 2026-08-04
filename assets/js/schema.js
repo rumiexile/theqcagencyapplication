@@ -775,11 +775,12 @@ window.SCHEMA = (function () {
           },
           fields: [
             {
-              type: "checkboxes", id: "declaration.items", required: true, minItems: 4,
+              type: "checkboxes", id: "declaration.items", required: true, minItems: 6,
               label: { tr: "Beyanlar", en: "Declarations" },
               options: [
                 { value: "accurate", label: { tr: "Başvuruda verilen tüm bilgilerin doğru ve eksiksiz olduğunu beyan ederim.", en: "I declare that all information given in this application is accurate and complete." } },
                 { value: "esg", label: { tr: "Kuruluşumuzun YÖKAK Dış Değerlendirme ve Akreditasyon Kuruluşlarının Yetkilendirilmesi, Tanınması ve İzlenmesine İlişkin Kılavuz ile uyumlu biçimde faaliyet gösterdiğini beyan ederim.", en: "I declare that our organisation operates in compliance with the YÖKAK Guidelines on the Authorisation, Recognition and Monitoring of External Review and Accreditation Bodies." } },
+                { value: "legislation", label: { tr: "Akreditasyon ölçütlerini belirlerken ve uygularken başta 2547 sayılı Yükseköğretim Kanunu olmak üzere yürürlükteki tüm üst mevzuata uyacağımızı, mevzuata aykırı ölçüt belirlemeyeceğimizi ve uygulamayacağımızı; yükseköğretim üst kuruluşlarının belirlediği normlara uygunluk bulunması hâlinde bu gerekçeyle akreditasyonun reddine karar vermeyeceğimizi taahhüt ederim.", en: "I undertake that, in setting and applying accreditation criteria, we will comply with all higher-level legislation in force, primarily Higher Education Law No. 2547; that we will neither set nor apply criteria contrary to legislation; and that, where conformity with the norms established by the higher education supreme bodies exists, we will not refuse accreditation on that ground." } },
                 { value: "evidence", label: { tr: "Beyan edilen tüm kanıtların YÖKAK tarafından incelenebileceğini kabul ederim.", en: "I accept that all declared evidence may be examined by YÖKAK." } },
                 { value: "monitoring", label: { tr: "Yetkilendirme/tanınma sonrası izleme süreçlerine katılmayı taahhüt ederim.", en: "I undertake to participate in monitoring processes following authorisation/recognition." } },
                 { value: "notify", label: { tr: "Kuruluşumuzun statüsündeki değişiklikleri YÖKAK'a bildirmeyi taahhüt ederim.", en: "I undertake to notify YÖKAK of any change in our organisation's status." } },
