@@ -27,6 +27,24 @@ python3 -m http.server 8000
 
 Derleme, paket kurulumu veya ağ bağlantısı gerekmez — tüm varlıklar yereldir.
 
+### Tek dosyalık sürüm / Single-file build
+
+Depoyu kopyalamak istemeyen kullanıcılar için tüm uygulama tek bir HTML
+dosyasına paketlenebilir. CSS, JavaScript ve logo dosyanın içine gömülür;
+ortaya çıkan dosya çift tıklanarak açılır, internet bağlantısı istemez ve
+e-posta veya USB ile taşınabilir.
+
+Hazır paket: [`dist/yokak-basvuru.html`](dist/yokak-basvuru.html)
+
+```bash
+# kaynaktan yeniden üretmek için
+python3 tools/bundle.py dist/yokak-basvuru.html
+```
+
+Başvuru verisi yine tarayıcının `localStorage` alanında tutulur; tek dosyalık
+sürümde de **Dışa aktar** / **İçe aktar** çalışır. Kaynak dosyaları
+değiştirdiğinizde paketi yeniden üretmeniz gerekir.
+
 ---
 
 ## Özellikler
