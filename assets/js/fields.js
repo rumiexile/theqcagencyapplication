@@ -11,6 +11,21 @@ window.Fields = (function () {
   var pick = function (v) {
     return window.I18N.pick(v);
   };
+  /**
+   * Aramada taranacak metin: çok dilli bir ad verilirse tüm dillerdeki
+   * karşılıkları birleştirir. Böylece İngilizce arayüzdeki bir başvuran
+   * Türkçe program adıyla da (veya tersi) arama yapabilir.
+   */
+  var searchText = function (v) {
+    if (!v) return "";
+    if (typeof v === "string") return v.toLocaleLowerCase("tr");
+    return Object.keys(v)
+      .map(function (k) {
+        return v[k];
+      })
+      .join(" ")
+      .toLocaleLowerCase("tr");
+  };
   var t = function (k, p) {
     return window.I18N.t(k, p);
   };
@@ -488,14 +503,19 @@ window.Fields = (function () {
       var sel = selected();
 
       PD.areas.forEach(function (area) {
-        var progs = PD.byArea(area.code).filter(function (p) {
-          if (!q) return true;
-          return (
-            pick(p.name).toLocaleLowerCase("tr").indexOf(q) !== -1 ||
-            pick(area.name).toLocaleLowerCase("tr").indexOf(q) !== -1 ||
-            pick(PD.fieldName(p.field)).toLocaleLowerCase("tr").indexOf(q) !== -1
-          );
-        });
+        var progs = PD.byArea(area.code)
+          .filter(function (p) {
+            if (!q) return true;
+            return (
+              searchText(p.name).indexOf(q) !== -1 ||
+              searchText(area.name).indexOf(q) !== -1 ||
+              searchText(PD.fieldName(p.field)).indexOf(q) !== -1
+            );
+          })
+          // Liste, gösterilen dile göre alfabetik kalsın.
+          .sort(function (a, b) {
+            return pick(a.name).localeCompare(pick(b.name), window.I18N.lang);
+          });
         if (progs.length === 0) return;
 
         var chosenHere = progs.filter(function (p) {
