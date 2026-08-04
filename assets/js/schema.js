@@ -98,6 +98,57 @@ window.SCHEMA = (function () {
     };
   }
 
+  /* ----------------------------------------------------------------------
+     Mali Esaslar (MADDE 12) — fıkra başına "açıklama + kanıt" alanı.
+     ESG standartlarında kullanılan desenin aynısıdır.
+     ---------------------------------------------------------------------- */
+  function maliRule(key, label, rule) {
+    return [
+      {
+        type: "textarea",
+        id: "financial." + key + ".practice",
+        large: true,
+        required: true,
+        minLength: 100,
+        maxLength: 3000,
+        label: label,
+        hint: {
+          tr: rule.tr + " — Kuruluşunuzun bu kurala nasıl uyduğunu somut biçimde açıklayınız.",
+          en: rule.en + " — Describe concretely how your organisation complies with this rule.",
+        },
+      },
+      {
+        type: "repeater",
+        id: "financial." + key + ".evidence",
+        required: true,
+        minItems: 1,
+        label: { tr: "Kanıtlar", en: "Evidence" },
+        hint: {
+          tr: "Beyanınızı destekleyen tarife, kurul kararı, yazışma, muhasebe kaydı veya web bağlantısını ekleyiniz.",
+          en: "Add the tariff, board decision, correspondence, accounting record or web link supporting your statement.",
+        },
+        addLabel: { tr: "Kanıt ekle", en: "Add evidence" },
+        itemFields: [
+          {
+            type: "text", id: "name", required: true,
+            label: { tr: "Kanıt adı", en: "Evidence name" },
+            placeholder: { tr: "ör. 2026 Akreditasyon Ücret Tarifesi", en: "e.g. 2026 Accreditation Fee Tariff" },
+          },
+          {
+            type: "url", id: "url",
+            label: { tr: "Bağlantı (URL)", en: "Link (URL)" },
+            placeholder: { tr: "https://…", en: "https://…" },
+          },
+          {
+            type: "text", id: "ref",
+            label: { tr: "Belge / bölüm referansı", en: "Document / section reference" },
+            placeholder: { tr: "ör. Md. 12, s. 4", en: "e.g. Art. 12, p. 4" },
+          },
+        ],
+      },
+    ];
+  }
+
   var PART3_LABEL = { tr: "ESG Bölüm 3 · Kalite Güvencesi Ajansları", en: "ESG Part 3 · Quality Assurance Agencies" };
   var PART2_LABEL = { tr: "ESG Bölüm 2 · Dış Kalite Güvencesi", en: "ESG Part 2 · External Quality Assurance" };
   var PART1_LABEL = { tr: "ESG Bölüm 1 · İç Kalite Güvencesi", en: "ESG Part 1 · Internal Quality Assurance" };
@@ -790,6 +841,69 @@ window.SCHEMA = (function () {
             { type: "text", id: "declaration.signerTitle", required: true, half: true, label: { tr: "Unvan", en: "Title" } },
             { type: "date", id: "declaration.date", required: true, half: true, label: { tr: "Tarih", en: "Date" } },
           ],
+        },
+        {
+          id: "financial-declaration",
+          /* Mali Esaslar yalnızca ulusal kuruluşların yetkilendirilmesinde
+             uygulanır; tanınma başvurularında bu bölüm istenmez. */
+          showIf: { field: "applicationType", equals: "yetkilendirme" },
+          title: { tr: "Mali Beyanlar", en: "Financial Declarations" },
+          short: { tr: "Mali Beyanlar", en: "Financial" },
+          desc: {
+            tr:
+              "Mali Esaslar (MADDE 12) kapsamındaki yükümlülüklere nasıl uyduğunuzu kanıtlarıyla birlikte açıklayınız. Maddenin yedinci fıkrası izleme giderlerinin Kurul bütçesinden karşılanmasını düzenlediğinden kuruluşa yükümlülük doğurmaz; bu nedenle ayrıca beyan istenmemektedir.",
+            en:
+              "Explain, with evidence, how you comply with the obligations under the Financial Principles (Article 12). Paragraph seven of the article places no obligation on the organisation, as monitoring costs are met from the Board's budget; no declaration is therefore requested for it.",
+          },
+          fields: [].concat(
+            maliRule("tariff",
+              { tr: "MADDE 12/(1) — Ücret tarifesinin Kurula bildirilmesi ve onaylanması", en: "Article 12(1) — Notification and approval of the fee tariff" },
+              {
+                tr: "Kuruluşlar, program akreditasyonunda bir program için uygulayacakları akreditasyon ücret tarifesini, her yıl aralık ayının sonuna kadar gerekçeli maliyet raporlarıyla birlikte Kurula bildirmek zorundadır. Tarife, Kurulun onayından sonra geçerlilik kazanır; onaylanmayan veya fahiş fiyat artışı içerdiği tespit edilen tarifeler uygulanamaz. Kurul, gerekli gördüğü durumlarda tarifenin revize edilmesini isteyebilir.",
+                en: "Organisations must notify the Board, by the end of December each year, of the accreditation fee tariff they will apply for a programme, together with justified cost reports. The tariff takes effect after the Board's approval; tariffs that are not approved or found to contain excessive increases cannot be applied. The Board may request a revision where it deems necessary.",
+              }),
+            maliRule("single",
+              { tr: "MADDE 12/(2) — Ülke genelinde tek ücret tarifesi", en: "Article 12(2) — A single fee tariff nationwide" },
+              {
+                tr: "Her bir Kuruluş için kabul edilmiş akreditasyon ücret tarifesi, ülkemiz sınırları içerisinde tektir. Farklı coğrafi bölge, şehir ya da yükseköğretim kurumu gibi nedenlerle farklı ücret tarifeleri uygulanamaz.",
+                en: "The accreditation fee tariff accepted for each organisation is single within the borders of our country. Different fee tariffs cannot be applied on grounds such as geographical region, city or higher education institution.",
+              }),
+            maliRule("publish",
+              { tr: "MADDE 12/(3) — Ücret tarifesinin web sitesinde yayımlanması", en: "Article 12(3) — Publication of the fee tariff on the website" },
+              {
+                tr: "Kuruluş kendi web sitesinde, Kurul da kendi web sitesinde kabul edilen ücret tarifelerini yayımlar.",
+                en: "The organisation publishes the accepted fee tariffs on its own website, as does the Board on its own website.",
+              }),
+            [
+              {
+                type: "url", id: "financial.publish.url", required: true,
+                label: { tr: "Ücret tarifesinin yayımlandığı sayfa", en: "Page where the fee tariff is published" },
+                hint: {
+                  tr: "Kabul edilen tarifenin kuruluşunuzun web sitesinde yayımlandığı sayfanın adresini yazınız.",
+                  en: "Give the address of the page on your organisation's website where the accepted tariff is published.",
+                },
+                placeholder: { tr: "https://…", en: "https://…" },
+              },
+            ],
+            maliRule("noextra",
+              { tr: "MADDE 12/(4) — Tarife dışında ek mali talepte bulunulmaması", en: "Article 12(4) — No additional financial demands beyond the tariff" },
+              {
+                tr: "Kuruluş, Kurul tarafından kabul edilen ve web sitelerinde yayımlanan ücret tarifeleri dışında yükseköğretim kurumundan ara değerlendirme, konaklama, ulaşım, yemek, dosya masrafı, hızlı değerlendirme payı, danışmanlık ücreti veya basılı belge bedeli gibi adlar altında hiçbir ekstra mali talepte bulunamaz.",
+                en: "Beyond the fee tariffs accepted by the Board and published on the websites, the organisation may make no additional financial demand on a higher education institution under names such as interim evaluation, accommodation, travel, meals, file costs, expedited evaluation share, consultancy fee or printed document charge.",
+              }),
+            maliRule("refund",
+              { tr: "MADDE 12/(5) — Askıya alma ve iptal hâlinde ücret iadesi", en: "Article 12(5) — Refunds upon suspension or cancellation" },
+              {
+                tr: "Kalite Değerlendirme Tescil Belgesi veya Kalite Değerlendirme Tanınma Belgesi askıya alınan kuruluş, akreditasyon kabul kararı verilmemiş ve değerlendirme süreci devam eden programlar için tahsil ettiği akreditasyon ücretini, yükseköğretim kurumunun talebi hâlinde otuz gün içinde iade eder ve süreç sonlandırılır. Ücreti talep edilmeyen programların akreditasyon süreci askıya alma süresinin sonunda devam eder; bu durumda tahsil edilen ücretin askıya alma süresi kadar yasal faizi yükseköğretim kurumuna ödenir. Belgenin iptali hâlinde tahsil edilen akreditasyon ücreti, iptal kararının kuruluşa tebliğ tarihini takip eden yedi gün içinde iade edilir.",
+                en: "An organisation whose Quality Evaluation Registration Certificate or Quality Evaluation Recognition Certificate is suspended shall, upon the request of the higher education institution, refund within thirty days the accreditation fee collected for programmes for which no accreditation decision has been taken and whose evaluation is ongoing, and the process is terminated. For programmes whose fee is not reclaimed, the accreditation process resumes at the end of the suspension period; in that case statutory interest for the duration of the suspension is paid to the higher education institution. Where the certificate is cancelled, the accreditation fee collected is refunded within seven days following notification of the cancellation decision to the organisation.",
+              }),
+            maliRule("boardfee",
+              { tr: "MADDE 12/(6) — Tescil/Tanınma Bedelinin ocak ayında yatırılması", en: "Article 12(6) — Payment of the Registration/Recognition Fee in January" },
+              {
+                tr: "Her Bağımsız Dış Değerlendirme ve Akreditasyon Kuruluşu, kabul edilmiş bir ücret tarifesi kadar bedeli, yetkilendirme tescil, tanınma ve izleme faaliyetleri sebebiyle her yılın ocak ayı içerisinde Tescil/Tanınma Bedeli olarak Kurul banka hesabına yatırmakla yükümlüdür.",
+                en: "Every Independent External Evaluation and Accreditation Organisation is obliged to pay into the Board's bank account, during January each year, an amount equal to one accepted fee tariff as the Registration/Recognition Fee, in respect of authorisation registration, recognition and monitoring activities.",
+              })
+          ),
         },
         {
           id: "review",

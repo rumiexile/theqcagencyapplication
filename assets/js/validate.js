@@ -219,6 +219,7 @@ window.Validate = (function () {
     tabs.forEach(function (tab) {
       if (isTabExempt(tab, store)) return; // muaf bölüm toplama girmez
       tab.steps.forEach(function (step) {
+        if (!isVisible(step, store)) return; // koşulu sağlanmayan adım toplama girmez
         step.fields.forEach(function (f) {
           if (!f.id || !f.required || !isVisible(f, store)) return;
           total++;

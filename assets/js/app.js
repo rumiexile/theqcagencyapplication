@@ -266,7 +266,10 @@
     ]);
     var stepper = el("nav", { class: "stepper", "aria-label": t("a11y.steps") });
 
+    var shown = 0;
     tab.steps.forEach(function (step, i) {
+      if (!V.isVisible(step, S)) return; // koşulu sağlanmayan adım listelenmez
+      shown++;
       var st = V.stepState(step, S);
       var errs = V.stepErrorCount(step, S);
       var cls = "step-item";
@@ -275,7 +278,7 @@
 
       var marker = el("span", { class: "step-item__marker" });
       if (st === "complete") marker.appendChild(icon("check"));
-      else marker.textContent = String(i + 1);
+      else marker.textContent = String(shown);
 
       var item = el("button", {
         type: "button",
@@ -362,7 +365,7 @@
       el("p", { class: "step-head__eyebrow" }, [
         el("span", { text: pick(tab.label) }),
         el("span", { text: "·" }),
-        el("span", { text: eyebrow ? pick(eyebrow) : t("nav.steps") + " " + (state.step + 1) + "/" + tab.steps.length }),
+        el("span", { text: eyebrow ? pick(eyebrow) : t("nav.steps") + " " + (visibleStepIndexes(tab).indexOf(state.step) + 1) + "/" + visibleStepIndexes(tab).length }),
       ])
     );
     head.appendChild(el("h1", { class: "step-head__title", text: pick(step.title) }));
@@ -439,6 +442,7 @@
     tabs.forEach(function (tab) {
       note(tab.exemptIf);
       tab.steps.forEach(function (step) {
+        note(step.showIf);
         step.fields.forEach(function (f) {
           note(f.showIf);
         });
@@ -456,8 +460,9 @@
 
   function buildActions() {
     var box = el("div", { class: "step-actions" });
-    var isFirst = state.tab === 0 && state.step === 0;
-    var isLast = state.tab === tabs.length - 1 && state.step === tabs[state.tab].steps.length - 1;
+    var vis = visibleStepIndexes(tabs[state.tab]);
+    var isFirst = state.tab === 0 && state.step === (vis.length ? vis[0] : 0);
+    var isLast = state.tab === tabs.length - 1 && state.step === (vis.length ? vis[vis.length - 1] : 0);
 
     if (!isFirst) {
       var prev = el("button", { type: "button", class: "btn btn--secondary" }, [
@@ -536,6 +541,7 @@
 
       var list = el("div", { class: "review-list" });
       tab.steps.forEach(function (step) {
+        if (!V.isVisible(step, S)) return; // koşulu sağlanmayan adım önizlemeye girmez
         step.fields.forEach(function (f) {
           if (!f.id || f.type === "esg-standard" || f.type === "review") return;
           if (!V.isVisible(f, S)) return;
@@ -658,9 +664,32 @@
   /* ==================================================================
      Gezinme / navigation
      ================================================================== */
+  /**
+   * Bir sekmedeki görünür adımların indeksleri.
+   * Adımlar showIf ile koşullu olabilir (ör. yalnızca yetkilendirme
+   * başvurularında görünen Mali Beyanlar). state.step tam diziye göre
+   * indekslenmeye devam eder; yalnızca gezinme görünürleri izler.
+   */
+  function visibleStepIndexes(tab) {
+    var out = [];
+    tab.steps.forEach(function (step, i) {
+      if (V.isVisible(step, S)) out.push(i);
+    });
+    return out;
+  }
+
   function go(tabIndex, stepIndex) {
     state.tab = Math.max(0, Math.min(tabIndex, tabs.length - 1));
-    state.step = Math.max(0, Math.min(stepIndex, tabs[state.tab].steps.length - 1));
+    var vis = visibleStepIndexes(tabs[state.tab]);
+    var want = Math.max(0, Math.min(stepIndex, tabs[state.tab].steps.length - 1));
+    if (vis.length && vis.indexOf(want) === -1) {
+      // Gizli adım hedeflendiyse sonraki görünüre, yoksa son görünüre kay.
+      var after = vis.filter(function (i) {
+        return i > want;
+      });
+      want = after.length ? after[0] : vis[vis.length - 1];
+    }
+    state.step = want;
     render();
   }
 
@@ -678,13 +707,20 @@
       refreshChrome();
       return;
     }
-    if (state.step < tab.steps.length - 1) go(state.tab, state.step + 1);
+    var vis = visibleStepIndexes(tab);
+    var pos = vis.indexOf(state.step);
+    if (pos !== -1 && pos < vis.length - 1) go(state.tab, vis[pos + 1]);
     else if (state.tab < tabs.length - 1) go(state.tab + 1, 0);
   }
 
   function goPrev() {
-    if (state.step > 0) go(state.tab, state.step - 1);
-    else if (state.tab > 0) go(state.tab - 1, tabs[state.tab - 1].steps.length - 1);
+    var vis = visibleStepIndexes(tabs[state.tab]);
+    var pos = vis.indexOf(state.step);
+    if (pos > 0) return go(state.tab, vis[pos - 1]);
+    if (state.tab > 0) {
+      var prevVis = visibleStepIndexes(tabs[state.tab - 1]);
+      go(state.tab - 1, prevVis.length ? prevVis[prevVis.length - 1] : 0);
+    }
   }
 
   function persistPosition() {
