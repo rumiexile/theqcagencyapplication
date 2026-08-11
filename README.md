@@ -197,7 +197,7 @@ programların listeleneceğini belirler.
 
 | Düzey | Program | Gruplama |
 |---|---|---|
-| Ön Lisans | 299 | Baş harf (kaynak listede ISCED sınıflaması yok) |
+| Ön Lisans | 299 | ISCED-F geniş alan → ayrıntılı alan |
 | Lisans | 491 | ISCED-F geniş alan → ayrıntılı alan |
 | Yüksek Lisans | — | liste henüz tanımlanmadı |
 | Doktora | — | liste henüz tanımlanmadı |

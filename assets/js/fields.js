@@ -602,16 +602,23 @@ window.Fields = (function () {
     function renderGroups() {
       areasBox.innerHTML = "";
       if (level === "hepsi") {
-        // Her düzey kendi başlığı altında, kendi gruplamasıyla listelenir.
-        renderLevelSection("onlisans", renderLetters);
-        renderLevelSection("lisans", renderAreas);
+        // Her düzey kendi başlığı altında listelenir; gruplama ikisinde de
+        // ISCED-F geniş alan → ayrıntılı alan biçimindedir.
+        renderLevelSection("onlisans", function () {
+          renderAreas("onlisans");
+        });
+        renderLevelSection("lisans", function () {
+          renderAreas("lisans");
+        });
         if (!areasBox.children.length) {
           areasBox.appendChild(el("p", { class: "repeater__empty", text: t("programme.none") }));
         }
         return;
       }
-      if (level === "lisans") return renderAreas(), fallbackIfEmpty();
-      if (level === "onlisans") return renderLetters(), fallbackIfEmpty();
+      if (level === "lisans" || level === "onlisans") {
+        renderAreas(level);
+        return fallbackIfEmpty();
+      }
       areasBox.appendChild(el("p", { class: "repeater__empty", text: t("programme.levelEmpty") }));
     }
 
@@ -637,60 +644,17 @@ window.Fields = (function () {
       if (areasBox.children.length === before + 1) areasBox.removeChild(head);
     }
 
-    /** Ön lisans: kaynak listede ISCED sınıflaması yok, baş harfe göre gruplanır. */
-    function renderLetters() {
-      // Kutuyu renderGroups temizler; burada yalnızca ekleme yapılır.
-      var q = search.value.trim().toLocaleLowerCase("tr");
-
-      PD.lettersOfAssociate().forEach(function (letter) {
-        var progs = PD.byLetter(letter)
-          .filter(function (p) {
-            return !q || searchText(p.name).indexOf(q) !== -1;
-          })
-          .sort(function (a, b) {
-            return pick(a.name).localeCompare(pick(b.name), window.I18N.lang);
-          });
-        if (!progs.length) return;
-
-        var chosenHere = progs.filter(function (p) {
-          return selected().indexOf(p.code) !== -1;
-        }).length;
-
-        var badge = el("span", { class: "badge badge--neutral" });
-        function updateBadge() {
-          var s = selected();
-          var n = progs.filter(function (p) {
-            return s.indexOf(p.code) !== -1;
-          }).length;
-          badge.textContent = n + " / " + progs.length;
-          badge.className = "badge " + (n > 0 ? "badge--success" : "badge--neutral");
-        }
-        updateBadge();
-
-        var grid = el("div", { class: "picker__grid" });
-        progs.forEach(function (p) {
-          grid.appendChild(programmeChoice(p, updateBadge));
-        });
-
-        var details = el("details", { class: "picker__area glass", open: !!q || chosenHere > 0 });
-        details.appendChild(
-          el("summary", { class: "picker__area-head" }, [
-            el("span", { class: "picker__area-name", text: letter }),
-            badge,
-          ])
-        );
-        details.appendChild(el("div", { class: "picker__area-body" }, [grid]));
-        areasBox.appendChild(details);
-      });
-    }
-
-    function renderAreas() {
+    /**
+     * ISCED-F geniş alan → ayrıntılı alan gruplaması.
+     * levelCode verilirse yalnızca o düzeyin programları listelenir.
+     */
+    function renderAreas(levelCode) {
       // Kutuyu renderGroups temizler; burada yalnızca ekleme yapılır.
       var q = search.value.trim().toLocaleLowerCase("tr");
       var sel = selected();
 
       PD.areas.forEach(function (area) {
-        var progs = PD.byArea(area.code)
+        var progs = PD.byArea(area.code, levelCode)
           .filter(function (p) {
             if (!q) return true;
             return (
