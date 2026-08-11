@@ -495,9 +495,133 @@ window.Fields = (function () {
       });
     }
 
+    /** Tek bir program seçeneği. onToggle, ait olduğu grubun rozetini tazeler. */
+    function programmeChoice(p, onToggle) {
+      var input = el("input", { type: "checkbox", value: p.code });
+      if (selected().indexOf(p.code) !== -1) input.checked = true;
+      input.addEventListener("change", function () {
+        var next = selected().slice();
+        var i = next.indexOf(p.code);
+        if (input.checked && i === -1) next.push(p.code);
+        if (!input.checked && i !== -1) next.splice(i, 1);
+        persist(next);
+        renderChips();
+        renderLevels(); // düzey sekmesindeki seçim sayacı tazelensin
+        if (onToggle) onToggle();
+      });
+      return el("label", { class: "choice" }, [
+        input,
+        el("span", { class: "choice__body" }, [
+          el("span", { class: "choice__label", text: pick(p.name) }),
+          p.count
+            ? el("span", {
+                class: "choice__desc",
+                text:
+                  p.count +
+                  " " +
+                  (window.I18N.lang === "tr" ? "kurumda yürütülüyor" : "institutions offer this"),
+              })
+            : null,
+        ]),
+      ]);
+    }
+
+    /* Öğretim düzeyi — lisans, ön lisans, yüksek lisans, doktora.
+       Seçim tüm düzeylerde ortak listede tutulur; düzey yalnızca hangi
+       programların listeleneceğini belirler. */
+    var level = "lisans";
+    var levelBar = el("div", { class: "picker__levels", role: "tablist" });
+
+    function renderLevels() {
+      levelBar.innerHTML = "";
+      PD.levels.forEach(function (lv) {
+        var n = PD.byLevel(lv.code).length;
+        var chosen = selected().filter(function (c) {
+          var p = PD.find(c);
+          return p && (p.level || "lisans") === lv.code;
+        }).length;
+        // Listesi henüz tanımlanmamış düzeyler seçilebilir; içerik yerine
+        // neden boş oldukları açıklanır.
+        var b = el("button", {
+          type: "button",
+          role: "tab",
+          class: "picker__level" + (lv.code === level ? " picker__level--active" : "") +
+            (n === 0 ? " picker__level--empty" : ""),
+          "aria-selected": lv.code === level ? "true" : "false",
+        }, [
+          el("span", { text: pick(lv.name) }),
+          chosen > 0 ? el("span", { class: "badge badge--success", text: String(chosen) }) : null,
+        ]);
+        b.addEventListener("click", function () {
+          level = lv.code;
+          renderAll();
+        });
+        levelBar.appendChild(b);
+      });
+    }
+
     /* Arama */
     var search = el("input", { class: "input", type: "search", placeholder: t("programme.search") });
     var areasBox = el("div", { class: "picker__areas" });
+
+    /** Düzeye göre uygun listeyi çizer. */
+    function renderGroups() {
+      if (level === "lisans") return renderAreas();
+      if (level === "onlisans") return renderLetters();
+      areasBox.innerHTML = "";
+      areasBox.appendChild(el("p", { class: "repeater__empty", text: t("programme.levelEmpty") }));
+    }
+
+    /** Ön lisans: kaynak listede ISCED sınıflaması yok, baş harfe göre gruplanır. */
+    function renderLetters() {
+      areasBox.innerHTML = "";
+      var q = search.value.trim().toLocaleLowerCase("tr");
+
+      PD.lettersOfAssociate().forEach(function (letter) {
+        var progs = PD.byLetter(letter)
+          .filter(function (p) {
+            return !q || searchText(p.name).indexOf(q) !== -1;
+          })
+          .sort(function (a, b) {
+            return pick(a.name).localeCompare(pick(b.name), window.I18N.lang);
+          });
+        if (!progs.length) return;
+
+        var chosenHere = progs.filter(function (p) {
+          return selected().indexOf(p.code) !== -1;
+        }).length;
+
+        var badge = el("span", { class: "badge badge--neutral" });
+        function updateBadge() {
+          var s = selected();
+          var n = progs.filter(function (p) {
+            return s.indexOf(p.code) !== -1;
+          }).length;
+          badge.textContent = n + " / " + progs.length;
+          badge.className = "badge " + (n > 0 ? "badge--success" : "badge--neutral");
+        }
+        updateBadge();
+
+        var grid = el("div", { class: "picker__grid" });
+        progs.forEach(function (p) {
+          grid.appendChild(programmeChoice(p, updateBadge));
+        });
+
+        var details = el("details", { class: "picker__area glass", open: !!q || chosenHere > 0 });
+        details.appendChild(
+          el("summary", { class: "picker__area-head" }, [
+            el("span", { class: "picker__area-name", text: letter }),
+            badge,
+          ])
+        );
+        details.appendChild(el("div", { class: "picker__area-body" }, [grid]));
+        areasBox.appendChild(details);
+      });
+
+      if (!areasBox.children.length) {
+        areasBox.appendChild(el("p", { class: "repeater__empty", text: t("programme.none") }));
+      }
+    }
 
     function renderAreas() {
       areasBox.innerHTML = "";
@@ -531,35 +655,6 @@ window.Fields = (function () {
           (grouped[p.field] = grouped[p.field] || []).push(p);
         });
 
-        function programmeChoice(p) {
-          var input = el("input", { type: "checkbox", value: p.code });
-          if (sel.indexOf(p.code) !== -1) input.checked = true;
-          input.addEventListener("change", function () {
-            var next = selected().slice();
-            var i = next.indexOf(p.code);
-            if (input.checked && i === -1) next.push(p.code);
-            if (!input.checked && i !== -1) next.splice(i, 1);
-            persist(next);
-            renderChips();
-            updateAreaBadge();
-          });
-          return el("label", { class: "choice" }, [
-            input,
-            el("span", { class: "choice__body" }, [
-              el("span", { class: "choice__label", text: pick(p.name) }),
-              p.count
-                ? el("span", {
-                    class: "choice__desc",
-                    text:
-                      p.count +
-                      " " +
-                      (window.I18N.lang === "tr" ? "kurumda yürütülüyor" : "institutions offer this"),
-                  })
-                : null,
-            ]),
-          ]);
-        }
-
         PD.fieldsOfArea(area.code).forEach(function (f) {
           var list = grouped[f.code];
           if (!list || !list.length) return;
@@ -571,7 +666,9 @@ window.Fields = (function () {
           );
           var grid = el("div", { class: "picker__grid" });
           list.forEach(function (p) {
-            grid.appendChild(programmeChoice(p));
+            grid.appendChild(programmeChoice(p, function () {
+              updateAreaBadge();
+            }));
           });
           body.appendChild(grid);
         });
@@ -627,11 +724,13 @@ window.Fields = (function () {
 
     function renderAll() {
       renderChips();
-      renderAreas();
+      renderLevels();
+      renderGroups();
     }
 
-    search.addEventListener("input", renderAreas);
+    search.addEventListener("input", renderGroups);
 
+    holder.appendChild(levelBar);
     holder.appendChild(el("div", { class: "picker__bar" }, [search, countBadge]));
     holder.appendChild(chips);
     holder.appendChild(areasBox);

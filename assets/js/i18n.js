@@ -75,6 +75,8 @@ window.I18N = (function () {
       "programme.selectAll": "Tümünü seç",
       "programme.clearAll": "Temizle",
       "programme.none": "Bu alanda eşleşen program yok.",
+      "programme.levelEmpty":
+        "Bu öğretim düzeyi için program listesi henüz tanımlanmamıştır.",
       "programme.criteriaFor": "Programa özel ölçütler",
       "programme.generalTitle": "Genel Ölçütler",
       "programme.specificTitle": "Programa Özel Ölçütler",
@@ -225,6 +227,8 @@ window.I18N = (function () {
       "programme.selectAll": "Select all",
       "programme.clearAll": "Clear",
       "programme.none": "No matching programmes in this field.",
+      "programme.levelEmpty":
+        "The programme list for this degree level has not been defined yet.",
       "programme.criteriaFor": "Programme-specific criteria",
       "programme.generalTitle": "General criteria",
       "programme.specificTitle": "Programme-specific criteria",

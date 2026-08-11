@@ -189,6 +189,24 @@ otomatik uyum sağlar; koyu tema dâhil.
 > Resmî YÖKAK Kurumsal Kimlik Kılavuzu'ndaki hex değerleri elinizdeyse bu iki
 > ölçeği değiştirmeniz yeterlidir.
 
+### Öğretim düzeyleri
+
+Program seçici dört düzey sunar: **Ön Lisans**, **Lisans**, **Yüksek Lisans**,
+**Doktora**. Seçim tüm düzeylerde ortak listede tutulur; düzey yalnızca hangi
+programların listeleneceğini belirler.
+
+| Düzey | Program | Gruplama |
+|---|---|---|
+| Ön Lisans | 299 | Baş harf (kaynak listede ISCED sınıflaması yok) |
+| Lisans | 491 | ISCED-F geniş alan → ayrıntılı alan |
+| Yüksek Lisans | — | liste henüz tanımlanmadı |
+| Doktora | — | liste henüz tanımlanmadı |
+
+Yüksek lisans ve doktora sekmeleri seçilebilir; içerik yerine listenin henüz
+tanımlanmadığını açıklayan bir mesaj gösterirler. Bu düzeylerin listesi
+`assets/data/programs.js` içindeki `byLevel()` fonksiyonuna eklenerek
+etkinleştirilir.
+
 ### Program listesi
 `assets/data/programs.js` üç düzeyli bir veri seti içerir:
 

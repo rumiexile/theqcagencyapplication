@@ -1120,3 +1120,46 @@
   align-self: stretch;
   margin-top: var(--space-6);
 }
+
+/* ==========================================================================
+   Program seçici — öğretim düzeyi sekmeleri
+   Lisans, ön lisans, yüksek lisans ve doktora arasında geçiş.
+   ========================================================================== */
+.picker__levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.picker__level {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.picker__level:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.picker__level--active {
+  border-color: var(--color-brand-border);
+  background: var(--color-brand-subtle);
+  color: var(--color-brand);
+}
+
+/* Listesi henüz tanımlanmamış düzeyler — seçilebilir ama içerik yerine
+   neden boş oldukları açıklanır. */
+.picker__level--empty {
+  color: var(--color-text-subtle);
+  border-style: dashed;
+}
