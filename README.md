@@ -98,7 +98,7 @@ Numara bir kez üretilir ve başvuruyla saklanır; ekran yeniden açılsa da de�
 | **Tamamlanma çubuğu** | Sekme çubuğunun altında kalıcı yüzde göstergesi (`%` ve `tamamlanan/toplam`), ayrıca kenar çubuğunda özet. |
 | **Yarıda bırak, sonra devam et** | Her değişiklik `localStorage`'a otomatik kaydedilir; kaldığınız sekme ve adım da saklanır. JSON olarak dışa/içe aktarılabilir. |
 | **ESG 2027 Draft 3** | Standart metinleri hem TR hem EN olarak, rehber ilkeleriyle birlikte ekranda gösterilir. |
-| **Program kapsamı** | ESG 1 ekranında YÖK temel alanlarına göre lisans programı seçimi; ardından **genel ölçütler** ve program bazında **özel ölçütler** girişi. |
+| **Program kapsamı** | ESG 1 ekranında öğretim düzeyi filtresiyle ön lisans ve lisans programı seçimi; ardından **genel ölçütler** ve program bazında **özel ölçütler** girişi. |
 | **Doğrulama** | Alan bazlı kurallar, adım geçişinde engelleme, sekme/adım üzerinde tamamlanma ve hata rozetleri. |
 | **Erişilebilirlik** | WAI-ARIA sekme/adım örüntüleri, klavye gezinmesi (`Alt+←/→`, sekme çubuğunda ok tuşları), `prefers-reduced-motion`, `forced-colors`, odak halkaları. |
 | **Görsel dil** | Liquid glass yüzeyler, imleci izleyen parlama, aurora arka plan, mikro animasyonlar. Açık/koyu tema. |
@@ -168,7 +168,7 @@ assets/
   img/
     logo.png                ← YÖKAK markası (başlık ve favicon)
   data/
-    programs.js             ← Program listesi (ISCED-F alan → lisans programı)
+    programs.js             ← Program listesi (ISCED-F alan → ön lisans/lisans)
     yokak-criteria.js       ← YÖKAK Program Akreditasyon Ölçütleri (ana başlıklar)
     evidence-suggestions.js ← Standart bazında önerilen kanıtlar
 ```
@@ -221,8 +221,9 @@ etkinleştirilir.
 
 ```js
 areas       // ISCED-F 2013 geniş alan (2 haneli) — 10 adet, açılır başlıklar
-fields      // ISCED-F 2013 ayrıntılı alan (4 haneli) — 74 adet, alt başlıklar
+fields      // ISCED-F 2013 ayrıntılı alan (4 haneli) — 78 adet, alt başlıklar
 programmes  // 491 lisans programı
+associate   // 299 ön lisans programı
 ```
 
 Program şeması:
@@ -240,8 +241,9 @@ program adının altında gösterilir. Program adları resmî Türkçe adlardır
 Arama kutusu program adı, geniş alan adı ve ayrıntılı alan adı üzerinde
 birlikte çalışır.
 
-> **Veri kaynağı:** Liste, 491 lisans programını ISCED-F 2013 ayrıntılı alan
-> kodlarıyla eşleştiren `ISCED_Program_Listesi.xlsx` dosyasından üretilmiştir.
+> **Veri kaynağı:** Lisans listesi `ISCED_Program_Listesi.xlsx`, ön lisans
+> listesi `Onlisans_ISCEDF_2013.xlsx` dosyasından üretilmiştir; her ikisi de
+> programları ISCED-F 2013 ayrıntılı alan kodlarıyla eşleştirir.
 > Geniş alan (2 haneli) adları ISCED-F 2013 standart adlandırmasıdır.
 
 ### YÖKAK Program Akreditasyon Ölçütleri

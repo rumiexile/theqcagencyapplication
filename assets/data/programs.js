@@ -1,14 +1,16 @@
 /* ==========================================================================
-   Akreditasyon Kapsamı — Lisans Program Listesi
-   Scope of accreditation — undergraduate programme list
+   Akreditasyon Kapsamı — Program Listesi
+   Scope of accreditation — programme list
    --------------------------------------------------------------------------
-   491 lisans programı, ISCED-F 2013 ayrıntılı alan kodlarıyla eşleştirilmiştir.
-   Kaynak: kullanıcı tarafından sağlanan "ISCED_Program_Listesi.xlsx".
+   491 lisans ve 299 ön lisans programı, ISCED-F 2013 ayrıntılı alan
+   kodlarıyla eşleştirilmiştir. Kaynak: kullanıcı tarafından sağlanan
+   "ISCED_Program_Listesi.xlsx" ve "Onlisans_ISCEDF_2013.xlsx".
 
    Yapı üç düzeylidir:
      areas       ISCED-F geniş alan (2 haneli) — açılır başlıklar
      fields      ISCED-F ayrıntılı alan (4 haneli) — alan içi alt başlıklar
      programmes  Lisans programları
+     associate   Ön lisans programları
 
    Program adları resmî Türkçe adlarıyla birlikte İngilizce karşılıklarını
    da taşır (name: { tr, en }); arayüz seçili dile göre gösterir. `count`

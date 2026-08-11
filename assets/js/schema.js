@@ -588,9 +588,9 @@ window.SCHEMA = (function () {
           eyebrow: PART1_LABEL,
           desc: {
             tr:
-              "Yetkilendirilmek/tanınmak istediğiniz lisans programlarını seçiniz. Seçtiğiniz programlar, sonraki adımlarda ölçüt tanımlamanız için kullanılacaktır.",
+              "Yetkilendirilmek/tanınmak istediğiniz programları seçiniz. Seçtiğiniz programlar, sonraki adımlarda ölçüt tanımlamanız için kullanılacaktır.",
             en:
-              "Select the undergraduate programmes for which you seek authorisation/recognition. The programmes you select will be used to define criteria in the following steps.",
+              "Select the programmes for which you seek authorisation/recognition. The programmes you select will be used to define criteria in the following steps.",
           },
           fields: [
             { type: "programme-picker", id: "scope.programmes", required: true, minItems: 1, label: { tr: "Akredite edilmek istenen programlar", en: "Programmes to be accredited" } },
