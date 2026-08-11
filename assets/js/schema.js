@@ -822,7 +822,7 @@ window.SCHEMA = (function () {
           },
           fields: [
             {
-              type: "checkboxes", id: "declaration.items", required: true, minItems: 6,
+              type: "checkboxes", id: "declaration.items", required: true, minItems: 7,
               label: { tr: "Beyanlar", en: "Declarations" },
               options: [
                 { value: "accurate", label: { tr: "Başvuruda verilen tüm bilgilerin doğru ve eksiksiz olduğunu beyan ederim.", en: "I declare that all information given in this application is accurate and complete." } },
@@ -831,6 +831,7 @@ window.SCHEMA = (function () {
                 { value: "evidence", label: { tr: "Beyan edilen tüm kanıtların YÖKAK tarafından incelenebileceğini kabul ederim.", en: "I accept that all declared evidence may be examined by YÖKAK." } },
                 { value: "monitoring", label: { tr: "Yetkilendirme/tanınma sonrası izleme süreçlerine katılmayı taahhüt ederim.", en: "I undertake to participate in monitoring processes following authorisation/recognition." } },
                 { value: "notify", label: { tr: "Kuruluşumuzun statüsündeki değişiklikleri YÖKAK'a bildirmeyi taahhüt ederim.", en: "I undertake to notify YÖKAK of any change in our organisation's status." } },
+                { value: "notifyMethodology", label: { tr: "Kuruluşumuzun kullandığı ölçüt ve metodolojik değişiklikleri YÖKAK'a bildirmeyi taahhüt ederim.", en: "I undertake to notify YÖKAK of changes to the criteria and methodology our organisation uses." } },
               ],
             },
             { type: "text", id: "declaration.signerName", required: true, half: true, label: { tr: "Beyanı yapan (ad soyad)", en: "Declared by (full name)" } },
