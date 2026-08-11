@@ -202,7 +202,16 @@ programların listeleneceğini belirler.
 | Yüksek Lisans | — | liste henüz tanımlanmadı |
 | Doktora | — | liste henüz tanımlanmadı |
 
-Yüksek lisans ve doktora sekmeleri seçilebilir; içerik yerine listenin henüz
+Düzey bir **filtre**dir, kip değildir: varsayılan **Tümü** görünümünde bütün
+düzeyler kendi başlıkları ve kendi gruplamalarıyla birlikte listelenir; bir
+düzeye tıklamak listeyi ona daraltır. Filtre düğmeleri o düzeyde kaç program
+seçtiğinizi `seçili / toplam` olarak gösterir.
+
+Her program, göründüğü **her yerde** düzey etiketini taşır — listede, seçilenler
+çipinde ve önizleme özetinde. Böylece seçim tek listede toplansa da hangi
+programın hangi düzeye ait olduğu ayırt edilir.
+
+Yüksek lisans ve doktora seçilebilir; içerik yerine listenin henüz
 tanımlanmadığını açıklayan bir mesaj gösterirler. Bu düzeylerin listesi
 `assets/data/programs.js` içindeki `byLevel()` fonksiyonuna eklenerek
 etkinleştirilir.

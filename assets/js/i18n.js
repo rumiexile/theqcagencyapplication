@@ -71,6 +71,7 @@ window.I18N = (function () {
       "repeater.item": "Kayıt",
 
       "programme.search": "Program ara…",
+      "programme.allLevels": "Tümü",
       "programme.selected": "seçili program",
       "programme.selectAll": "Tümünü seç",
       "programme.clearAll": "Temizle",
@@ -223,6 +224,7 @@ window.I18N = (function () {
       "repeater.item": "Entry",
 
       "programme.search": "Search programmes…",
+      "programme.allLevels": "All levels",
       "programme.selected": "programmes selected",
       "programme.selectAll": "Select all",
       "programme.clearAll": "Clear",

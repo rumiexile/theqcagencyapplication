@@ -585,10 +585,12 @@
     if (V.isEmpty(v)) return "";
 
     if (field.type === "programme-picker") {
+      var PD = window.PROGRAM_DATA;
       return (v || [])
         .map(function (c) {
-          var p = window.PROGRAM_DATA.find(c);
-          return p ? pick(p.name) : c;
+          var p = PD.find(c);
+          // Öğretim düzeyi özet listesinde de ayırt edilebilmelidir.
+          return p ? pick(p.name) + " (" + pick(PD.levelName(PD.levelOf(p))) + ")" : c;
         })
         .join(" · ");
     }

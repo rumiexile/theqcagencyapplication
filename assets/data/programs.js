@@ -1056,6 +1056,16 @@ window.PROGRAM_DATA = (function () {
       }
       return { tr: code, en: code };
     },
+    /** Bir programın öğretim düzeyi. Lisans kayıtlarında alan yazılmamıştır. */
+    levelOf: function (programme) {
+      return (programme && programme.level) || "lisans";
+    },
+    levelName: function (code) {
+      for (var i = 0; i < levels.length; i++) {
+        if (levels[i].code === code) return levels[i].name;
+      }
+      return { tr: code, en: code };
+    },
     areaName: function (code) {
       for (var i = 0; i < areas.length; i++) {
         if (areas[i].code === code) return areas[i].name;

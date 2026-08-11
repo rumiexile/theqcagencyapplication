@@ -482,7 +482,10 @@ window.Fields = (function () {
       sel.forEach(function (code) {
         var p = PD.find(code);
         if (!p) return;
-        var chip = el("span", { class: "chip" }, [document.createTextNode(pick(p.name))]);
+        var chip = el("span", { class: "chip" }, [
+          document.createTextNode(pick(p.name)),
+          levelTag(p),
+        ]);
         var x = el("button", { type: "button", class: "chip__remove", "aria-label": t("repeater.remove") }, [icon("x")]);
         x.addEventListener("click", function () {
           persist(selected().filter(function (c) {
@@ -512,7 +515,10 @@ window.Fields = (function () {
       return el("label", { class: "choice" }, [
         input,
         el("span", { class: "choice__body" }, [
-          el("span", { class: "choice__label", text: pick(p.name) }),
+          el("span", { class: "choice__label" }, [
+            document.createTextNode(pick(p.name)),
+            levelTag(p),
+          ]),
           p.count
             ? el("span", {
                 class: "choice__desc",
@@ -526,37 +532,65 @@ window.Fields = (function () {
       ]);
     }
 
-    /* Öğretim düzeyi — lisans, ön lisans, yüksek lisans, doktora.
-       Seçim tüm düzeylerde ortak listede tutulur; düzey yalnızca hangi
-       programların listeleneceğini belirler. */
-    var level = "lisans";
+    /**
+     * Programın öğretim düzeyi etiketi. Seçili programlar tek listede
+     * toplandığından, hangisinin hangi düzeye ait olduğu her göründüğü
+     * yerde okunabilir olmalıdır.
+     */
+    function levelTag(p) {
+      var code = PD.levelOf(p);
+      return el("span", {
+        class: "level-tag level-tag--" + code,
+        text: pick(PD.levelName(code)),
+      });
+    }
+
+    /* Öğretim düzeyi filtresi.
+       Seçim tüm düzeylerde ortak listede tutulur; filtre yalnızca hangi
+       programların listeleneceğini daraltır. "Tümü" varsayılandır, böylece
+       düzeyler arası fark listede doğrudan görülür. */
+    var level = "hepsi";
     var levelBar = el("div", { class: "picker__levels", role: "tablist" });
 
     function renderLevels() {
       levelBar.innerHTML = "";
-      PD.levels.forEach(function (lv) {
-        var n = PD.byLevel(lv.code).length;
-        var chosen = selected().filter(function (c) {
+      var sel = selected();
+
+      function tab(code, label, total, empty) {
+        var chosen = sel.filter(function (c) {
           var p = PD.find(c);
-          return p && (p.level || "lisans") === lv.code;
+          return p && (code === "hepsi" || PD.levelOf(p) === code);
         }).length;
-        // Listesi henüz tanımlanmamış düzeyler seçilebilir; içerik yerine
-        // neden boş oldukları açıklanır.
         var b = el("button", {
           type: "button",
           role: "tab",
-          class: "picker__level" + (lv.code === level ? " picker__level--active" : "") +
-            (n === 0 ? " picker__level--empty" : ""),
-          "aria-selected": lv.code === level ? "true" : "false",
+          class: "picker__level" + (code === level ? " picker__level--active" : "") +
+            (empty ? " picker__level--empty" : ""),
+          "aria-selected": code === level ? "true" : "false",
         }, [
-          el("span", { text: pick(lv.name) }),
-          chosen > 0 ? el("span", { class: "badge badge--success", text: String(chosen) }) : null,
+          el("span", { text: label }),
+          el("span", {
+            class: "picker__level-count",
+            text: chosen > 0 ? chosen + " / " + total : String(total),
+          }),
         ]);
         b.addEventListener("click", function () {
-          level = lv.code;
+          level = code;
           renderAll();
         });
         levelBar.appendChild(b);
+      }
+
+      var all = PD.levels.reduce(function (n, lv) {
+        return n + PD.byLevel(lv.code).length;
+      }, 0);
+      tab("hepsi", t("programme.allLevels"), all, false);
+
+      PD.levels.forEach(function (lv) {
+        var n = PD.byLevel(lv.code).length;
+        // Listesi henüz tanımlanmamış düzeyler de seçilebilir; içerik
+        // yerine neden boş oldukları açıklanır.
+        tab(lv.code, pick(lv.name), n, n === 0);
       });
     }
 
@@ -564,17 +598,48 @@ window.Fields = (function () {
     var search = el("input", { class: "input", type: "search", placeholder: t("programme.search") });
     var areasBox = el("div", { class: "picker__areas" });
 
-    /** Düzeye göre uygun listeyi çizer. */
+    /** Etkin filtreye göre uygun listeyi çizer. */
     function renderGroups() {
-      if (level === "lisans") return renderAreas();
-      if (level === "onlisans") return renderLetters();
       areasBox.innerHTML = "";
+      if (level === "hepsi") {
+        // Her düzey kendi başlığı altında, kendi gruplamasıyla listelenir.
+        renderLevelSection("onlisans", renderLetters);
+        renderLevelSection("lisans", renderAreas);
+        if (!areasBox.children.length) {
+          areasBox.appendChild(el("p", { class: "repeater__empty", text: t("programme.none") }));
+        }
+        return;
+      }
+      if (level === "lisans") return renderAreas(), fallbackIfEmpty();
+      if (level === "onlisans") return renderLetters(), fallbackIfEmpty();
       areasBox.appendChild(el("p", { class: "repeater__empty", text: t("programme.levelEmpty") }));
+    }
+
+    function fallbackIfEmpty() {
+      if (!areasBox.children.length) {
+        areasBox.appendChild(el("p", { class: "repeater__empty", text: t("programme.none") }));
+      }
+    }
+
+    /** "Tümü" görünümünde bir düzeyin bölümünü başlığıyla birlikte çizer. */
+    function renderLevelSection(code, renderer) {
+      var before = areasBox.children.length;
+      var head = el("h3", { class: "picker__level-head" }, [
+        el("span", { class: "level-tag level-tag--" + code, text: pick(PD.levelName(code)) }),
+        el("span", {
+          class: "picker__level-head-count",
+          text: PD.byLevel(code).length + " " + t("programme.areaCount"),
+        }),
+      ]);
+      areasBox.appendChild(head);
+      renderer();
+      // Arama sonucu bu düzeyde eşleşme bırakmadıysa başlığı da kaldır.
+      if (areasBox.children.length === before + 1) areasBox.removeChild(head);
     }
 
     /** Ön lisans: kaynak listede ISCED sınıflaması yok, baş harfe göre gruplanır. */
     function renderLetters() {
-      areasBox.innerHTML = "";
+      // Kutuyu renderGroups temizler; burada yalnızca ekleme yapılır.
       var q = search.value.trim().toLocaleLowerCase("tr");
 
       PD.lettersOfAssociate().forEach(function (letter) {
@@ -617,14 +682,10 @@ window.Fields = (function () {
         details.appendChild(el("div", { class: "picker__area-body" }, [grid]));
         areasBox.appendChild(details);
       });
-
-      if (!areasBox.children.length) {
-        areasBox.appendChild(el("p", { class: "repeater__empty", text: t("programme.none") }));
-      }
     }
 
     function renderAreas() {
-      areasBox.innerHTML = "";
+      // Kutuyu renderGroups temizler; burada yalnızca ekleme yapılır.
       var q = search.value.trim().toLocaleLowerCase("tr");
       var sel = selected();
 
@@ -716,10 +777,6 @@ window.Fields = (function () {
         );
         areasBox.appendChild(details);
       });
-
-      if (!areasBox.children.length) {
-        areasBox.appendChild(el("p", { class: "repeater__empty", text: t("programme.none") }));
-      }
     }
 
     function renderAll() {
