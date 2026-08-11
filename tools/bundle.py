@@ -50,12 +50,16 @@ def build(body_only=False):
     def inline_css(m):
         href = m.group(1)
         stats["css"] += 1
-        return "<style>\n%s\n</style>" % guard(read(href).read_text(encoding="utf-8"))
+        # Kaynak işaretçisi: tek dosyada hata ayıklarken bloğun hangi
+        # dosyadan geldiğini gösterir.
+        return "<!-- %s -->\n<style>\n%s\n</style>" % (
+            href, guard(read(href).read_text(encoding="utf-8")))
 
     def inline_js(m):
         src = m.group(1)
         stats["js"] += 1
-        return "<script>\n%s\n</script>" % guard(read(src).read_text(encoding="utf-8"))
+        return "<!-- %s -->\n<script>\n%s\n</script>" % (
+            src, guard(read(src).read_text(encoding="utf-8")))
 
     def inline_img(m):
         src = m.group(1)
@@ -74,10 +78,18 @@ def build(body_only=False):
     html = re.sub(r'src="([^"]+\.(?:png|jpe?g|gif|svg|webp))"', inline_img, html, flags=re.I)
 
     if body_only:
-        m = re.search(r"<body[^>]*>(.*)</body>", html, re.S)
-        if not m:
+        head = re.search(r"<head[^>]*>(.*)</head>", html, re.S)
+        body = re.search(r"<body[^>]*>(.*)</body>", html, re.S)
+        if not body:
             sys.exit("HATA: <body> bulunamadı")
-        html = m.group(1).strip() + "\n"
+        # Stiller <head>'e gömülüdür; yalnızca gövdeyi alsaydık CSS'in
+        # tamamı düşerdi. Bu yüzden stil blokları gövdenin başına taşınır.
+        styles = re.findall(r"(?:<!-- [^>]*? -->\n)?<style>.*?</style>",
+                            head.group(1) if head else "", re.S)
+        if len(styles) != stats["css"]:
+            sys.exit("HATA: %d stil gömüldü ama %d tanesi taşınabildi"
+                     % (stats["css"], len(styles)))
+        html = "\n".join(styles + [body.group(1).strip()]) + "\n"
 
     # Gömülmemiş bir dış başvuru kalmadığını doğrula.
     leftover = re.search(r'<(?:script|link)[^>]+(?:src|href)="(?!data:|#)([^"]+)"', html)
