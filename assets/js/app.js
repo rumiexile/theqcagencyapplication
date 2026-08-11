@@ -38,6 +38,9 @@
       (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     document.documentElement.setAttribute("data-theme", theme);
 
+    // MİS ön başvurusu devredildiyse alanları besle.
+    ingestPreRegistration();
+
     // Kaldığı yerden devam / resume where the applicant left off
     if (prefs.position && typeof prefs.position.tab === "number") {
       state.tab = Math.min(prefs.position.tab, tabs.length - 1);
@@ -497,15 +500,7 @@
         icon("send", "btn__icon"),
         document.createTextNode(t("nav.submit")),
       ]);
-      submit.addEventListener("click", function () {
-        var p = V.progress(tabs, S);
-        if (p.missing > 0) {
-          toast(t("validate.summary", { n: p.missing }), "danger");
-          return;
-        }
-        S.download();
-        toast(t("toast.submitted"), "success");
-      });
+      submit.addEventListener("click", submitApplication);
       box.appendChild(submit);
     }
 
@@ -769,6 +764,198 @@
         node.remove();
       }, 220);
     }, 3200);
+  }
+
+  /* ==================================================================
+     MİS ön başvurusu / MİS pre-application handover
+     ================================================================== */
+
+  /**
+   * MİS'ten devredilen ön başvuruyu forma işler. Yük URL fragment'inden
+   * veya postMessage ile gelebilir; her iki yolda da aynı doğrulama ve
+   * eşleme uygulanır. Dolu alanların üzerine yazılmaz.
+   */
+  function ingestPreRegistration() {
+    if (!window.MIS) return;
+
+    function accept(payload) {
+      var errors = window.MIS.validate(payload);
+      if (errors.length) {
+        toast(t("mis.invalid", { reason: errors[0] }), "danger");
+        return;
+      }
+      var res = window.MIS.apply(payload);
+      S.save();
+      if (res.filled.length) {
+        toast(t("mis.applied", { n: res.filled.length }), "success");
+      }
+      if (res.kept.length) {
+        toast(t("mis.keptExisting", { n: res.kept.length }), "info");
+      }
+      render();
+    }
+
+    var fromUrl = window.MIS.readFragment();
+    if (fromUrl && fromUrl.error) toast(fromUrl.error, "danger");
+    else if (fromUrl && fromUrl.payload) accept(fromUrl.payload);
+
+    window.MIS.listen(function (payload) {
+      accept(payload);
+    });
+  }
+
+  /* ==================================================================
+     Başvurunun tamamlanması / application submission
+     ================================================================== */
+
+  /**
+   * Başvuru numarası: YOK-<yıl>-<6 karakter>.
+   * Karışmaya açık harfler (I, O) ve rakam 0/1 alfabede yer almaz.
+   * Üretim crypto.getRandomValues ile yapılır; desteklenmiyorsa
+   * Math.random'a düşülür.
+   */
+  function makeApplicationNo() {
+    var ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+    var n = 6;
+    var out = "";
+    var buf = null;
+    if (window.crypto && window.crypto.getRandomValues) {
+      buf = new Uint32Array(n);
+      window.crypto.getRandomValues(buf);
+    }
+    for (var i = 0; i < n; i++) {
+      var r = buf ? buf[i] : Math.floor(Math.random() * 0xffffffff);
+      out += ALPHABET.charAt(r % ALPHABET.length);
+    }
+    return "YOK-" + new Date().getFullYear() + "-" + out;
+  }
+
+  /** Başvuruyu tamamla: doğrula, numara üret, tamamlama ekranını aç. */
+  function submitApplication() {
+    var p = V.progress(tabs, S);
+    var missing = p.total - p.done;
+    if (missing > 0) {
+      toast(t("validate.summary", { n: missing }), "danger");
+      // İlk eksik alanın bulunduğu adıma götür.
+      for (var ti = 0; ti < tabs.length; ti++) {
+        if (V.isTabExempt(tabs[ti], S)) continue;
+        for (var si = 0; si < tabs[ti].steps.length; si++) {
+          var step = tabs[ti].steps[si];
+          if (!V.isVisible(step, S)) continue;
+          if (V.stepErrorCount(step, S) > 0) return go(ti, si);
+        }
+      }
+      return;
+    }
+
+    // Numara bir kez üretilir; aynı başvuru yeniden gönderilirse korunur.
+    var no = S.get("submission.applicationNo");
+    if (!no) {
+      no = makeApplicationNo();
+      S.set("submission.applicationNo", no);
+      S.set("submission.submittedAt", new Date().toISOString());
+    }
+    S.save();
+    showCompletion(no);
+  }
+
+  /** Tamamlandı ekranı: başvuru numarası, dışa aktarma ve e-posta. */
+  function showCompletion(no) {
+    var dlg = document.getElementById("confirm-dialog");
+    var email = S.get("contact.email") || "";
+    var preReg = S.get("misPreRegistrationId");
+
+    function actionButton(labelKey, iconName, variant, handler) {
+      var b = el("button", { type: "button", class: "btn " + variant }, [
+        icon(iconName, "btn__icon"),
+        document.createTextNode(t(labelKey)),
+      ]);
+      b.addEventListener("click", handler);
+      return b;
+    }
+
+    dlg.innerHTML = "";
+    dlg.appendChild(
+      el("div", { class: "completion" }, [
+        el("div", { class: "completion__mark", "aria-hidden": "true" }, [icon("check")]),
+        el("h2", { class: "completion__title", text: t("done.title") }),
+        el("p", { class: "completion__lead", text: t("done.lead") }),
+
+        el("div", { class: "completion__no" }, [
+          el("span", { class: "completion__no-label", text: t("done.appNo") }),
+          el("code", { class: "completion__no-value", text: no }),
+          (function () {
+            var b = el("button", {
+              type: "button",
+              class: "completion__copy",
+              title: t("done.copy"),
+              "aria-label": t("done.copy"),
+            }, [icon("copy")]);
+            b.addEventListener("click", function () {
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(no).then(function () {
+                  toast(t("done.copied"), "success");
+                });
+              }
+            });
+            return b;
+          })(),
+        ]),
+
+        preReg
+          ? el("p", { class: "completion__meta", text: t("done.fromMis", { id: preReg }) })
+          : null,
+        el("p", { class: "completion__note", text: t("done.keepNote") }),
+
+        el("div", { class: "completion__actions" }, [
+          actionButton("done.export", "download", "btn--primary", function () {
+            S.download("yokak-basvuru-" + no + ".json");
+            toast(t("done.exported"), "success");
+          }),
+          email
+            ? actionButton("done.email", "mail", "btn--secondary", function () {
+                window.location.href = mailtoLink(no, email);
+              })
+            : null,
+        ]),
+
+        email
+          ? el("p", { class: "completion__meta", text: t("done.emailTarget", { email: email }) })
+          : null,
+
+        el("div", { class: "modal__footer" }, [
+          (function () {
+            var b = el("button", { type: "button", class: "btn btn--ghost", text: t("done.close") });
+            b.addEventListener("click", function () {
+              dlg.close();
+            });
+            return b;
+          })(),
+        ]),
+      ])
+    );
+    dlg.showModal();
+  }
+
+  /** Başvuru özetini taşıyan mailto bağlantısı. */
+  function mailtoLink(no, email) {
+    var name = S.get("agency.nameTr") || S.get("agency.nameEn") || "";
+    var kind = S.get("applicationType") === "taninma" ? t("type.taninma") : t("type.yetkilendirme");
+    var body = [
+      t("done.mailGreeting"),
+      "",
+      t("done.appNo") + ": " + no,
+      t("done.mailAgency") + ": " + name,
+      t("done.mailType") + ": " + kind,
+      t("done.mailDate") + ": " + new Date().toLocaleDateString(window.I18N.lang === "tr" ? "tr-TR" : "en-GB"),
+      "",
+      t("done.mailAttachNote"),
+    ].join("\n");
+    return (
+      "mailto:" + encodeURIComponent(email) +
+      "?subject=" + encodeURIComponent(t("done.mailSubject", { no: no })) +
+      "&body=" + encodeURIComponent(body)
+    );
   }
 
   function confirmReset() {

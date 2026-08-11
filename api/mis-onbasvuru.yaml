@@ -1,0 +1,267 @@
+openapi: 3.1.0
+
+info:
+  title: YÖKAK Ön Başvuru Veri Sözleşmesi / Pre-Application Data Contract
+  version: 1.0.0
+  description: |
+    MİS (mis.yokak.gov.tr) üzerinde yapılan **ön başvurunun**, Kalite Güvencesi
+    Ajansı Başvuru Sistemi'ne (theqcagencyapplication) aktarılmasını ve
+    tamamlanan başvurunun YÖKAK'a iletilmesini tanımlar.
+
+    ## Taşıma / transport
+
+    Başvuru uygulaması sunucusuz, tek dosyalık bir istemcidir. Bu nedenle
+    **birincil yol devirdir (handover)**: MİS, ön başvuruyu tamamlayınca
+    kullanıcıyı başvuru uygulamasına yönlendirir ve `PreRegistration` yükünü
+    URL **fragment**'inde base64url olarak taşır:
+
+        https://<uygulama>/#onbasvuru=<base64url(JSON)>
+
+    Fragment sunucuya gönderilmediğinden kişisel veri sunucu günlüklerine
+    düşmez. Alternatif olarak MİS uygulamayı bir pencerede açıp aynı yükü
+    `postMessage` ile iletebilir ya da kullanıcı JSON dosyasını elle içe
+    aktarabilir.
+
+    Buradaki `GET /preregistrations/{id}` ucu **isteğe bağlıdır**; MİS
+    tarafında CORS açılırsa uygulama veriyi canlı da çekebilir.
+
+    ## Alan eşlemesi
+
+    Her alanın başvuru formundaki karşılığı `x-target` uzantısıyla
+    belirtilmiştir; uygulamadaki adaptör (`assets/js/mis.js`) eşlemeyi bu
+    adlara göre yapar.
+
+servers:
+  - url: https://mis.yokak.gov.tr/api/v1
+    description: MİS — ön başvuru kaynağı
+  - url: https://basvuru.yokak.gov.tr/api/v1
+    description: YÖKAK — tamamlanmış başvuruların alıcısı
+
+tags:
+  - name: onbasvuru
+    description: MİS'te oluşturulan ön başvuru kayıtları
+  - name: basvuru
+    description: Tamamlanmış akreditasyon başvuruları
+
+paths:
+  /preregistrations/{preRegistrationId}:
+    get:
+      tags: [onbasvuru]
+      summary: Ön başvuruyu getir
+      description: |
+        MİS'te oluşturulmuş bir ön başvuru kaydını döner. Devir (handover)
+        yolu kullanıldığında bu uca gerek yoktur.
+      operationId: getPreRegistration
+      parameters:
+        - name: preRegistrationId
+          in: path
+          required: true
+          schema: { type: string, minLength: 1, maxLength: 64 }
+      responses:
+        "200":
+          description: Ön başvuru bulundu
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PreRegistration" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /applications:
+    post:
+      tags: [basvuru]
+      summary: Tamamlanmış başvuruyu gönder
+      description: |
+        Başvuru uygulamasında tamamlanan başvuruyu YÖKAK'a iletir. Uç
+        yapılandırılmamışsa uygulama yerel tamamlama akışına düşer: başvuru
+        numarasını kendisi üretir ve başvuruyu JSON olarak dışa aktarır.
+      operationId: submitApplication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Application" }
+      responses:
+        "201":
+          description: Başvuru alındı
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ApplicationReceipt" }
+        "400": { $ref: "#/components/responses/ValidationError" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /applications/{applicationNo}:
+    get:
+      tags: [basvuru]
+      summary: Başvuru durumunu sorgula
+      operationId: getApplicationStatus
+      parameters:
+        - name: applicationNo
+          in: path
+          required: true
+          schema: { $ref: "#/components/schemas/ApplicationNo" }
+      responses:
+        "200":
+          description: Başvuru durumu
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ApplicationReceipt" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    ApplicationNo:
+      type: string
+      pattern: "^YOK-[0-9]{4}-[0-9A-HJ-NP-Z]{6}$"
+      description: |
+        Başvuru numarası. `YOK-<yıl>-<6 karakter>` biçimindedir. Karışmaya
+        açık harfler (I, O) alfabede yer almaz.
+      examples: ["YOK-2026-A7F3C1"]
+
+    ApplicationType:
+      type: string
+      enum: [yetkilendirme, taninma]
+      description: |
+        `yetkilendirme` — Türkiye'de yerleşik ulusal kuruluşun yetkilendirilmesi.
+        `taninma` — yurt dışında yerleşik uluslararası kuruluşun tanınması.
+      x-target: applicationType
+
+    LegalForm:
+      type: string
+      enum: [dernek, vakif, sirket, kamu, universite, diger]
+      x-target: agency.legalForm
+
+    PreRegistration:
+      type: object
+      description: MİS ön başvuru formunun aktarılan içeriği.
+      required: [preRegistrationId, submittedAt, applicationType, organisation, contact]
+      additionalProperties: false
+      properties:
+        schemaVersion:
+          type: string
+          const: "1.0"
+          default: "1.0"
+        preRegistrationId:
+          type: string
+          maxLength: 64
+          description: MİS'teki ön başvuru kaydının kimliği; başvuruya iliştirilir.
+          x-target: misPreRegistrationId
+        submittedAt:
+          type: string
+          format: date-time
+        applicationType: { $ref: "#/components/schemas/ApplicationType" }
+        organisation: { $ref: "#/components/schemas/Organisation" }
+        contact: { $ref: "#/components/schemas/Contact" }
+
+    Organisation:
+      type: object
+      required: [nameTr, country]
+      additionalProperties: false
+      properties:
+        nameTr:      { type: string, maxLength: 300, x-target: agency.nameTr }
+        nameEn:      { type: string, maxLength: 300, x-target: agency.nameEn }
+        acronym:     { type: string, maxLength: 32,  x-target: agency.acronym }
+        foundedYear: { type: integer, minimum: 1800, maximum: 2100, x-target: agency.foundedYear }
+        country:     { type: string, maxLength: 100, x-target: agency.country }
+        legalForm:   { $ref: "#/components/schemas/LegalForm" }
+        legalFormOther:
+          type: string
+          maxLength: 200
+          description: legalForm `diger` ise doldurulur.
+          x-target: agency.legalFormOther
+        website:     { type: string, format: uri, x-target: agency.website }
+        registry:    { $ref: "#/components/schemas/Registry" }
+
+    Registry:
+      type: object
+      description: Hukuki statüye göre doldurulan ulusal sicil numaraları.
+      additionalProperties: false
+      properties:
+        dernek:  { type: string, maxLength: 64, x-target: agency.registryDernek }
+        vakif:   { type: string, maxLength: 64, x-target: agency.registryVakif }
+        ticaret: { type: string, maxLength: 64, x-target: agency.registryTicaret }
+        mersis:  { type: string, pattern: "^[0-9]{16}$", x-target: agency.mersis }
+        taxNo:   { type: string, maxLength: 32, x-target: agency.taxNo }
+
+    Contact:
+      type: object
+      required: [email]
+      additionalProperties: false
+      properties:
+        address:     { type: string, maxLength: 1000, x-target: contact.address }
+        headName:    { type: string, maxLength: 200,  x-target: contact.headName }
+        headTitle:   { type: string, maxLength: 200,  x-target: contact.headTitle }
+        personName:  { type: string, maxLength: 200,  x-target: contact.personName }
+        personTitle: { type: string, maxLength: 200,  x-target: contact.personTitle }
+        email:       { type: string, format: email,   x-target: contact.email }
+        phone:       { type: string, maxLength: 40,   x-target: contact.phone }
+        kep:         { type: string, format: email,   x-target: contact.kep }
+
+    Application:
+      type: object
+      description: |
+        Tamamlanmış başvuru. `data`, başvuru uygulamasının dışa aktardığı
+        biçimin aynısıdır (alan kimlikleri noktalı yollardır).
+      required: [applicationNo, submittedAt, applicationType, data]
+      properties:
+        applicationNo: { $ref: "#/components/schemas/ApplicationNo" }
+        submittedAt:   { type: string, format: date-time }
+        applicationType: { $ref: "#/components/schemas/ApplicationType" }
+        misPreRegistrationId:
+          type: string
+          maxLength: 64
+          description: Başvuru bir MİS ön başvurusundan beslendiyse kaynağın kimliği.
+        contactEmail:  { type: string, format: email }
+        data:
+          type: object
+          description: Başvuru formunun tüm alanları.
+          additionalProperties: true
+
+    ApplicationReceipt:
+      type: object
+      required: [applicationNo, status, receivedAt]
+      properties:
+        applicationNo: { $ref: "#/components/schemas/ApplicationNo" }
+        status:
+          type: string
+          enum: [alindi, incelemede, tamamlandi, iade]
+        receivedAt: { type: string, format: date-time }
+
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:    { type: string }
+        message: { type: string }
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:  { type: string }
+              reason: { type: string }
+
+  responses:
+    Unauthorized:
+      description: Kimlik doğrulanamadı
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    NotFound:
+      description: Kayıt bulunamadı
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    ValidationError:
+      description: Gönderilen veri şemaya uymuyor
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+
+security:
+  - bearerAuth: []

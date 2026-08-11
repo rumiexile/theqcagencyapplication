@@ -47,6 +47,47 @@ değiştirdiğinizde paketi yeniden üretmeniz gerekir.
 
 ---
 
+## MİS ön başvuru entegrasyonu
+
+MİS'te (`mis.yokak.gov.tr`) yapılan ön başvuru, kimlik ve iletişim alanlarını
+otomatik doldurmak üzere bu forma aktarılabilir. Veri sözleşmesi OpenAPI 3.1
+olarak [`api/mis-onbasvuru.yaml`](api/mis-onbasvuru.yaml) dosyasındadır.
+
+Uygulama sunucusuz olduğundan **birincil yol devirdir**: MİS, ön başvuruyu
+tamamlayınca kullanıcıyı bu uygulamaya yönlendirir ve `PreRegistration`
+yükünü URL fragment'inde taşır.
+
+```
+https://<uygulama>/#onbasvuru=<base64url(JSON)>
+```
+
+Fragment tarayıcı tarafından sunucuya gönderilmez; kişisel veri sunucu
+günlüklerine düşmez. Uygulama yükü işledikten sonra fragment'i adres
+çubuğundan siler. Alternatif olarak MİS, uygulamayı bir pencerede açıp aynı
+yükü `postMessage` ile iletebilir:
+
+```js
+hedefPencere.postMessage({ type: "yokak:onbasvuru", payload: preRegistration }, hedefOrigin);
+```
+
+Alan eşlemesi `assets/js/mis.js` içindeki `MAP` tablosundadır ve sözleşmedeki
+`x-target` değerleriyle birebir aynıdır; MİS formu değişirse yalnızca bu tablo
+güncellenir. Dolu alanların üzerine **yazılmaz** — kullanıcının girdiği veri
+korunur, korunan alan sayısı bildirilir.
+
+### Başvurunun tamamlanması
+
+Önizleme adımındaki **YÖKAK'a Gönder** düğmesi, tüm zorunlu alanlar geçerli
+olmadan başvuruyu tamamlamaz; eksik varsa kullanıcıyı ilk eksik adıma götürür.
+Tamamlandığında `YOK-<yıl>-<6 karakter>` biçiminde bir başvuru numarası üretilir
+(`crypto.getRandomValues`, karışmaya açık harfler alfabede yok) ve tamamlama
+ekranı açılır: numarayı kopyalama, başvuru örneğini JSON olarak dışa aktarma ve
+başvuruda verilen adrese e-posta hazırlama.
+
+Numara bir kez üretilir ve başvuruyla saklanır; ekran yeniden açılsa da değişmez.
+
+---
+
 ## Özellikler
 
 | | |

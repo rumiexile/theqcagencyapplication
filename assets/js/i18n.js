@@ -108,6 +108,39 @@ window.I18N = (function () {
       "toast.stepBlocked": "Devam etmeden önce eksik alanları tamamlayınız.",
       "toast.submitted": "Başvuru tamamlandı. Dosyayı indirip YÖKAK'a iletiniz.",
 
+      "type.yetkilendirme": "Yetkilendirme",
+      "type.taninma": "Tanınma",
+
+      "done.title": "Başvurunuz tamamlandı",
+      "done.lead":
+        "Başvurunuz için bir başvuru numarası oluşturuldu. Bu numarayı saklayınız; " +
+        "YÖKAK ile yapacağınız tüm yazışmalarda kullanılacaktır.",
+      "done.appNo": "Başvuru numarası",
+      "done.copy": "Numarayı kopyala",
+      "done.copied": "Başvuru numarası kopyalandı.",
+      "done.fromMis": "MİS ön başvuru kaydı: {id}",
+      "done.keepNote":
+        "Başvurunuz yalnızca bu tarayıcıda saklanmaktadır. Kaydınızın kaybolmaması " +
+        "için başvuru örneğini dışa aktarıp güvenli bir yerde saklayınız.",
+      "done.export": "Başvuru örneğini dışa aktar",
+      "done.exported": "Başvuru örneği indirildi.",
+      "done.email": "E-postama gönder",
+      "done.emailTarget":
+        "E-posta, başvuruda belirttiğiniz {email} adresine hazırlanır. " +
+        "Dışa aktardığınız dosyayı e-postaya eklemeyi unutmayınız.",
+      "done.close": "Kapat",
+      "done.mailSubject": "YÖKAK Kalite Güvencesi Ajansı Başvurusu — {no}",
+      "done.mailGreeting": "Başvurunuz tamamlanmıştır. Özeti aşağıdadır.",
+      "done.mailAgency": "Kuruluş",
+      "done.mailType": "Başvuru türü",
+      "done.mailDate": "Tamamlanma tarihi",
+      "done.mailAttachNote":
+        "Not: Başvurunun tam örneğini içeren JSON dosyasını bu e-postaya ekleyiniz.",
+
+      "mis.applied": "MİS ön başvurusundan {n} alan dolduruldu.",
+      "mis.keptExisting": "{n} alan zaten dolu olduğu için korundu.",
+      "mis.invalid": "MİS ön başvuru verisi okunamadı: {reason}",
+
       "confirm.resetTitle": "Formu sıfırla",
       "confirm.resetBody":
         "Girilen tüm veriler silinecek. Bu işlem geri alınamaz. Devam etmek istiyor musunuz?",
@@ -225,6 +258,39 @@ window.I18N = (function () {
       "toast.stepBlocked": "Complete the missing fields before continuing.",
       "toast.submitted":
         "Application complete. Download the file and submit it to YÖKAK.",
+
+      "type.yetkilendirme": "Authorisation",
+      "type.taninma": "Recognition",
+
+      "done.title": "Your application is complete",
+      "done.lead":
+        "An application number has been generated. Keep it — it will be used in " +
+        "all correspondence with YÖKAK.",
+      "done.appNo": "Application number",
+      "done.copy": "Copy the number",
+      "done.copied": "Application number copied.",
+      "done.fromMis": "MİS pre-application record: {id}",
+      "done.keepNote":
+        "Your application is stored only in this browser. Export a copy and keep " +
+        "it somewhere safe so your record is not lost.",
+      "done.export": "Export a copy of the application",
+      "done.exported": "Copy of the application downloaded.",
+      "done.email": "Send to my e-mail",
+      "done.emailTarget":
+        "The e-mail is prepared for {email}, the address given in your application. " +
+        "Remember to attach the file you exported.",
+      "done.close": "Close",
+      "done.mailSubject": "YÖKAK Quality Assurance Agency Application — {no}",
+      "done.mailGreeting": "Your application is complete. A summary follows.",
+      "done.mailAgency": "Organisation",
+      "done.mailType": "Application type",
+      "done.mailDate": "Completed on",
+      "done.mailAttachNote":
+        "Note: attach the JSON file containing the full copy of the application to this e-mail.",
+
+      "mis.applied": "{n} fields were filled from the MİS pre-application.",
+      "mis.keptExisting": "{n} fields already had values and were kept.",
+      "mis.invalid": "The MİS pre-application data could not be read: {reason}",
 
       "confirm.resetTitle": "Reset form",
       "confirm.resetBody":
