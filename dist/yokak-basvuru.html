@@ -7567,35 +7567,6 @@ window.SCHEMA = (function () {
       label: { tr: "Belgeler", en: "Documents" },
       steps: [
         {
-          id: "documents",
-          title: { tr: "Zorunlu Belgeler", en: "Mandatory Documents" },
-          short: { tr: "Zorunlu belgeler", en: "Mandatory" },
-          desc: {
-            tr: "Başvuru dosyanıza eklenmesi zorunlu belgeleri işaretleyiniz ve erişim bilgisini giriniz.",
-            en: "Tick the documents that must accompany your application and provide access information.",
-          },
-          fields: [
-            {
-              type: "document-list", id: "docs.mandatory", required: true,
-              label: { tr: "Zorunlu belgeler", en: "Mandatory documents" },
-              documents: [
-                { id: "statute", label: { tr: "Kuruluş senedi / tüzük", en: "Founding charter / statute" } },
-                { id: "orgchart", label: { tr: "Organizasyon şeması", en: "Organisation chart" } },
-                { id: "methodology", label: { tr: "Değerlendirme yöntemi / süreç el kitabı", en: "Evaluation methodology / process handbook" } },
-                { id: "criteria", label: { tr: "Ölçütler dokümanı", en: "Criteria document" } },
-                { id: "reviewerGuide", label: { tr: "Değerlendirici kılavuzu ve eğitim planı", en: "Reviewer guide and training plan" } },
-                { id: "appeals", label: { tr: "İtiraz ve şikâyet yönergesi", en: "Appeals and complaints regulation" } },
-                { id: "coi", label: { tr: "Çıkar çatışması politikası", en: "Conflict of interest policy" } },
-                { id: "iqa", label: { tr: "İç kalite güvencesi el kitabı", en: "Internal quality assurance handbook" } },
-                { id: "financial", label: { tr: "Son yıla ait mali tablo", en: "Financial statement for the last year" } },
-                { id: "sampleReport", label: { tr: "Örnek değerlendirme raporu", en: "Sample review report" } },
-                { id: "externalReview", label: { tr: "Son dış değerlendirme raporu (ESG 3.6)", en: "Latest external review report (ESG 3.6)" } },
-                { id: "activityReport", label: { tr: "Yıllık faaliyet raporu", en: "Annual activity report" } },
-              ],
-            },
-          ],
-        },
-        {
           id: "evidence-library",
           title: { tr: "Kanıt Koleksiyonu", en: "Evidence Library" },
           short: { tr: "Kanıtlar", en: "Evidence" },
