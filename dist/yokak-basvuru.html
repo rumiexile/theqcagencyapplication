@@ -7061,7 +7061,54 @@ window.SCHEMA = (function () {
       ],
     },
 
-    /* ==================== 2 — ESG 3 =================================== */
+    /* ==================== 2 — BELGELER ================================ */
+    {
+      id: "evidence",
+      label: { tr: "Belgeler", en: "Documents" },
+      steps: [
+        {
+          id: "documents",
+          title: { tr: "Zorunlu Belgeler", en: "Mandatory Documents" },
+          short: { tr: "Zorunlu belgeler", en: "Mandatory" },
+          desc: {
+            tr: "Başvuru dosyanıza eklenmesi zorunlu belgeleri işaretleyiniz ve erişim bilgisini giriniz.",
+            en: "Tick the documents that must accompany your application and provide access information.",
+          },
+          fields: [
+            {
+              type: "document-list", id: "docs.mandatory", required: true,
+              label: { tr: "Zorunlu belgeler", en: "Mandatory documents" },
+              documents: [
+                { id: "statute", label: { tr: "Kuruluş senedi / tüzük", en: "Founding charter / statute" } },
+                { id: "orgchart", label: { tr: "Organizasyon şeması", en: "Organisation chart" } },
+                { id: "methodology", label: { tr: "Değerlendirme yöntemi / süreç el kitabı", en: "Evaluation methodology / process handbook" } },
+                { id: "criteria", label: { tr: "Ölçütler dokümanı", en: "Criteria document" } },
+                { id: "reviewerGuide", label: { tr: "Değerlendirici kılavuzu ve eğitim planı", en: "Reviewer guide and training plan" } },
+                { id: "appeals", label: { tr: "İtiraz ve şikâyet yönergesi", en: "Appeals and complaints regulation" } },
+                { id: "coi", label: { tr: "Çıkar çatışması politikası", en: "Conflict of interest policy" } },
+                { id: "iqa", label: { tr: "İç kalite güvencesi el kitabı", en: "Internal quality assurance handbook" } },
+                { id: "financial", label: { tr: "Son yıla ait mali tablo", en: "Financial statement for the last year" } },
+                { id: "sampleReport", label: { tr: "Örnek değerlendirme raporu", en: "Sample review report" } },
+                { id: "externalReview", label: { tr: "Son dış değerlendirme raporu (ESG 3.6)", en: "Latest external review report (ESG 3.6)" } },
+                { id: "activityReport", label: { tr: "Yıllık faaliyet raporu", en: "Annual activity report" } },
+              ],
+            },
+            {
+              type: "repeater", id: "docs.additional", minItems: 0,
+              label: { tr: "Ek destekleyici belgeler", en: "Additional supporting documents" },
+              addLabel: { tr: "Belge ekle", en: "Add document" },
+              itemFields: [
+                { type: "text", id: "name", required: true, label: { tr: "Belge adı", en: "Document name" } },
+                { type: "url", id: "url", label: { tr: "Bağlantı", en: "Link" } },
+                { type: "text", id: "note", label: { tr: "Açıklama", en: "Note" } },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+
+    /* ==================== 3 — ESG 3 =================================== */
     {
       id: "esg3",
       label: { tr: "ESG 3", en: "ESG 3" },
@@ -7075,7 +7122,7 @@ window.SCHEMA = (function () {
       }),
     },
 
-    /* ==================== 3 — ESG 2 =================================== */
+    /* ==================== 4 — ESG 2 =================================== */
     {
       id: "esg2",
       label: { tr: "ESG 2", en: "ESG 2" },
@@ -7087,7 +7134,7 @@ window.SCHEMA = (function () {
       }),
     },
 
-    /* ==================== 4 — ESG 1: KAPSAM VE ÖLÇÜTLER ============== */
+    /* ==================== 5 — ESG 1: KAPSAM VE ÖLÇÜTLER ============== */
     {
       id: "esg1",
       label: { tr: "ESG 1", en: "ESG 1" },
@@ -7266,53 +7313,6 @@ window.SCHEMA = (function () {
               itemFields: [
                 { type: "text", id: "name", required: true, label: { tr: "Kanıt adı", en: "Evidence name" } },
                 { type: "url", id: "url", required: true, label: { tr: "Bağlantı", en: "Link" } },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-
-    /* ==================== 5 — KANITLAR =============================== */
-    {
-      id: "evidence",
-      label: { tr: "Belgeler", en: "Documents" },
-      steps: [
-        {
-          id: "documents",
-          title: { tr: "Zorunlu Belgeler", en: "Mandatory Documents" },
-          short: { tr: "Zorunlu belgeler", en: "Mandatory" },
-          desc: {
-            tr: "Başvuru dosyanıza eklenmesi zorunlu belgeleri işaretleyiniz ve erişim bilgisini giriniz.",
-            en: "Tick the documents that must accompany your application and provide access information.",
-          },
-          fields: [
-            {
-              type: "document-list", id: "docs.mandatory", required: true,
-              label: { tr: "Zorunlu belgeler", en: "Mandatory documents" },
-              documents: [
-                { id: "statute", label: { tr: "Kuruluş senedi / tüzük", en: "Founding charter / statute" } },
-                { id: "orgchart", label: { tr: "Organizasyon şeması", en: "Organisation chart" } },
-                { id: "methodology", label: { tr: "Değerlendirme yöntemi / süreç el kitabı", en: "Evaluation methodology / process handbook" } },
-                { id: "criteria", label: { tr: "Ölçütler dokümanı", en: "Criteria document" } },
-                { id: "reviewerGuide", label: { tr: "Değerlendirici kılavuzu ve eğitim planı", en: "Reviewer guide and training plan" } },
-                { id: "appeals", label: { tr: "İtiraz ve şikâyet yönergesi", en: "Appeals and complaints regulation" } },
-                { id: "coi", label: { tr: "Çıkar çatışması politikası", en: "Conflict of interest policy" } },
-                { id: "iqa", label: { tr: "İç kalite güvencesi el kitabı", en: "Internal quality assurance handbook" } },
-                { id: "financial", label: { tr: "Son yıla ait mali tablo", en: "Financial statement for the last year" } },
-                { id: "sampleReport", label: { tr: "Örnek değerlendirme raporu", en: "Sample review report" } },
-                { id: "externalReview", label: { tr: "Son dış değerlendirme raporu (ESG 3.6)", en: "Latest external review report (ESG 3.6)" } },
-                { id: "activityReport", label: { tr: "Yıllık faaliyet raporu", en: "Annual activity report" } },
-              ],
-            },
-            {
-              type: "repeater", id: "docs.additional", minItems: 0,
-              label: { tr: "Ek destekleyici belgeler", en: "Additional supporting documents" },
-              addLabel: { tr: "Belge ekle", en: "Add document" },
-              itemFields: [
-                { type: "text", id: "name", required: true, label: { tr: "Belge adı", en: "Document name" } },
-                { type: "url", id: "url", label: { tr: "Bağlantı", en: "Link" } },
-                { type: "text", id: "note", label: { tr: "Açıklama", en: "Note" } },
               ],
             },
           ],
