@@ -326,7 +326,9 @@
    */
   function evidenceRow() {
     var EV = window.Evidence;
-    var usable = EV.all().filter(EV.isUsable);
+    // Dizinde listelenen her şey sayılır: koleksiyon + form adımlarının
+    // kendi belge alanlarından türeyen kanıtlar.
+    var usable = EV.all().filter(EV.isUsable).concat(EV.externals());
     var loose = usable.filter(function (it) {
       return !(it.tags || []).some(function (c) {
         return c !== EV.OTHER;
@@ -1085,6 +1087,29 @@
   window.addEventListener("beforeunload", function () {
     S.save();
   });
+
+  /**
+   * Dışarıdan gezinme — kimlikle sekme/adım hedefler. Kanıt dizini,
+   * dış kaynaktan gelen bir belgenin girildiği adıma götürmek için
+   * kullanır.
+   */
+  window.App = {
+    goTo: function (where) {
+      if (!where) return false;
+      var ti = -1;
+      for (var i = 0; i < tabs.length; i++) {
+        if (tabs[i].id === where.tab) ti = i;
+      }
+      if (ti < 0) return false;
+      var si = 0;
+      (tabs[ti].steps || []).forEach(function (s, k) {
+        if (s.id === where.step) si = k;
+      });
+      go(ti, si);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return true;
+    },
+  };
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

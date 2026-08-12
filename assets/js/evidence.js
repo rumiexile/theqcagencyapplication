@@ -139,6 +139,121 @@ window.Evidence = (function () {
     });
   }
 
+  /* ------------------------------------------------------------------
+     Dış kaynaklar / external sources
+
+     Formun bazı adımları kendi belge alanlarını taşır: dış değerlendirme
+     raporu, ona ait ek bağlantılar ve kuruluş/tescil dokümanları. Bunlar
+     ESG tasnifine girmediğinden koleksiyona kopyalanmaz — koleksiyonda
+     kendi klasörleriyle *türetilerek* listelenir. Kayıt tek yerde
+     durduğu için eşitleme sorunu doğmaz; kanıt hangi adımda giriliyorsa
+     orada düzenlenir.
+     ------------------------------------------------------------------ */
+  var SOURCES = [
+    {
+      tag: "src.priorReview",
+      label: { tr: "Dış Değerlendirme Raporu", en: "External Review Report" },
+      step: { tab: "type", step: "prior-review" },
+      when: hasPriorReview,
+      /* Rapor tek bir kanıttır: dosya ve/veya bağlantı olarak verilir. */
+      read: function (store) {
+        var file = store.get("priorReview.report");
+        var url = store.get("priorReview.reportUrl");
+        if (!file && !url) return [];
+        var agency = store.get("priorReview.agency");
+        var year = store.get("priorReview.year");
+        return [{
+          id: "SRC-priorReview",
+          name: window.I18N.pick({
+            tr: "Dış değerlendirme raporu",
+            en: "External review report",
+          }),
+          url: url || "",
+          file: file || null,
+          note: [agency, year].filter(Boolean).join(" · "),
+        }];
+      },
+    },
+    {
+      tag: "src.extraDocs",
+      label: { tr: "Ek Bağlantılar ve Belgeler", en: "Additional Links and Documents" },
+      step: { tab: "type", step: "prior-review" },
+      when: hasPriorReview,
+      read: function (store) {
+        return rowsOf(store, "priorReview.extraDocs", function (r, i) {
+          return {
+            id: "SRC-extraDocs-" + i,
+            name: r.name || "",
+            url: r.url || "",
+            file: null,
+            note: "",
+          };
+        });
+      },
+    },
+    {
+      tag: "src.legalDocs",
+      label: { tr: "Kuruluş ve Tescil Dokümanları", en: "Founding and Registration Documents" },
+      step: { tab: "agency", step: "legal" },
+      read: function (store) {
+        return rowsOf(store, "legal.documents", function (r, i) {
+          return {
+            id: "SRC-legalDocs-" + i,
+            name: r.name || "",
+            url: r.url || "",
+            file: r.file || null,
+            note: [r.authority, r.issuedAt].filter(Boolean).join(" · "),
+          };
+        });
+      },
+    },
+  ];
+
+  function rowsOf(store, path, map) {
+    var v = store.get(path);
+    return Array.isArray(v) ? v.map(map) : [];
+  }
+
+  /* "Hayır" yanıtından sonra alanlar gizlenir ama daha önce girilmiş
+     değerler mağazada kalabilir; gizli adımın belgeleri listelenmemeli. */
+  function hasPriorReview(store) {
+    return store.get("priorReview.has") === "evet";
+  }
+
+  /** Dış kaynak klasörleri; her biri `items` ile birlikte döner. */
+  function sources() {
+    var store = S();
+    return SOURCES.map(function (src) {
+      var items = src.when && !src.when(store) ? [] : src.read(store);
+      return {
+        tag: src.tag,
+        label: src.label,
+        step: src.step,
+        items: items.filter(isUsable).map(function (it) {
+          it.external = src.tag;
+          it.tags = [src.tag];
+          return it;
+        }),
+      };
+    });
+  }
+
+  /** Dış kaynaklardan türeyen tüm kanıtlar, tek listede. */
+  function externals() {
+    var out = [];
+    sources().forEach(function (s) {
+      out = out.concat(s.items);
+    });
+    return out;
+  }
+
+  function sourceLabel(tag) {
+    for (var i = 0; i < SOURCES.length; i++) {
+      if (SOURCES[i].tag === tag) return SOURCES[i].label;
+    }
+    return null;
+  }
+
   /** Kanıt en az bir erişim yolu taşımalı: bağlantı veya dosya. */
   function isUsable(it) {
     if (!it) return false;
@@ -200,6 +315,9 @@ window.Evidence = (function () {
     find: find,
     byStandard: byStandard,
     unclassified: unclassified,
+    sources: sources,
+    externals: externals,
+    sourceLabel: sourceLabel,
     add: add,
     update: update,
     remove: remove,

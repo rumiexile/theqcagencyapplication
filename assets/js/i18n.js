@@ -104,6 +104,10 @@ window.I18N = (function () {
       "evidence.detachOnly": "Yalnızca {code} tasnifinden çıkar",
       "evidence.deleteAll": "Kanıtı tamamen sil",
       "evidence.edit": "Düzenle",
+      "evidence.goToSource": "Girildiği adıma git",
+      "evidence.sourceBadge": "Form adımından",
+      "evidence.sourceNote":
+        "Bu belgeler formun kendi adımlarında girilir; burada yalnızca listelenir. Değiştirmek için girildiği adıma gidiniz.",
       "evidence.editTitle": "Kanıtı düzenle",
       "evidence.itemsSuffix": "kanıt",
       "evidence.linkedTo": "Bu kanıt şu tasniflerde de yer alıyor: {list}",
@@ -313,6 +317,10 @@ window.I18N = (function () {
       "evidence.detachOnly": "Detach from {code} only",
       "evidence.deleteAll": "Delete the evidence entirely",
       "evidence.edit": "Edit",
+      "evidence.goToSource": "Go to the step",
+      "evidence.sourceBadge": "From a form step",
+      "evidence.sourceNote":
+        "These documents are entered in their own form steps and only listed here. Go to that step to change them.",
       "evidence.editTitle": "Edit evidence",
       "evidence.itemsSuffix": "items",
       "evidence.linkedTo": "This evidence also appears under: {list}",

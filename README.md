@@ -66,12 +66,37 @@ okurlar. Bağ bu yüzden iki yönlü çalışır:
 Hiçbir standarda bağlanmayan kanıtlar **Tasnif dışı** olarak işaretlenebilir;
 koleksiyonda dururlar ama hiçbir ESG adımına girmezler.
 
-Kenar çubuğundaki **Başvuru Özeti**, koleksiyondaki kanıt sayısını gösterir.
-Sayıya yalnızca erişilebilir kanıtlar girer — bir ESG adımının tamamlanmış
-sayılması için de aynı ölçüt geçerlidir. Tasnif dışı kanıt varsa sayının
-yanında kaç tanesinin hiçbir standarda bağlanmadığı belirtilir; bunlar
-koleksiyonda durur ama ESG adımlarına ulaşmaz. Sayaç kanıt nereden eklenirse
-eklensin (Belgeler dizini ya da bir ESG adımı) anında güncellenir.
+### Form adımlarından gelen belgeler
+
+Formun bazı adımları kendi belge alanlarını taşır. Bu belgeler ESG tasnifine
+girmediğinden koleksiyona **kopyalanmaz** — dizinde kendi klasörleriyle
+*türetilerek* listelenir:
+
+| Klasör | Kaynak alan | Adım |
+|---|---|---|
+| **Dış Değerlendirme Raporu** | `priorReview.report` + `priorReview.reportUrl` | Başvuru Türü · Önceki dış değerlendirme |
+| **Ek Bağlantılar ve Belgeler** | `priorReview.extraDocs` | Başvuru Türü · Önceki dış değerlendirme |
+| **Kuruluş ve Tescil Dokümanları** | `legal.documents` | Ajans Bilgileri · Yasal statü |
+
+Dış değerlendirme raporunun dosyası ve bağlantısı **tek bir kanıt** olarak
+görünür; ikisi de aynı belgeye erişim yoludur.
+
+Kayıt tek yerde durduğu için eşitleme sorunu doğmaz. Bu klasörler kesik
+çerçeveyle ve **Form adımından** rozetiyle işaretlenir; satırlarında düzenleme
+ve silme yoktur, yerine belgenin girildiği adıma götüren bir bağlantı vardır.
+Alan gizliyse klasör de listelenmez — EQAR sorusuna *hayır* denince ilk iki
+klasör düşer, daha önce girilmiş değerler kalmış olsa bile.
+
+Kaynak listeleri `assets/js/evidence.js` içindeki `SOURCES` tablosundadır; yeni
+bir belge alanı eklemek için tabloya bir satır yazmak yeterlidir.
+
+Kenar çubuğundaki **Başvuru Özeti**, dizinde listelenen kanıt sayısını
+gösterir — koleksiyon ve form adımlarından gelen belgeler birlikte. Sayıya
+yalnızca erişilebilir kanıtlar girer; bir ESG adımının tamamlanmış sayılması
+için de aynı ölçüt geçerlidir. Tasnif dışı kanıt varsa sayının yanında kaç
+tanesinin hiçbir standarda bağlanmadığı belirtilir; bunlar koleksiyonda durur
+ama ESG adımlarına ulaşmaz. Sayaç kanıt nereden eklenirse eklensin (Belgeler
+dizini ya da bir ESG adımı) anında güncellenir.
 
 ### Dizin görünümü
 

@@ -920,6 +920,24 @@ window.Fields = (function () {
         row.appendChild(chain);
       }
 
+      /* Dış kaynaktan türeyen satırlar salt okunurdur: kayıt kendi
+         adımında durur, koleksiyona kopyalanmaz. Düzenleme için o adıma
+         götüren bir bağlantı verilir. */
+      if (item.external) {
+        var go = el("button", {
+          type: "button", class: "btn btn--ghost btn--sm",
+          title: t("evidence.goToSource"),
+        }, [document.createTextNode(t("evidence.goToSource"))]);
+        go.addEventListener("click", function () {
+          var src = EV.sources().filter(function (s) {
+            return s.tag === item.external;
+          })[0];
+          if (src && window.App && window.App.goTo) window.App.goTo(src.step);
+        });
+        row.appendChild(el("span", { class: "ev-file-row__actions" }, [go]));
+        return row;
+      }
+
       var edit = el("button", {
         type: "button", class: "btn btn--ghost btn--sm",
         title: t("evidence.edit"),
@@ -942,13 +960,20 @@ window.Fields = (function () {
       return row;
     }
 
-    function folderBlock(label, items, folder, open) {
-      var det = el("details", { class: "ev-folder", open: open ? "" : null });
+    function folderBlock(label, items, folder, open, external) {
+      var det = el("details", {
+        class: "ev-folder" + (external ? " ev-folder--external" : ""),
+        open: open ? "" : null,
+      });
       det.appendChild(el("summary", { class: "ev-folder__head" }, [
         el("span", { class: "ev-folder__name", text: label }),
+        external ? el("span", { class: "badge badge--neutral", text: t("evidence.sourceBadge") }) : null,
         el("span", { class: "ev-folder__count", text: items.length + " " + t("evidence.itemsSuffix") }),
       ]));
       var body = el("div", { class: "ev-folder__body" });
+      if (external) {
+        body.appendChild(el("p", { class: "ev-folder__note", text: t("evidence.sourceNote") }));
+      }
       items.forEach(function (it) {
         body.appendChild(fileRow(it, folder));
       });
@@ -959,9 +984,16 @@ window.Fields = (function () {
     function renderDir() {
       dirBox.innerHTML = "";
       var items = EV.all();
-      countLabel.textContent = items.length + " " + t("evidence.itemsSuffix");
+      // Formun kendi belge alanlarından türeyen klasörler de dizine girer.
+      var srcFolders = EV.sources().filter(function (s) {
+        return s.items.length;
+      });
+      var srcCount = srcFolders.reduce(function (n, s) {
+        return n + s.items.length;
+      }, 0);
+      countLabel.textContent = (items.length + srcCount) + " " + t("evidence.itemsSuffix");
 
-      if (!items.length) {
+      if (!items.length && !srcCount) {
         dirBox.appendChild(el("p", { class: "repeater__empty", text: t("evidence.empty") }));
         return;
       }
@@ -987,6 +1019,9 @@ window.Fields = (function () {
         var std = window.ESG.byCode ? window.ESG.byCode(code) : null;
         var label = "ESG " + code + (std && std.title ? " · " + pick(std.title) : "");
         dirBox.appendChild(folderBlock(label, byFolder[code], code, true));
+      });
+      srcFolders.forEach(function (s) {
+        dirBox.appendChild(folderBlock(pick(s.label), s.items, s.tag, true, true));
       });
       if (loose.length) {
         dirBox.appendChild(folderBlock(t("evidence.otherFolder"), loose, null, true));

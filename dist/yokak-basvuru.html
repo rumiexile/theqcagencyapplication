@@ -1801,6 +1801,15 @@ legend {
 }
 
 
+/* Erişim yolu bağlantı ve dosyayı birlikte taşıyabilir; ikisi bitişmemeli. */
+.ev-access {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  min-width: 0;
+}
+
 .ev-access__link { font-size: var(--text-sm); }
 
 .ev-access__file,
@@ -2010,6 +2019,23 @@ legend {
   cursor: pointer;
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
+}
+
+/* Form adımlarından türeyen klasörler — salt okunur */
+.ev-folder--external {
+  border-style: dashed;
+}
+
+.ev-folder--external .ev-folder__head {
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
+}
+
+.ev-folder__note {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  line-height: var(--leading-snug);
 }
 
 .ev-folder__count {
@@ -4009,6 +4035,10 @@ window.I18N = (function () {
       "evidence.detachOnly": "Yalnızca {code} tasnifinden çıkar",
       "evidence.deleteAll": "Kanıtı tamamen sil",
       "evidence.edit": "Düzenle",
+      "evidence.goToSource": "Girildiği adıma git",
+      "evidence.sourceBadge": "Form adımından",
+      "evidence.sourceNote":
+        "Bu belgeler formun kendi adımlarında girilir; burada yalnızca listelenir. Değiştirmek için girildiği adıma gidiniz.",
       "evidence.editTitle": "Kanıtı düzenle",
       "evidence.itemsSuffix": "kanıt",
       "evidence.linkedTo": "Bu kanıt şu tasniflerde de yer alıyor: {list}",
@@ -4218,6 +4248,10 @@ window.I18N = (function () {
       "evidence.detachOnly": "Detach from {code} only",
       "evidence.deleteAll": "Delete the evidence entirely",
       "evidence.edit": "Edit",
+      "evidence.goToSource": "Go to the step",
+      "evidence.sourceBadge": "From a form step",
+      "evidence.sourceNote":
+        "These documents are entered in their own form steps and only listed here. Go to that step to change them.",
       "evidence.editTitle": "Edit evidence",
       "evidence.itemsSuffix": "items",
       "evidence.linkedTo": "This evidence also appears under: {list}",
@@ -6943,6 +6977,121 @@ window.Evidence = (function () {
     });
   }
 
+  /* ------------------------------------------------------------------
+     Dış kaynaklar / external sources
+
+     Formun bazı adımları kendi belge alanlarını taşır: dış değerlendirme
+     raporu, ona ait ek bağlantılar ve kuruluş/tescil dokümanları. Bunlar
+     ESG tasnifine girmediğinden koleksiyona kopyalanmaz — koleksiyonda
+     kendi klasörleriyle *türetilerek* listelenir. Kayıt tek yerde
+     durduğu için eşitleme sorunu doğmaz; kanıt hangi adımda giriliyorsa
+     orada düzenlenir.
+     ------------------------------------------------------------------ */
+  var SOURCES = [
+    {
+      tag: "src.priorReview",
+      label: { tr: "Dış Değerlendirme Raporu", en: "External Review Report" },
+      step: { tab: "type", step: "prior-review" },
+      when: hasPriorReview,
+      /* Rapor tek bir kanıttır: dosya ve/veya bağlantı olarak verilir. */
+      read: function (store) {
+        var file = store.get("priorReview.report");
+        var url = store.get("priorReview.reportUrl");
+        if (!file && !url) return [];
+        var agency = store.get("priorReview.agency");
+        var year = store.get("priorReview.year");
+        return [{
+          id: "SRC-priorReview",
+          name: window.I18N.pick({
+            tr: "Dış değerlendirme raporu",
+            en: "External review report",
+          }),
+          url: url || "",
+          file: file || null,
+          note: [agency, year].filter(Boolean).join(" · "),
+        }];
+      },
+    },
+    {
+      tag: "src.extraDocs",
+      label: { tr: "Ek Bağlantılar ve Belgeler", en: "Additional Links and Documents" },
+      step: { tab: "type", step: "prior-review" },
+      when: hasPriorReview,
+      read: function (store) {
+        return rowsOf(store, "priorReview.extraDocs", function (r, i) {
+          return {
+            id: "SRC-extraDocs-" + i,
+            name: r.name || "",
+            url: r.url || "",
+            file: null,
+            note: "",
+          };
+        });
+      },
+    },
+    {
+      tag: "src.legalDocs",
+      label: { tr: "Kuruluş ve Tescil Dokümanları", en: "Founding and Registration Documents" },
+      step: { tab: "agency", step: "legal" },
+      read: function (store) {
+        return rowsOf(store, "legal.documents", function (r, i) {
+          return {
+            id: "SRC-legalDocs-" + i,
+            name: r.name || "",
+            url: r.url || "",
+            file: r.file || null,
+            note: [r.authority, r.issuedAt].filter(Boolean).join(" · "),
+          };
+        });
+      },
+    },
+  ];
+
+  function rowsOf(store, path, map) {
+    var v = store.get(path);
+    return Array.isArray(v) ? v.map(map) : [];
+  }
+
+  /* "Hayır" yanıtından sonra alanlar gizlenir ama daha önce girilmiş
+     değerler mağazada kalabilir; gizli adımın belgeleri listelenmemeli. */
+  function hasPriorReview(store) {
+    return store.get("priorReview.has") === "evet";
+  }
+
+  /** Dış kaynak klasörleri; her biri `items` ile birlikte döner. */
+  function sources() {
+    var store = S();
+    return SOURCES.map(function (src) {
+      var items = src.when && !src.when(store) ? [] : src.read(store);
+      return {
+        tag: src.tag,
+        label: src.label,
+        step: src.step,
+        items: items.filter(isUsable).map(function (it) {
+          it.external = src.tag;
+          it.tags = [src.tag];
+          return it;
+        }),
+      };
+    });
+  }
+
+  /** Dış kaynaklardan türeyen tüm kanıtlar, tek listede. */
+  function externals() {
+    var out = [];
+    sources().forEach(function (s) {
+      out = out.concat(s.items);
+    });
+    return out;
+  }
+
+  function sourceLabel(tag) {
+    for (var i = 0; i < SOURCES.length; i++) {
+      if (SOURCES[i].tag === tag) return SOURCES[i].label;
+    }
+    return null;
+  }
+
   /** Kanıt en az bir erişim yolu taşımalı: bağlantı veya dosya. */
   function isUsable(it) {
     if (!it) return false;
@@ -7004,6 +7153,9 @@ window.Evidence = (function () {
     find: find,
     byStandard: byStandard,
     unclassified: unclassified,
+    sources: sources,
+    externals: externals,
+    sourceLabel: sourceLabel,
     add: add,
     update: update,
     remove: remove,
@@ -9187,6 +9339,24 @@ window.Fields = (function () {
         row.appendChild(chain);
       }
 
+      /* Dış kaynaktan türeyen satırlar salt okunurdur: kayıt kendi
+         adımında durur, koleksiyona kopyalanmaz. Düzenleme için o adıma
+         götüren bir bağlantı verilir. */
+      if (item.external) {
+        var go = el("button", {
+          type: "button", class: "btn btn--ghost btn--sm",
+          title: t("evidence.goToSource"),
+        }, [document.createTextNode(t("evidence.goToSource"))]);
+        go.addEventListener("click", function () {
+          var src = EV.sources().filter(function (s) {
+            return s.tag === item.external;
+          })[0];
+          if (src && window.App && window.App.goTo) window.App.goTo(src.step);
+        });
+        row.appendChild(el("span", { class: "ev-file-row__actions" }, [go]));
+        return row;
+      }
+
       var edit = el("button", {
         type: "button", class: "btn btn--ghost btn--sm",
         title: t("evidence.edit"),
@@ -9209,13 +9379,20 @@ window.Fields = (function () {
       return row;
     }
 
-    function folderBlock(label, items, folder, open) {
-      var det = el("details", { class: "ev-folder", open: open ? "" : null });
+    function folderBlock(label, items, folder, open, external) {
+      var det = el("details", {
+        class: "ev-folder" + (external ? " ev-folder--external" : ""),
+        open: open ? "" : null,
+      });
       det.appendChild(el("summary", { class: "ev-folder__head" }, [
         el("span", { class: "ev-folder__name", text: label }),
+        external ? el("span", { class: "badge badge--neutral", text: t("evidence.sourceBadge") }) : null,
         el("span", { class: "ev-folder__count", text: items.length + " " + t("evidence.itemsSuffix") }),
       ]));
       var body = el("div", { class: "ev-folder__body" });
+      if (external) {
+        body.appendChild(el("p", { class: "ev-folder__note", text: t("evidence.sourceNote") }));
+      }
       items.forEach(function (it) {
         body.appendChild(fileRow(it, folder));
       });
@@ -9226,9 +9403,16 @@ window.Fields = (function () {
     function renderDir() {
       dirBox.innerHTML = "";
       var items = EV.all();
-      countLabel.textContent = items.length + " " + t("evidence.itemsSuffix");
+      // Formun kendi belge alanlarından türeyen klasörler de dizine girer.
+      var srcFolders = EV.sources().filter(function (s) {
+        return s.items.length;
+      });
+      var srcCount = srcFolders.reduce(function (n, s) {
+        return n + s.items.length;
+      }, 0);
+      countLabel.textContent = (items.length + srcCount) + " " + t("evidence.itemsSuffix");
 
-      if (!items.length) {
+      if (!items.length && !srcCount) {
         dirBox.appendChild(el("p", { class: "repeater__empty", text: t("evidence.empty") }));
         return;
       }
@@ -9254,6 +9438,9 @@ window.Fields = (function () {
         var std = window.ESG.byCode ? window.ESG.byCode(code) : null;
         var label = "ESG " + code + (std && std.title ? " · " + pick(std.title) : "");
         dirBox.appendChild(folderBlock(label, byFolder[code], code, true));
+      });
+      srcFolders.forEach(function (s) {
+        dirBox.appendChild(folderBlock(pick(s.label), s.items, s.tag, true, true));
       });
       if (loose.length) {
         dirBox.appendChild(folderBlock(t("evidence.otherFolder"), loose, null, true));
@@ -10621,7 +10808,9 @@ window.Fields = (function () {
    */
   function evidenceRow() {
     var EV = window.Evidence;
-    var usable = EV.all().filter(EV.isUsable);
+    // Dizinde listelenen her şey sayılır: koleksiyon + form adımlarının
+    // kendi belge alanlarından türeyen kanıtlar.
+    var usable = EV.all().filter(EV.isUsable).concat(EV.externals());
     var loose = usable.filter(function (it) {
       return !(it.tags || []).some(function (c) {
         return c !== EV.OTHER;
@@ -11380,6 +11569,29 @@ window.Fields = (function () {
   window.addEventListener("beforeunload", function () {
     S.save();
   });
+
+  /**
+   * Dışarıdan gezinme — kimlikle sekme/adım hedefler. Kanıt dizini,
+   * dış kaynaktan gelen bir belgenin girildiği adıma götürmek için
+   * kullanır.
+   */
+  window.App = {
+    goTo: function (where) {
+      if (!where) return false;
+      var ti = -1;
+      for (var i = 0; i < tabs.length; i++) {
+        if (tabs[i].id === where.tab) ti = i;
+      }
+      if (ti < 0) return false;
+      var si = 0;
+      (tabs[ti].steps || []).forEach(function (s, k) {
+        if (s.id === where.step) si = k;
+      });
+      go(ti, si);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return true;
+    },
+  };
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
