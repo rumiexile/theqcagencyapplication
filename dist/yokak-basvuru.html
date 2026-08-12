@@ -2128,6 +2128,83 @@ legend {
   font-weight: var(--weight-medium);
 }
 
+/* Kanıt silme onayı — tasniften çıkarma ve tamamen silme ayrı eylemler */
+.ev-confirm { max-width: 560px; }
+
+.ev-confirm__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ev-confirm__name {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  overflow-wrap: anywhere;
+}
+
+.ev-confirm__lead {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-normal);
+}
+
+.ev-confirm__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.ev-confirm__actions .btn { justify-content: flex-start; }
+
+/* --------------------------------------------------------------------------
+   Tekrarlayıcı satırı içindeki dosya alanı
+   -------------------------------------------------------------------------- */
+.rep-file {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.rep-file__have {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+}
+
+.rep-file__icon {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  color: var(--color-text-subtle);
+}
+
+.rep-file__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 22ch;
+}
+
+.rep-file__size {
+  color: var(--color-text-subtle);
+  font-size: var(--text-xs);
+  flex: none;
+}
+
+.rep-file__error {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--color-danger-text);
+  font-size: var(--text-xs);
+}
+
 </style>
     <!-- assets/css/glass.css -->
 <style>
@@ -3873,6 +3950,7 @@ window.I18N = (function () {
       "validate.url": "Geçerli bir adres giriniz (https:// ile başlamalı).",
       "validate.minLength": "En az {n} karakter giriniz.",
       "validate.maxLength": "En fazla {n} karakter girebilirsiniz.",
+      "validate.pattern": "Girdiğiniz değer beklenen biçimde değil.",
       "validate.minItems": "En az {n} kayıt eklemelisiniz.",
       "validate.number": "Geçerli bir sayı giriniz.",
       "validate.year": "Geçerli bir yıl giriniz (1900–2100).",
@@ -3904,11 +3982,19 @@ window.I18N = (function () {
         "Kanıta erişilebilmesi için bağlantı veya dosyadan en az biri verilmelidir; ikisi birden de eklenebilir.",
       "evidence.accessRequired": "Bağlantı veya dosyadan en az birini sağlayınız.",
       "evidence.cancel": "Vazgeç",
+      "evidence.deleteTitle": "Kanıtı kaldır",
+      "evidence.deleteLeadSingle":
+        "Bu kanıt yalnızca {code} tasnifinde yer alıyor. Tasniften çıkarırsanız kanıt koleksiyonda Tasnif dışı olarak kalır.",
+      "evidence.deleteLeadLinked":
+        "Bu kanıt {code} dışında şu tasniflerde de yer alıyor: {list}. Tasniften çıkarmak yalnızca {code} bağını kaldırır; silmek kanıtı hepsinden düşürür.",
+      "evidence.deleteLeadLoose":
+        "Bu kanıt hiçbir ESG tasnifine bağlı değil. Silmek kanıtı koleksiyondan tamamen kaldırır.",
+      "evidence.detachOnly": "Yalnızca {code} tasnifinden çıkar",
+      "evidence.deleteAll": "Kanıtı tamamen sil",
       "evidence.edit": "Düzenle",
-      "evidence.editTitle": "Kanıdı düzenle",
+      "evidence.editTitle": "Kanıtı düzenle",
       "evidence.itemsSuffix": "kanıt",
       "evidence.linkedTo": "Bu kanıt şu tasniflerde de yer alıyor: {list}",
-      "evidence.removeLinked": "Kanıdı sil (bulunduğu {n} tasniften birden kaldırılır)",
       "evidence.newTitle": "Yeni kanıt",
       "evidence.otherFolder": "Tasnif dışı",
       "evidence.save": "Kaydet",
@@ -3933,10 +4019,10 @@ window.I18N = (function () {
       "evidence.other": "Tasnif dışı",
       "evidence.otherGroup": "Sınıflandırma dışı",
       "evidence.pickFromLibrary": "Koleksiyondan seç",
-      "evidence.remove": "Kanıdı sil",
+      "evidence.remove": "Kanıtı sil",
       "evidence.replaceFile": "Dosyayı değiştir",
       "evidence.tagsHint":
-        "Kanıdın hangi ESG standartlarını desteklediğini işaretleyiniz; kanıt o standartların adımlarına kendiliğinden yerleşir.",
+        "Kanıtın hangi ESG standartlarını desteklediğini işaretleyiniz; kanıt o standartların adımlarına kendiliğinden yerleşir.",
       "evidence.tagsLabel": "Bu kanıt hangi standartları destekliyor?",
       "evidence.untagged": "etiketsiz",
       "evidence.url": "Bağlantı (URL)",
@@ -4069,6 +4155,7 @@ window.I18N = (function () {
       "validate.url": "Enter a valid address (must start with https://).",
       "validate.minLength": "Enter at least {n} characters.",
       "validate.maxLength": "Enter no more than {n} characters.",
+      "validate.pattern": "The value is not in the expected format.",
       "validate.minItems": "Add at least {n} entries.",
       "validate.number": "Enter a valid number.",
       "validate.year": "Enter a valid year (1900–2100).",
@@ -4100,11 +4187,19 @@ window.I18N = (function () {
         "To make the evidence reachable, provide a link or a file — you may add both.",
       "evidence.accessRequired": "Provide at least a link or a file.",
       "evidence.cancel": "Cancel",
+      "evidence.deleteTitle": "Remove evidence",
+      "evidence.deleteLeadSingle":
+        "This evidence appears only under {code}. Detaching it leaves the evidence in the library as Unclassified.",
+      "evidence.deleteLeadLinked":
+        "Besides {code}, this evidence also appears under: {list}. Detaching removes only the {code} link; deleting removes it from all of them.",
+      "evidence.deleteLeadLoose":
+        "This evidence is not attached to any ESG classification. Deleting removes it from the library entirely.",
+      "evidence.detachOnly": "Detach from {code} only",
+      "evidence.deleteAll": "Delete the evidence entirely",
       "evidence.edit": "Edit",
       "evidence.editTitle": "Edit evidence",
       "evidence.itemsSuffix": "items",
       "evidence.linkedTo": "This evidence also appears under: {list}",
-      "evidence.removeLinked": "Delete evidence (removed from all {n} classifications)",
       "evidence.newTitle": "New evidence",
       "evidence.otherFolder": "Unclassified",
       "evidence.save": "Save",
@@ -6777,7 +6872,7 @@ window.Evidence = (function () {
     return rec.id;
   }
 
-  /** Var olan kanıdın alanlarını günceller. */
+  /** Var olan kanıtın alanlarını günceller. */
   function update(id, patch) {
     var list = all().slice();
     for (var i = 0; i < list.length; i++) {
@@ -7001,6 +7096,15 @@ window.Validate = (function () {
             return t("validate.minLength", { n: sub.minLength });
           }
         }
+        /* Satır düzeyinde "en az biri" kuralı — ör. her doküman ya
+           dosya olarak ya da bağlantı olarak verilmelidir. */
+        if (field.rowRequireOneOf) {
+          var row = rows[r];
+          var got = field.rowRequireOneOf.some(function (id) {
+            return !isEmpty(row[id]);
+          });
+          if (!got) return t("validate.requireOneOf");
+        }
       }
       return null;
     }
@@ -7077,6 +7181,13 @@ window.Validate = (function () {
     }
     if (field.maxLength && s.length > field.maxLength) {
       return t("validate.maxLength", { n: field.maxLength });
+    }
+    /* Biçim kalıbı — sicil/kimlik numaraları gibi sabit desenli alanlar için.
+       Hata iletisi alanın kendi diline sahip olduğundan şemadan gelir. */
+    if (field.pattern && !new RegExp(field.pattern).test(s)) {
+      return field.patternMessage
+        ? window.I18N.pick(field.patternMessage)
+        : t("validate.pattern");
     }
     if (field.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s)) {
       return t("validate.email");
@@ -7559,9 +7670,24 @@ window.SCHEMA = (function () {
                 ],
               },
             },
+            /* MERSİS numarası hukuki statüden bağımsız olarak her
+               yetkilendirme başvurusunda istenir. */
             {
-              type: "text", id: "agency.mersis", half: true,
-              label: { tr: "MERSİS Numarası", en: "MERSIS Number" },
+              type: "text", id: "agency.mersis", required: true, half: true,
+              maxLength: 16, inputmode: "numeric",
+              pattern: "^[0-9]{16}$",
+              patternMessage: {
+                tr: "MERSİS numarası 16 haneli ve yalnızca rakamlardan oluşmalıdır.",
+                en: "The MERSIS number must be exactly 16 digits.",
+              },
+              label: {
+                tr: "MERSİS No (Merkezi Sicil Kayıt Sistemi Numarası)",
+                en: "MERSIS No (Central Registry Record System Number)",
+              },
+              hint: {
+                tr: "16 haneli MERSİS numarasını boşluk bırakmadan yazınız.",
+                en: "Enter the 16-digit MERSIS number without spaces.",
+              },
               placeholder: { tr: "16 haneli numara", en: "16-digit number" },
               showIf: { field: "applicationType", equals: "yetkilendirme" },
             },
@@ -7655,6 +7781,52 @@ window.SCHEMA = (function () {
               type: "textarea", id: "legal.basis", required: true, minLength: 100, maxLength: 3000,
               label: { tr: "Yasal dayanak", en: "Legal basis" },
               hint: { tr: "Kuruluşunuzun dayandığı mevzuat, tüzük veya kuruluş senedini açıklayınız.", en: "Describe the legislation, statute or founding charter your organisation is based on." },
+            },
+            /* Yasal dayanağı belgeleyen resmî evrak. Kanıt koleksiyonu ESG
+               tasnifine göre kurulduğundan, tüzel kişilik evrakı burada
+               adımın kendi listesinde tutulur. */
+            {
+              type: "repeater", id: "legal.documents", required: true, minItems: 1,
+              label: { tr: "Kuruluş ve tescil dokümanları", en: "Founding and registration documents" },
+              hint: {
+                tr:
+                  "Kanunen yetkilendirilmiş otoritelerce verilen resmî kuruluş ve tescil dokümanlarını ekleyiniz.",
+                en:
+                  "Add the official founding and registration documents issued by legally authorised authorities.",
+              },
+              addLabel: { tr: "Doküman ekle", en: "Add document" },
+              itemFields: [
+                {
+                  type: "text", id: "name", required: true,
+                  label: { tr: "Doküman adı", en: "Document name" },
+                  placeholder: {
+                    tr: "ör. Dernek Kuruluş Bildirimi",
+                    en: "e.g. Certificate of Incorporation",
+                  },
+                },
+                {
+                  type: "text", id: "authority", required: true,
+                  label: { tr: "Belgeyi veren otorite", en: "Issuing authority" },
+                  placeholder: {
+                    tr: "ör. İçişleri Bakanlığı Sivil Toplumla İlişkiler Genel Müdürlüğü",
+                    en: "e.g. Ministry of the Interior",
+                  },
+                },
+                {
+                  type: "date", id: "issuedAt",
+                  label: { tr: "Düzenlenme tarihi", en: "Date of issue" },
+                },
+                {
+                  type: "file", id: "file",
+                  label: { tr: "Doküman dosyası", en: "Document file" },
+                },
+                {
+                  type: "url", id: "url",
+                  label: { tr: "Bağlantı (URL)", en: "Link (URL)" },
+                  placeholder: { tr: "https://…", en: "https://…" },
+                },
+              ],
+              rowRequireOneOf: ["file", "url"],
             },
             {
               type: "repeater", id: "legal.recognitions", minItems: 0,
@@ -8150,6 +8322,7 @@ window.Fields = (function () {
     arrowLeft: '<path d="M19 12H5M12 19l-7-7 7-7"/>',
     print: '<path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/>',
     send: '<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>',
+    file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
   };
 
   function icon(name, cls) {
@@ -8242,6 +8415,7 @@ window.Fields = (function () {
       min: field.min,
       max: field.max,
       maxlength: field.maxLength,
+      inputmode: field.inputmode,
       "aria-describedby": "err_" + safeId(field.id),
     });
     input.addEventListener("input", function () {
@@ -8390,6 +8564,65 @@ window.Fields = (function () {
   /* ------------------------------------------------------------------
      Tekrarlayıcı / repeater
      ------------------------------------------------------------------ */
+
+  /* Satır içi alanların HTML girdi türü; eşleşmeyen her tür metindir. */
+  var REPEATER_INPUT = { number: "number", url: "url", date: "date", email: "email", tel: "tel" };
+
+  /**
+   * Satır içi dosya alanı. Dosya, kanıt koleksiyonundaki ile aynı biçimde
+   * ({name, size, type, data}) satırın kendi verisine gömülür; böylece
+   * dışa aktarılan başvuru dosyası kendi kendine yeterli kalır.
+   */
+  function repeaterFile(sub, subId, current, onChange) {
+    var box = el("div", { class: "rep-file" });
+    var input = el("input", { type: "file", id: subId, class: "sr-only", accept: sub.accept });
+    var err = el("p", { class: "rep-file__error", hidden: "" });
+
+    function draw() {
+      box.innerHTML = "";
+      box.appendChild(input);
+      if (current && current.name) {
+        box.appendChild(el("span", { class: "rep-file__have" }, [
+          icon("file", "rep-file__icon"),
+          el("span", { class: "rep-file__name", text: current.name }),
+          el("span", { class: "rep-file__size", text: fmtBytes(current.size) }),
+        ]));
+      }
+      var pickBtn = el("button", { type: "button", class: "btn btn--secondary btn--sm" }, [
+        icon("upload", "btn__icon"),
+        document.createTextNode(
+          current && current.name ? t("evidence.replaceFile") : t("evidence.addFile")
+        ),
+      ]);
+      pickBtn.addEventListener("click", function () { input.click(); });
+      box.appendChild(pickBtn);
+
+      if (current && current.name) {
+        var clear = el("button", { type: "button", class: "btn btn--ghost btn--sm" }, [
+          icon("x", "btn__icon"), document.createTextNode(t("evidence.clearFile")),
+        ]);
+        clear.addEventListener("click", function () { onChange(null); });
+        box.appendChild(clear);
+      }
+      box.appendChild(err);
+    }
+
+    input.addEventListener("change", function () {
+      var f = input.files && input.files[0];
+      if (!f) return;
+      readEvidenceFile(f, function (rec) {
+        err.hidden = true;
+        onChange(rec);
+      }, function (msg) {
+        err.textContent = msg;
+        err.hidden = false;
+      });
+    });
+
+    draw();
+    return box;
+  }
+
   function repeater(field) {
     var list = el("div", { class: "repeater" });
     var holder = el("div", {}, [list]);
@@ -8443,10 +8676,18 @@ window.Fields = (function () {
               control.appendChild(el("option", { value: o.value, text: pick(o.label) }));
             });
             control.value = row[sub.id] || "";
+          } else if (sub.type === "file") {
+            control = repeaterFile(sub, subId, row[sub.id], function (val) {
+              var next = rows().slice();
+              next[idx] = Object.assign({}, next[idx]);
+              next[idx][sub.id] = val;
+              persist(next);
+              render();
+            });
           } else {
             control = el("input", {
               class: "input",
-              type: sub.type === "number" ? "number" : sub.type === "url" ? "url" : "text",
+              type: REPEATER_INPUT[sub.type] || "text",
               id: subId,
               value: row[sub.id] || "",
               placeholder: sub.placeholder ? pick(sub.placeholder) : null,
@@ -8454,12 +8695,14 @@ window.Fields = (function () {
               max: sub.max,
             });
           }
-          control.addEventListener("input", function () {
-            var next = rows().slice();
-            next[idx] = Object.assign({}, next[idx]);
-            next[idx][sub.id] = control.value;
-            persist(next);
-          });
+          if (sub.type !== "file") {
+            control.addEventListener("input", function () {
+              var next = rows().slice();
+              next[idx] = Object.assign({}, next[idx]);
+              next[idx][sub.id] = control.value;
+              persist(next);
+            });
+          }
 
           var lbl = el("label", { class: "field__label", for: subId }, [
             document.createTextNode(pick(sub.label)),
@@ -8577,7 +8820,7 @@ window.Fields = (function () {
     reader.readAsDataURL(file);
   }
 
-  /** Kanıdın taşıdığı standart etiketlerini rozet olarak gösterir. */
+  /** Kanıtın taşıdığı standart etiketlerini rozet olarak gösterir. */
   function evidenceTagChips(item) {
     var EV = window.Evidence;
     var box = el("span", { class: "ev-tags" });
@@ -8594,7 +8837,7 @@ window.Fields = (function () {
     return box;
   }
 
-  /** Kanıdın erişim yolunu (bağlantı ve/veya dosya) özetler. */
+  /** Kanıtın erişim yolunu (bağlantı ve/veya dosya) özetler. */
   function evidenceAccess(item) {
     var box = el("span", { class: "ev-access" });
     if (item.url) {
@@ -8797,6 +9040,80 @@ window.Fields = (function () {
     name.focus();
   }
 
+  /**
+   * Silme onayı. Kanıt birden çok tasnifte görünebildiğinden iki ayrı
+   * eylem sunulur: yalnızca bulunulan tasniften çıkarmak (etiketi kaldırır,
+   * kanıt koleksiyonda kalır) veya kanıtı tamamen silmek. Tasnif dışı
+   * klasöründe çıkarılacak bir etiket olmadığından yalnızca silme sunulur.
+   */
+  function evidenceDeleteConfirm(item, folder, onDone) {
+    var EV = window.Evidence;
+    var dlg = el("dialog", { class: "modal ev-confirm" });
+    var others = (item.tags || []).filter(function (c) {
+      return c !== EV.OTHER && c !== folder;
+    }).sort();
+
+    function close() {
+      dlg.close();
+    }
+
+    var actions = [];
+
+    if (folder) {
+      var untag = el("button", { type: "button", class: "btn btn--secondary" }, [
+        icon("x", "btn__icon"),
+        document.createTextNode(t("evidence.detachOnly", { code: "ESG " + folder })),
+      ]);
+      untag.addEventListener("click", function () {
+        EV.untag(item.id, folder);
+        close();
+        onDone();
+      });
+      actions.push(untag);
+    }
+
+    var wipe = el("button", { type: "button", class: "btn btn--danger" }, [
+      icon("trash", "btn__icon"), document.createTextNode(t("evidence.deleteAll")),
+    ]);
+    wipe.addEventListener("click", function () {
+      EV.remove(item.id);
+      close();
+      onDone();
+    });
+    actions.push(wipe);
+
+    var cancel = el("button", { type: "button", class: "btn btn--ghost", text: t("evidence.cancel") });
+    cancel.addEventListener("click", close);
+
+    dlg.appendChild(el("div", {}, [
+      el("div", { class: "modal__header" }, [
+        el("h2", { class: "modal__title", text: t("evidence.deleteTitle") }),
+      ]),
+      el("div", { class: "modal__body ev-confirm__body" }, [
+        el("p", { class: "ev-confirm__name", text: item.name || t("evidence.unnamed") }),
+        el("p", {
+          class: "ev-confirm__lead",
+          text: folder
+            ? (others.length
+                ? t("evidence.deleteLeadLinked", {
+                    code: "ESG " + folder,
+                    list: others.map(function (c) { return "ESG " + c; }).join(", "),
+                  })
+                : t("evidence.deleteLeadSingle", { code: "ESG " + folder }))
+            : t("evidence.deleteLeadLoose"),
+        }),
+        el("div", { class: "ev-confirm__actions" }, actions),
+      ]),
+      el("div", { class: "modal__footer" }, [cancel]),
+    ]));
+
+    document.body.appendChild(dlg);
+    dlg.addEventListener("close", function () {
+      dlg.remove();
+    });
+    dlg.showModal();
+  }
+
   /* ------------------------------------------------------------------
      Belgeler bölümü — kanıt dizini
      Kanıtlar bir dosya sistemi gibi klasörler altında listelenir;
@@ -8857,18 +9174,14 @@ window.Fields = (function () {
         evidenceEditor(item, refresh);
       });
 
-      // Kanıt birden çok klasörde göründüğünden, silmenin kaydı tamamen
-      // kaldırdığı açıkça belirtilir.
-      var delTitle = others.length
-        ? t("evidence.removeLinked", { n: others.length + 1 })
-        : t("evidence.remove");
+      // Kapsam seçimi onay penceresine bırakılır: tasniften çıkarma mı,
+      // tamamen silme mi.
       var del = el("button", {
         type: "button", class: "btn btn--ghost btn--sm ev-file-row__delete",
-        title: delTitle, "aria-label": delTitle,
+        title: t("evidence.remove"), "aria-label": t("evidence.remove"),
       }, [icon("trash", "btn__icon")]);
       del.addEventListener("click", function () {
-        EV.remove(item.id);
-        refresh();
+        evidenceDeleteConfirm(item, folder, refresh);
       });
 
       row.appendChild(el("span", { class: "ev-file-row__actions" }, [edit, del]));
@@ -10591,6 +10904,10 @@ window.Fields = (function () {
               .map(function (sf) {
                 if (!row[sf.id]) return null;
                 var shown = row[sf.id];
+                // Yüklenen dosya bir nesnedir; özette adıyla anılır
+                if (sf.type === "file") {
+                  return pick(sf.label) + ": " + (shown.name || "");
+                }
                 // Seçim alanlarında ham değer yerine etiketi göster
                 if (sf.options) {
                   var opt = sf.options.filter(function (o) {

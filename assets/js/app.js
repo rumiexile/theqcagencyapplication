@@ -630,6 +630,10 @@
               .map(function (sf) {
                 if (!row[sf.id]) return null;
                 var shown = row[sf.id];
+                // Yüklenen dosya bir nesnedir; özette adıyla anılır
+                if (sf.type === "file") {
+                  return pick(sf.label) + ": " + (shown.name || "");
+                }
                 // Seçim alanlarında ham değer yerine etiketi göster
                 if (sf.options) {
                   var opt = sf.options.filter(function (o) {

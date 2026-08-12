@@ -98,6 +98,15 @@ window.Validate = (function () {
             return t("validate.minLength", { n: sub.minLength });
           }
         }
+        /* Satır düzeyinde "en az biri" kuralı — ör. her doküman ya
+           dosya olarak ya da bağlantı olarak verilmelidir. */
+        if (field.rowRequireOneOf) {
+          var row = rows[r];
+          var got = field.rowRequireOneOf.some(function (id) {
+            return !isEmpty(row[id]);
+          });
+          if (!got) return t("validate.requireOneOf");
+        }
       }
       return null;
     }
@@ -174,6 +183,13 @@ window.Validate = (function () {
     }
     if (field.maxLength && s.length > field.maxLength) {
       return t("validate.maxLength", { n: field.maxLength });
+    }
+    /* Biçim kalıbı — sicil/kimlik numaraları gibi sabit desenli alanlar için.
+       Hata iletisi alanın kendi diline sahip olduğundan şemadan gelir. */
+    if (field.pattern && !new RegExp(field.pattern).test(s)) {
+      return field.patternMessage
+        ? window.I18N.pick(field.patternMessage)
+        : t("validate.pattern");
     }
     if (field.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s)) {
       return t("validate.email");

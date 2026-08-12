@@ -72,14 +72,22 @@ Belgeler bölümü kanıtları bir dosya sistemi gibi listeler: klasörler ESG
 standardı kodlarıdır, satırlar kanıtlardır. Bir kanıt kaç standarda bağlıysa
 **o kadar klasörde görünür** — kayıt tektir, yalnızca satır tekrarlanır.
 
-Böyle bir kanıdın yanında **zincir rozeti** çıkar; üzerine gelindiğinde kanıdın
+Böyle bir kanıtın yanında **zincir rozeti** çıkar; üzerine gelindiğinde kanıtın
 başka hangi tasniflerde yer aldığı listelenir. Rozet bulunulan klasörü
 dışarıda bırakır, dolayısıyla her satırda farklı bir liste gösterir.
 
-Aynı kayıt birden çok yerde göründüğü için silmenin kapsamı önemlidir: **sil**
-kanıdı koleksiyondan tamamen kaldırır, yani bağlı olduğu bütün tasniflerden
-birden düşer — düğmenin ipucu bunu kaç tasnif olduğuyla birlikte söyler. Yalnızca
-bir standarttan çıkarmak için kanıt düzenlenip o etiket kaldırılır.
+Aynı kayıt birden çok yerde göründüğü için silmenin kapsamı önemlidir; bu
+yüzden sil düğmesi doğrudan silmez, bir onay penceresi açar ve iki ayrı işlem
+sunar:
+
+| İşlem | Etkisi |
+|---|---|
+| **Yalnızca ESG *x.y* tasnifinden çıkar** | Sadece o etiketi kaldırır. Kanıt koleksiyonda kalır, öteki tasniflerde görünmeyi sürdürür; hiç etiketi kalmazsa **Tasnif dışı** klasörüne düşer. |
+| **Kanıtı tamamen sil** | Kaydı koleksiyondan kaldırır; bağlı olduğu bütün tasniflerden birden düşer. |
+
+Pencere, kanıtın o an başka hangi tasniflerde yer aldığını da yazar; böylece
+silmenin nereye dokunacağı işlemden önce görünür. **Tasnif dışı** klasöründe
+çıkarılacak bir etiket bulunmadığından yalnızca tamamen silme sunulur.
 
 Ekleme ve düzenleme, **Kaydet** ve **Vazgeç** düğmeleri olan bir pencerede
 yapılır. Kaydedilmeden koleksiyona hiçbir şey yazılmaz; vazgeçmek boş kayıt
@@ -161,7 +169,7 @@ Sekmeler (`tabs`) → adımlar (`steps`) → alanlar (`fields`):
 | # | Sekme | Adımlar |
 |---|-------|---------|
 | 1 | **Başvuru Türü** | Tür seçimi (Yetkilendirme / Tanınma), başvuru niteliği · **Önceki dış değerlendirme (EQAR)** |
-| 2 | **Ajans Bilgileri** | Kimlik (kuruluş bilgileri · **ağ ve çatı kuruluş üyelikleri**) · İletişim · Yasal statü · Yönetişim ve kaynaklar |
+| 2 | **Ajans Bilgileri** | Kimlik (kuruluş bilgileri · **sicil numaraları** · **ağ ve çatı kuruluş üyelikleri**) · İletişim · Yasal statü (**kuruluş ve tescil dokümanları**) · Yönetişim ve kaynaklar |
 | 3 | **Belgeler** | **Kanıt koleksiyonu** — tüm kanıtlar, ESG standardı etiketleriyle |
 | 4 | **ESG 3** — Kalite Güvencesi Ajansları | 3.1 → 3.6 (her standart bir adım) · *EQAR raporu sunulduysa muaf* |
 | 5 | **ESG 2** — Dış Kalite Güvencesi | 2.1 → 2.7 · *EQAR raporu sunulduysa muaf* |
@@ -171,6 +179,35 @@ Sekmeler (`tabs`) → adımlar (`steps`) → alanlar (`fields`):
 Her ESG adımı şunları ister: standardın resmî metni (okunur) → **ajansın
 uygulaması** (kelime/karakter sayaçlı) → **öz değerlendirme** (Tam / Büyük
 ölçüde / Kısmen / Uyumsuz) → **kanıtlar** (ad, URL, belge referansı).
+
+### Sicil numaraları
+
+Yetkilendirme başvurusunda kimlik adımı ulusal sicil numaralarını da ister.
+Hukuki statüye bağlı olan numara tektir — dernekte kütük, vakıfta sicil,
+diğer statülerde ticaret sicil gazetesi numarası. **MERSİS No** ise
+statüden bağımsızdır: her yetkilendirme başvurusunda, seçilen tüzel kişilik
+türü ne olursa olsun istenir ve **16 haneli, yalnızca rakam** olmak zorundadır.
+Tanınma başvurusunda bu alanların hiçbiri sorulmaz.
+
+Biçim kuralı şemadan gelir; başka sabit desenli alanlar da aynı yolla
+tanımlanabilir:
+
+```js
+{ type: "text", id: "agency.mersis", pattern: "^[0-9]{16}$",
+  patternMessage: { tr: "…16 haneli…", en: "…16 digits…" } }
+```
+
+### Kuruluş ve tescil dokümanları
+
+Yasal statü adımı, yasal dayanağın **resmî evrakını** da ister: kanunen
+yetkilendirilmiş otoritelerce verilen kuruluş ve tescil dokümanları. Her
+kayıt için doküman adı, belgeyi veren otorite ve düzenlenme tarihi girilir;
+dokümanın kendisi **dosya olarak yüklenebilir veya bağlantı olarak
+verilebilir** — satır başına en az biri zorunludur.
+
+Bu evrak kanıt koleksiyonuna değil adımın kendi listesine yazılır: koleksiyon
+ESG standardı etiketlerine göre kuruludur, tüzel kişilik evrakının ise böyle
+bir tasnifi yoktur.
 
 ---
 
@@ -358,7 +395,23 @@ showIf: { all: [
 yerlerde kullanılır; listelenen alanlardan biri dolduğunda kural karşılanır:
 
 ```js
+// adım düzeyinde: iki ayrı alandan biri dolu olmalı
 requireOneOf: ["decision.evidenceFile", "decision.evidenceUrl"]
+
+// tekrarlayıcıda satır düzeyinde: her satır kendi içinde karşılamalı
+rowRequireOneOf: ["file", "url"]
+```
+
+Tekrarlayıcı satırları `file` türünde alan taşıyabilir; yüklenen dosya
+kanıtlardaki ile aynı biçimde (`{name, size, type, data}`) satırın verisine
+gömülür, böylece dışa aktarılan başvuru kendi kendine yeterli kalır.
+
+Biçim kalıbı — sabit desenli sicil/kimlik numaraları için. `patternMessage`
+verilmezse genel ileti kullanılır:
+
+```js
+pattern: "^[0-9]{16}$",
+patternMessage: { tr: "…", en: "…" }
 ```
 
 Bölüm muafiyeti (sekme düzeyinde) — muaf bölümün zorunlu alanları tamamlanma

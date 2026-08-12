@@ -89,7 +89,7 @@ window.Evidence = (function () {
     return rec.id;
   }
 
-  /** Var olan kanıdın alanlarını günceller. */
+  /** Var olan kanıtın alanlarını günceller. */
   function update(id, patch) {
     var list = all().slice();
     for (var i = 0; i < list.length; i++) {

@@ -76,6 +76,7 @@ window.Fields = (function () {
     arrowLeft: '<path d="M19 12H5M12 19l-7-7 7-7"/>',
     print: '<path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/>',
     send: '<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>',
+    file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
   };
 
   function icon(name, cls) {
@@ -168,6 +169,7 @@ window.Fields = (function () {
       min: field.min,
       max: field.max,
       maxlength: field.maxLength,
+      inputmode: field.inputmode,
       "aria-describedby": "err_" + safeId(field.id),
     });
     input.addEventListener("input", function () {
@@ -316,6 +318,65 @@ window.Fields = (function () {
   /* ------------------------------------------------------------------
      Tekrarlayıcı / repeater
      ------------------------------------------------------------------ */
+
+  /* Satır içi alanların HTML girdi türü; eşleşmeyen her tür metindir. */
+  var REPEATER_INPUT = { number: "number", url: "url", date: "date", email: "email", tel: "tel" };
+
+  /**
+   * Satır içi dosya alanı. Dosya, kanıt koleksiyonundaki ile aynı biçimde
+   * ({name, size, type, data}) satırın kendi verisine gömülür; böylece
+   * dışa aktarılan başvuru dosyası kendi kendine yeterli kalır.
+   */
+  function repeaterFile(sub, subId, current, onChange) {
+    var box = el("div", { class: "rep-file" });
+    var input = el("input", { type: "file", id: subId, class: "sr-only", accept: sub.accept });
+    var err = el("p", { class: "rep-file__error", hidden: "" });
+
+    function draw() {
+      box.innerHTML = "";
+      box.appendChild(input);
+      if (current && current.name) {
+        box.appendChild(el("span", { class: "rep-file__have" }, [
+          icon("file", "rep-file__icon"),
+          el("span", { class: "rep-file__name", text: current.name }),
+          el("span", { class: "rep-file__size", text: fmtBytes(current.size) }),
+        ]));
+      }
+      var pickBtn = el("button", { type: "button", class: "btn btn--secondary btn--sm" }, [
+        icon("upload", "btn__icon"),
+        document.createTextNode(
+          current && current.name ? t("evidence.replaceFile") : t("evidence.addFile")
+        ),
+      ]);
+      pickBtn.addEventListener("click", function () { input.click(); });
+      box.appendChild(pickBtn);
+
+      if (current && current.name) {
+        var clear = el("button", { type: "button", class: "btn btn--ghost btn--sm" }, [
+          icon("x", "btn__icon"), document.createTextNode(t("evidence.clearFile")),
+        ]);
+        clear.addEventListener("click", function () { onChange(null); });
+        box.appendChild(clear);
+      }
+      box.appendChild(err);
+    }
+
+    input.addEventListener("change", function () {
+      var f = input.files && input.files[0];
+      if (!f) return;
+      readEvidenceFile(f, function (rec) {
+        err.hidden = true;
+        onChange(rec);
+      }, function (msg) {
+        err.textContent = msg;
+        err.hidden = false;
+      });
+    });
+
+    draw();
+    return box;
+  }
+
   function repeater(field) {
     var list = el("div", { class: "repeater" });
     var holder = el("div", {}, [list]);
@@ -369,10 +430,18 @@ window.Fields = (function () {
               control.appendChild(el("option", { value: o.value, text: pick(o.label) }));
             });
             control.value = row[sub.id] || "";
+          } else if (sub.type === "file") {
+            control = repeaterFile(sub, subId, row[sub.id], function (val) {
+              var next = rows().slice();
+              next[idx] = Object.assign({}, next[idx]);
+              next[idx][sub.id] = val;
+              persist(next);
+              render();
+            });
           } else {
             control = el("input", {
               class: "input",
-              type: sub.type === "number" ? "number" : sub.type === "url" ? "url" : "text",
+              type: REPEATER_INPUT[sub.type] || "text",
               id: subId,
               value: row[sub.id] || "",
               placeholder: sub.placeholder ? pick(sub.placeholder) : null,
@@ -380,12 +449,14 @@ window.Fields = (function () {
               max: sub.max,
             });
           }
-          control.addEventListener("input", function () {
-            var next = rows().slice();
-            next[idx] = Object.assign({}, next[idx]);
-            next[idx][sub.id] = control.value;
-            persist(next);
-          });
+          if (sub.type !== "file") {
+            control.addEventListener("input", function () {
+              var next = rows().slice();
+              next[idx] = Object.assign({}, next[idx]);
+              next[idx][sub.id] = control.value;
+              persist(next);
+            });
+          }
 
           var lbl = el("label", { class: "field__label", for: subId }, [
             document.createTextNode(pick(sub.label)),
@@ -503,7 +574,7 @@ window.Fields = (function () {
     reader.readAsDataURL(file);
   }
 
-  /** Kanıdın taşıdığı standart etiketlerini rozet olarak gösterir. */
+  /** Kanıtın taşıdığı standart etiketlerini rozet olarak gösterir. */
   function evidenceTagChips(item) {
     var EV = window.Evidence;
     var box = el("span", { class: "ev-tags" });
@@ -520,7 +591,7 @@ window.Fields = (function () {
     return box;
   }
 
-  /** Kanıdın erişim yolunu (bağlantı ve/veya dosya) özetler. */
+  /** Kanıtın erişim yolunu (bağlantı ve/veya dosya) özetler. */
   function evidenceAccess(item) {
     var box = el("span", { class: "ev-access" });
     if (item.url) {
@@ -723,6 +794,80 @@ window.Fields = (function () {
     name.focus();
   }
 
+  /**
+   * Silme onayı. Kanıt birden çok tasnifte görünebildiğinden iki ayrı
+   * eylem sunulur: yalnızca bulunulan tasniften çıkarmak (etiketi kaldırır,
+   * kanıt koleksiyonda kalır) veya kanıtı tamamen silmek. Tasnif dışı
+   * klasöründe çıkarılacak bir etiket olmadığından yalnızca silme sunulur.
+   */
+  function evidenceDeleteConfirm(item, folder, onDone) {
+    var EV = window.Evidence;
+    var dlg = el("dialog", { class: "modal ev-confirm" });
+    var others = (item.tags || []).filter(function (c) {
+      return c !== EV.OTHER && c !== folder;
+    }).sort();
+
+    function close() {
+      dlg.close();
+    }
+
+    var actions = [];
+
+    if (folder) {
+      var untag = el("button", { type: "button", class: "btn btn--secondary" }, [
+        icon("x", "btn__icon"),
+        document.createTextNode(t("evidence.detachOnly", { code: "ESG " + folder })),
+      ]);
+      untag.addEventListener("click", function () {
+        EV.untag(item.id, folder);
+        close();
+        onDone();
+      });
+      actions.push(untag);
+    }
+
+    var wipe = el("button", { type: "button", class: "btn btn--danger" }, [
+      icon("trash", "btn__icon"), document.createTextNode(t("evidence.deleteAll")),
+    ]);
+    wipe.addEventListener("click", function () {
+      EV.remove(item.id);
+      close();
+      onDone();
+    });
+    actions.push(wipe);
+
+    var cancel = el("button", { type: "button", class: "btn btn--ghost", text: t("evidence.cancel") });
+    cancel.addEventListener("click", close);
+
+    dlg.appendChild(el("div", {}, [
+      el("div", { class: "modal__header" }, [
+        el("h2", { class: "modal__title", text: t("evidence.deleteTitle") }),
+      ]),
+      el("div", { class: "modal__body ev-confirm__body" }, [
+        el("p", { class: "ev-confirm__name", text: item.name || t("evidence.unnamed") }),
+        el("p", {
+          class: "ev-confirm__lead",
+          text: folder
+            ? (others.length
+                ? t("evidence.deleteLeadLinked", {
+                    code: "ESG " + folder,
+                    list: others.map(function (c) { return "ESG " + c; }).join(", "),
+                  })
+                : t("evidence.deleteLeadSingle", { code: "ESG " + folder }))
+            : t("evidence.deleteLeadLoose"),
+        }),
+        el("div", { class: "ev-confirm__actions" }, actions),
+      ]),
+      el("div", { class: "modal__footer" }, [cancel]),
+    ]));
+
+    document.body.appendChild(dlg);
+    dlg.addEventListener("close", function () {
+      dlg.remove();
+    });
+    dlg.showModal();
+  }
+
   /* ------------------------------------------------------------------
      Belgeler bölümü — kanıt dizini
      Kanıtlar bir dosya sistemi gibi klasörler altında listelenir;
@@ -783,18 +928,14 @@ window.Fields = (function () {
         evidenceEditor(item, refresh);
       });
 
-      // Kanıt birden çok klasörde göründüğünden, silmenin kaydı tamamen
-      // kaldırdığı açıkça belirtilir.
-      var delTitle = others.length
-        ? t("evidence.removeLinked", { n: others.length + 1 })
-        : t("evidence.remove");
+      // Kapsam seçimi onay penceresine bırakılır: tasniften çıkarma mı,
+      // tamamen silme mi.
       var del = el("button", {
         type: "button", class: "btn btn--ghost btn--sm ev-file-row__delete",
-        title: delTitle, "aria-label": delTitle,
+        title: t("evidence.remove"), "aria-label": t("evidence.remove"),
       }, [icon("trash", "btn__icon")]);
       del.addEventListener("click", function () {
-        EV.remove(item.id);
-        refresh();
+        evidenceDeleteConfirm(item, folder, refresh);
       });
 
       row.appendChild(el("span", { class: "ev-file-row__actions" }, [edit, del]));

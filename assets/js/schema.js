@@ -370,9 +370,24 @@ window.SCHEMA = (function () {
                 ],
               },
             },
+            /* MERSİS numarası hukuki statüden bağımsız olarak her
+               yetkilendirme başvurusunda istenir. */
             {
-              type: "text", id: "agency.mersis", half: true,
-              label: { tr: "MERSİS Numarası", en: "MERSIS Number" },
+              type: "text", id: "agency.mersis", required: true, half: true,
+              maxLength: 16, inputmode: "numeric",
+              pattern: "^[0-9]{16}$",
+              patternMessage: {
+                tr: "MERSİS numarası 16 haneli ve yalnızca rakamlardan oluşmalıdır.",
+                en: "The MERSIS number must be exactly 16 digits.",
+              },
+              label: {
+                tr: "MERSİS No (Merkezi Sicil Kayıt Sistemi Numarası)",
+                en: "MERSIS No (Central Registry Record System Number)",
+              },
+              hint: {
+                tr: "16 haneli MERSİS numarasını boşluk bırakmadan yazınız.",
+                en: "Enter the 16-digit MERSIS number without spaces.",
+              },
               placeholder: { tr: "16 haneli numara", en: "16-digit number" },
               showIf: { field: "applicationType", equals: "yetkilendirme" },
             },
@@ -466,6 +481,52 @@ window.SCHEMA = (function () {
               type: "textarea", id: "legal.basis", required: true, minLength: 100, maxLength: 3000,
               label: { tr: "Yasal dayanak", en: "Legal basis" },
               hint: { tr: "Kuruluşunuzun dayandığı mevzuat, tüzük veya kuruluş senedini açıklayınız.", en: "Describe the legislation, statute or founding charter your organisation is based on." },
+            },
+            /* Yasal dayanağı belgeleyen resmî evrak. Kanıt koleksiyonu ESG
+               tasnifine göre kurulduğundan, tüzel kişilik evrakı burada
+               adımın kendi listesinde tutulur. */
+            {
+              type: "repeater", id: "legal.documents", required: true, minItems: 1,
+              label: { tr: "Kuruluş ve tescil dokümanları", en: "Founding and registration documents" },
+              hint: {
+                tr:
+                  "Kanunen yetkilendirilmiş otoritelerce verilen resmî kuruluş ve tescil dokümanlarını ekleyiniz.",
+                en:
+                  "Add the official founding and registration documents issued by legally authorised authorities.",
+              },
+              addLabel: { tr: "Doküman ekle", en: "Add document" },
+              itemFields: [
+                {
+                  type: "text", id: "name", required: true,
+                  label: { tr: "Doküman adı", en: "Document name" },
+                  placeholder: {
+                    tr: "ör. Dernek Kuruluş Bildirimi",
+                    en: "e.g. Certificate of Incorporation",
+                  },
+                },
+                {
+                  type: "text", id: "authority", required: true,
+                  label: { tr: "Belgeyi veren otorite", en: "Issuing authority" },
+                  placeholder: {
+                    tr: "ör. İçişleri Bakanlığı Sivil Toplumla İlişkiler Genel Müdürlüğü",
+                    en: "e.g. Ministry of the Interior",
+                  },
+                },
+                {
+                  type: "date", id: "issuedAt",
+                  label: { tr: "Düzenlenme tarihi", en: "Date of issue" },
+                },
+                {
+                  type: "file", id: "file",
+                  label: { tr: "Doküman dosyası", en: "Document file" },
+                },
+                {
+                  type: "url", id: "url",
+                  label: { tr: "Bağlantı (URL)", en: "Link (URL)" },
+                  placeholder: { tr: "https://…", en: "https://…" },
+                },
+              ],
+              rowRequireOneOf: ["file", "url"],
             },
             {
               type: "repeater", id: "legal.recognitions", minItems: 0,
