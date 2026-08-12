@@ -188,7 +188,7 @@ Numara bir kez üretilir ve başvuruyla saklanır; ekran yeniden açılsa da de�
 | **Yarıda bırak, sonra devam et** | Her değişiklik `localStorage`'a otomatik kaydedilir; kaldığınız sekme ve adım da saklanır. JSON olarak dışa/içe aktarılabilir. |
 | **ESG 2027 Draft 3** | Standart metinleri hem TR hem EN olarak, rehber ilkeleriyle birlikte ekranda gösterilir. |
 | **Program kapsamı** | ESG 1 ekranında öğretim düzeyi filtresiyle ön lisans ve lisans programı seçimi; ardından **genel ölçütler** ve program bazında **özel ölçütler** girişi. |
-| **Doğrulama** | Alan bazlı kurallar, adım geçişinde engelleme, sekme/adım üzerinde tamamlanma ve hata rozetleri. |
+| **Doğrulama** | Alan bazlı kurallar, adım geçişinde engelleme, sekme/adım üzerinde tamamlanma ve hata rozetleri. Metin alanlarında kural **alandan çıkılınca** uygulanır — yarım yazılmış değer henüz hata sayılmaz; hata bir kez görüldükten sonra düzeltildiği anda kalkar. |
 | **Erişilebilirlik** | WAI-ARIA sekme/adım örüntüleri, klavye gezinmesi (`Alt+←/→`, sekme çubuğunda ok tuşları), `prefers-reduced-motion`, `forced-colors`, odak halkaları. |
 | **Görsel dil** | Liquid glass yüzeyler, imleci izleyen parlama, aurora arka plan, mikro animasyonlar. Açık/koyu tema. |
 
@@ -228,6 +228,11 @@ tanımlanabilir:
 { type: "text", id: "agency.mersis", pattern: "^[0-9]{16}$",
   patternMessage: { tr: "…16 haneli…", en: "…16 digits…" } }
 ```
+
+Kural, sürekli duran bir ipucu satırıyla değil **yalnızca hata durumunda
+görünen iletiyle** anlatılır: ipucu satırı her zaman yer kaplayarak alanı
+yanındaki komşusuna göre aşağı kaydırıyordu. Biçimi kısaca yer tutmayan
+placeholder söyler.
 
 ### Kuruluş ve tescil dokümanları
 

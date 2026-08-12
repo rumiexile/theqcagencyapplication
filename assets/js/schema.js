@@ -384,10 +384,8 @@ window.SCHEMA = (function () {
                 tr: "MERSİS No (Merkezi Sicil Kayıt Sistemi Numarası)",
                 en: "MERSIS No (Central Registry Record System Number)",
               },
-              hint: {
-                tr: "16 haneli MERSİS numarasını boşluk bırakmadan yazınız.",
-                en: "Enter the 16-digit MERSIS number without spaces.",
-              },
+              /* Biçim kuralı yer tutan bir ipucu yerine, yalnızca hata
+                 durumunda görünen iletiyle anlatılır. */
               placeholder: { tr: "16 haneli numara", en: "16-digit number" },
               showIf: { field: "applicationType", equals: "yetkilendirme" },
             },

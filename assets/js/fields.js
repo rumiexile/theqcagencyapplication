@@ -147,11 +147,13 @@ window.Fields = (function () {
     }
   }
 
-  /* Alan değişince doğrula + üst katmana haber ver */
+  /* Alan değişince doğrula + üst katmana haber ver.
+     `quiet` verildiğinde hata basılmaz; yazma sırasında kural
+     uygulamamak için kullanılır. */
   var onDirty = function () {};
-  function commit(field, value) {
+  function commit(field, value, quiet) {
     S.set(field.id, value);
-    showError(field.id, V.field(field, S));
+    if (!quiet) showError(field.id, V.field(field, S));
     onDirty(field);
   }
 
@@ -172,10 +174,15 @@ window.Fields = (function () {
       inputmode: field.inputmode,
       "aria-describedby": "err_" + safeId(field.id),
     });
+    /* Yarım yazılmış bir değer henüz hata değildir: biçim kuralları
+       (16 hane, e-posta, adres) alandan çıkılınca uygulanır. Hata bir
+       kez görüldükten sonra düzeltildiği anda kalkar. */
+    var touched = false;
     input.addEventListener("input", function () {
-      commit(field, input.value);
+      commit(field, input.value, !touched);
     });
     input.addEventListener("blur", function () {
+      touched = true;
       showError(field.id, V.field(field, S));
     });
     return wrap(field, input);
