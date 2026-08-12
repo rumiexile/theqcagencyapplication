@@ -2069,17 +2069,29 @@ legend {
   color: var(--color-text-subtle);
 }
 
-/* Kanıt birden çok standarda bağlıysa ek etiket sayısı */
-.ev-file-row__more {
+/* Aynı kanıt başka tasniflerde de duruyorsa zincir rozeti */
+.ev-file-row__linked {
   flex: none;
-  padding: 1px var(--space-2);
-  border: 1px solid var(--color-brand-border);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px var(--space-2);
+  border: 1px solid var(--color-accent-border);
   border-radius: var(--radius-pill);
-  background: var(--color-brand-subtle);
-  color: var(--color-brand);
-  font-size: var(--text-2xs);
-  font-variant-numeric: tabular-nums;
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
   cursor: help;
+}
+
+.ev-file-row__linked svg {
+  width: 13px;
+  height: 13px;
+}
+
+.ev-file-row__linked-n {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
 }
 
 .ev-file-row__actions {
@@ -3895,6 +3907,8 @@ window.I18N = (function () {
       "evidence.edit": "Düzenle",
       "evidence.editTitle": "Kanıdı düzenle",
       "evidence.itemsSuffix": "kanıt",
+      "evidence.linkedTo": "Bu kanıt şu tasniflerde de yer alıyor: {list}",
+      "evidence.removeLinked": "Kanıdı sil (bulunduğu {n} tasniften birden kaldırılır)",
       "evidence.newTitle": "Yeni kanıt",
       "evidence.otherFolder": "Tasnif dışı",
       "evidence.save": "Kaydet",
@@ -4089,6 +4103,8 @@ window.I18N = (function () {
       "evidence.edit": "Edit",
       "evidence.editTitle": "Edit evidence",
       "evidence.itemsSuffix": "items",
+      "evidence.linkedTo": "This evidence also appears under: {list}",
+      "evidence.removeLinked": "Delete evidence (removed from all {n} classifications)",
       "evidence.newTitle": "New evidence",
       "evidence.otherFolder": "Unclassified",
       "evidence.save": "Save",
@@ -8127,6 +8143,7 @@ window.Fields = (function () {
     reset: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
     copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
     mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/>',
+    link: '<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>',
     sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/>',
     moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',
     arrowRight: '<path d="M5 12h14M12 5l7 7-7 7"/>',
@@ -8598,20 +8615,6 @@ window.Fields = (function () {
     return box;
   }
 
-  /**
-   * Kanıdın bulunduğu "klasör": etiketlerinin en küçüğü. Etiketsiz veya
-   * yalnızca tasnif dışı olanlar ayrı klasörde toplanır. Sıralı en küçük
-   * etiket seçildiği için bir kanıt her zaman tek bir klasörde durur —
-   * dizinde silme ve düzenleme böylece belirsizleşmez.
-   */
-  function evidenceFolder(item) {
-    var tags = (item.tags || []).filter(function (c) {
-      return c !== window.Evidence.OTHER;
-    });
-    if (!tags.length) return null;
-    return tags.slice().sort()[0];
-  }
-
   /** Kanıt düzenleme penceresi. Kaydedilmeden koleksiyona hiçbir şey yazılmaz. */
   function evidenceEditor(item, onSave) {
     var EV = window.Evidence;
@@ -8811,7 +8814,12 @@ window.Fields = (function () {
       renderDir();
     }
 
-    function fileRow(item) {
+    /**
+     * Dizindeki bir satır. Kanıt birden çok standarda bağlıysa her
+     * klasörde ayrı satır olarak görünür; `folder` satırın hangi klasörde
+     * çizildiğini söyler, zincir rozeti diğer klasörleri listeler.
+     */
+    function fileRow(item, folder) {
       var row = el("div", { class: "ev-file-row" + (EV.isUsable(item) ? "" : " ev-file-row--incomplete") });
 
       row.appendChild(el("span", { class: "ev-file-row__icon", "aria-hidden": "true" }, [icon("save")]));
@@ -8824,16 +8832,21 @@ window.Fields = (function () {
 
       row.appendChild(evidenceAccess(item));
 
-      // Birden çok standarda bağlıysa ek etiketleri göster.
-      var extra = (item.tags || []).filter(function (c) {
-        return c !== EV.OTHER && c !== evidenceFolder(item);
-      });
-      if (extra.length) {
-        row.appendChild(el("span", {
-          class: "ev-file-row__more",
-          title: extra.sort().map(function (c) { return "ESG " + c; }).join(", "),
-          text: "+" + extra.length,
-        }));
+      // Aynı kanıt başka klasörlerde de duruyorsa zincir rozetiyle belirtilir.
+      var others = (item.tags || []).filter(function (c) {
+        return c !== EV.OTHER && c !== folder;
+      }).sort();
+      if (others.length) {
+        var chain = el("span", {
+          class: "ev-file-row__linked",
+          title: t("evidence.linkedTo", {
+            list: others.map(function (c) { return "ESG " + c; }).join(", "),
+          }),
+          "aria-label": t("evidence.linkedTo", {
+            list: others.map(function (c) { return "ESG " + c; }).join(", "),
+          }),
+        }, [icon("link"), el("span", { class: "ev-file-row__linked-n", text: String(others.length) })]);
+        row.appendChild(chain);
       }
 
       var edit = el("button", {
@@ -8844,9 +8857,14 @@ window.Fields = (function () {
         evidenceEditor(item, refresh);
       });
 
+      // Kanıt birden çok klasörde göründüğünden, silmenin kaydı tamamen
+      // kaldırdığı açıkça belirtilir.
+      var delTitle = others.length
+        ? t("evidence.removeLinked", { n: others.length + 1 })
+        : t("evidence.remove");
       var del = el("button", {
         type: "button", class: "btn btn--ghost btn--sm ev-file-row__delete",
-        title: t("evidence.remove"), "aria-label": t("evidence.remove"),
+        title: delTitle, "aria-label": delTitle,
       }, [icon("trash", "btn__icon")]);
       del.addEventListener("click", function () {
         EV.remove(item.id);
@@ -8857,7 +8875,7 @@ window.Fields = (function () {
       return row;
     }
 
-    function folderBlock(label, items, open) {
+    function folderBlock(label, items, folder, open) {
       var det = el("details", { class: "ev-folder", open: open ? "" : null });
       det.appendChild(el("summary", { class: "ev-folder__head" }, [
         el("span", { class: "ev-folder__name", text: label }),
@@ -8865,7 +8883,7 @@ window.Fields = (function () {
       ]));
       var body = el("div", { class: "ev-folder__body" });
       items.forEach(function (it) {
-        body.appendChild(fileRow(it));
+        body.appendChild(fileRow(it, folder));
       });
       det.appendChild(body);
       return det;
@@ -8881,22 +8899,30 @@ window.Fields = (function () {
         return;
       }
 
-      // Klasörler: ESG standardı koduna göre, sonra tasnif dışı.
+      /* Klasörler ESG standardı kodlarıdır. Bir kanıt kaç standarda
+         bağlıysa o kadar klasörde görünür; kayıt tektir, satır tekrarlanır. */
       var byFolder = {};
       var loose = [];
       items.forEach(function (it) {
-        var f = evidenceFolder(it);
-        if (f === null) loose.push(it);
-        else (byFolder[f] = byFolder[f] || []).push(it);
+        var tags = (it.tags || []).filter(function (c) {
+          return c !== EV.OTHER;
+        });
+        if (!tags.length) {
+          loose.push(it);
+          return;
+        }
+        tags.forEach(function (code) {
+          (byFolder[code] = byFolder[code] || []).push(it);
+        });
       });
 
       Object.keys(byFolder).sort().forEach(function (code) {
         var std = window.ESG.byCode ? window.ESG.byCode(code) : null;
         var label = "ESG " + code + (std && std.title ? " · " + pick(std.title) : "");
-        dirBox.appendChild(folderBlock(label, byFolder[code], true));
+        dirBox.appendChild(folderBlock(label, byFolder[code], code, true));
       });
       if (loose.length) {
-        dirBox.appendChild(folderBlock(t("evidence.otherFolder"), loose, true));
+        dirBox.appendChild(folderBlock(t("evidence.otherFolder"), loose, null, true));
       }
     }
 

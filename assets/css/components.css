@@ -1517,17 +1517,29 @@
   color: var(--color-text-subtle);
 }
 
-/* Kanıt birden çok standarda bağlıysa ek etiket sayısı */
-.ev-file-row__more {
+/* Aynı kanıt başka tasniflerde de duruyorsa zincir rozeti */
+.ev-file-row__linked {
   flex: none;
-  padding: 1px var(--space-2);
-  border: 1px solid var(--color-brand-border);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px var(--space-2);
+  border: 1px solid var(--color-accent-border);
   border-radius: var(--radius-pill);
-  background: var(--color-brand-subtle);
-  color: var(--color-brand);
-  font-size: var(--text-2xs);
-  font-variant-numeric: tabular-nums;
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
   cursor: help;
+}
+
+.ev-file-row__linked svg {
+  width: 13px;
+  height: 13px;
+}
+
+.ev-file-row__linked-n {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
 }
 
 .ev-file-row__actions {

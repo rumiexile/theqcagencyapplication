@@ -69,10 +69,17 @@ koleksiyonda dururlar ama hiçbir ESG adımına girmezler.
 ### Dizin görünümü
 
 Belgeler bölümü kanıtları bir dosya sistemi gibi listeler: klasörler ESG
-standardı kodlarıdır, satırlar kanıtlardır. Bir kanıt birden çok standarda
-bağlanabildiğinden klasörü **etiketlerinin en küçüğü** belirlenir; böylece her
-kanıt dizinde tek bir yerde durur ve silme/güncelleme belirsizleşmez. Ek
-etiketler satırda `+n` rozetiyle gösterilir.
+standardı kodlarıdır, satırlar kanıtlardır. Bir kanıt kaç standarda bağlıysa
+**o kadar klasörde görünür** — kayıt tektir, yalnızca satır tekrarlanır.
+
+Böyle bir kanıdın yanında **zincir rozeti** çıkar; üzerine gelindiğinde kanıdın
+başka hangi tasniflerde yer aldığı listelenir. Rozet bulunulan klasörü
+dışarıda bırakır, dolayısıyla her satırda farklı bir liste gösterir.
+
+Aynı kayıt birden çok yerde göründüğü için silmenin kapsamı önemlidir: **sil**
+kanıdı koleksiyondan tamamen kaldırır, yani bağlı olduğu bütün tasniflerden
+birden düşer — düğmenin ipucu bunu kaç tasnif olduğuyla birlikte söyler. Yalnızca
+bir standarttan çıkarmak için kanıt düzenlenip o etiket kaldırılır.
 
 Ekleme ve düzenleme, **Kaydet** ve **Vazgeç** düğmeleri olan bir pencerede
 yapılır. Kaydedilmeden koleksiyona hiçbir şey yazılmaz; vazgeçmek boş kayıt
