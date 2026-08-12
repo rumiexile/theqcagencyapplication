@@ -137,6 +137,25 @@ window.Validate = (function () {
       return null;
     }
 
+    /* Kanıt koleksiyonu — Belgeler bölümü.
+       Kullanılabilir kanıt: adı olan ve bağlantı ya da dosya taşıyan. */
+    if (field.type === "evidence-library") {
+      if (!field.required) return null;
+      var lib = window.Evidence.all().filter(window.Evidence.isUsable);
+      var needLib = field.minItems || 1;
+      if (lib.length < needLib) return t("validate.minItems", { n: needLib });
+      return null;
+    }
+
+    /* Bir ESG standardına bağlanmış kanıtlar; kaynak yine koleksiyondur. */
+    if (field.type === "evidence-picker") {
+      if (!field.required) return null;
+      var attached = window.Evidence.byStandard(field.standard).filter(window.Evidence.isUsable);
+      var needAtt = field.minItems || 1;
+      if (attached.length < needAtt) return t("validate.minItems", { n: needAtt });
+      return null;
+    }
+
     if (field.type === "document-list") {
       if (!field.required) return null;
       var picked = (v && v.checked) || [];

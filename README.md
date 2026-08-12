@@ -47,6 +47,35 @@ değiştirdiğinizde paketi yeniden üretmeniz gerekir.
 
 ---
 
+## Kanıt koleksiyonu
+
+Başvurudaki **tüm kanıtlar tek bir koleksiyonda** tutulur (`evidence.library`).
+Her kanıt bir bağlantı, yüklenmiş bir dosya ya da her ikisi olabilir; adı
+zorunludur ve en az bir erişim yolu (bağlantı veya dosya) taşımalıdır.
+
+Kanıta üstveri olarak bir veya birden çok **ESG standardı etiketi** verilir.
+ESG adımları kendi kanıt listelerini tutmaz — koleksiyondan etikete göre
+okurlar. Bağ bu yüzden iki yönlü çalışır:
+
+| Nereden | Ne olur |
+|---|---|
+| **Belgeler → ESG** | Koleksiyonda bir kanıta `3.4` etiketi vermek, kanıtı ESG 3.4 adımında anında görünür kılar. |
+| **ESG → Belgeler** | ESG adımında kanıt eklemek, kanıtı koleksiyona yazar ve o adımın etiketini iliştirir. |
+| **ESG ↔ ESG** | Aynı kanıt birden çok standarda bağlanabilir; kayıt kopyalanmaz, yalnızca etiket eklenir. |
+
+Hiçbir standarda bağlanmayan kanıtlar **Tasnif dışı** olarak işaretlenebilir;
+koleksiyonda dururlar ama hiçbir ESG adımına girmezler.
+
+Doğrulama da koleksiyondan beslenir: bir ESG adımı, o standarda bağlı **ve
+erişim yolu olan** en az bir kanıt yoksa tamamlanmış sayılmaz.
+
+Önceki biçimde kanıtlar standart başına ayrı dizilerde (`esg.<kod>.evidence`)
+tutuluyordu. Eski bir başvuru içe aktarıldığında bu kayıtlar bir kez
+koleksiyona taşınır; aynı ad ve bağlantıyı paylaşan kayıtlar tek kanıtta
+birleştirilip ilgili standartlarla etiketlenir.
+
+---
+
 ## MİS ön başvuru entegrasyonu
 
 MİS'te (`mis.yokak.gov.tr`) yapılan ön başvuru, kimlik ve iletişim alanlarını
@@ -113,7 +142,7 @@ Sekmeler (`tabs`) → adımlar (`steps`) → alanlar (`fields`):
 |---|-------|---------|
 | 1 | **Başvuru Türü** | Tür seçimi (Yetkilendirme / Tanınma), başvuru niteliği · **Önceki dış değerlendirme (EQAR)** |
 | 2 | **Ajans Bilgileri** | Kimlik (kuruluş bilgileri · **ağ ve çatı kuruluş üyelikleri**) · İletişim · Yasal statü · Yönetişim ve kaynaklar |
-| 3 | **Belgeler** | Zorunlu belgeler · Ek destekleyici belgeler |
+| 3 | **Belgeler** | Zorunlu belgeler · **Kanıt koleksiyonu** (tüm kanıtlar, ESG etiketleriyle) |
 | 4 | **ESG 3** — Kalite Güvencesi Ajansları | 3.1 → 3.6 (her standart bir adım) · *EQAR raporu sunulduysa muaf* |
 | 5 | **ESG 2** — Dış Kalite Güvencesi | 2.1 → 2.7 · *EQAR raporu sunulduysa muaf* |
 | 6 | **ESG 1** — Kapsam ve Ölçütler | Program seçimi · Genel ölçütler · Programa özel ölçütler · **Ölçütlerin ESG 1 uyumu** · Karar sistemi |

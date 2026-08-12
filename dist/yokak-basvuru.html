@@ -1772,6 +1772,231 @@ legend {
   opacity: 0.75;
 }
 
+/* ==========================================================================
+   Kanıt koleksiyonu / evidence library
+   ========================================================================== */
+.ev-library { display: flex; flex-direction: column; gap: var(--space-4); }
+.ev-list { display: flex; flex-direction: column; gap: var(--space-4); }
+.ev-library__actions { display: flex; justify-content: flex-start; }
+
+.ev-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+}
+
+.ev-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ev-card__id {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.ev-card__remove { margin-left: auto; }
+
+.ev-field { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.ev-field__label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  color: var(--color-text-muted);
+}
+
+.ev-file { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+
+.ev-file__error {
+  font-size: var(--text-sm);
+  color: var(--color-danger-text);
+}
+
+.ev-card__access,
+.ev-access { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+
+.ev-access__link { font-size: var(--text-sm); }
+
+.ev-access__file,
+.ev-access__missing {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.ev-access__missing { color: var(--color-warning-text); }
+
+/* Standart etiketleri */
+.ev-tags { display: inline-flex; gap: var(--space-1); flex-wrap: wrap; }
+
+.ev-tag {
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-brand-border);
+  background: var(--color-brand-subtle);
+  color: var(--color-brand);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+}
+
+.ev-tag--none {
+  border-color: var(--color-border);
+  background: transparent;
+  color: var(--color-text-subtle);
+}
+
+.ev-tagpicker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.ev-tagpicker__hint {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-snug);
+}
+
+.ev-tagpicker__group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.ev-tagpicker__group-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  min-width: 16ch;
+}
+
+.ev-tagpicker__chips { display: flex; gap: var(--space-1); flex-wrap: wrap; }
+
+.ev-chip {
+  padding: 2px var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.ev-chip:hover { border-color: var(--color-border-strong); color: var(--color-text); }
+
+.ev-chip--on {
+  border-color: var(--color-accent);
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  font-weight: var(--weight-semibold);
+}
+
+/* ESG adımındaki seçici */
+.ev-picker { display: flex; flex-direction: column; gap: var(--space-3); }
+
+.ev-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+/* Erişim yolu eksik kanıt tamamlanma sayılmaz; görünür biçimde işaretlenir */
+.ev-row--incomplete { border-color: var(--color-warning); background: var(--color-warning-bg); }
+
+.ev-row__name { font-weight: var(--weight-medium); }
+
+.ev-row__remove {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-subtle);
+  background: none;
+  cursor: pointer;
+}
+
+.ev-row__remove:hover { background: var(--color-surface-sunken); color: var(--color-danger-text); }
+.ev-row__remove svg { width: 14px; height: 14px; }
+
+.ev-picker__pool,
+.ev-picker__new {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+}
+
+.ev-picker__pool-head,
+.ev-picker__new-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.ev-picker__pool-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-2);
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+.ev-pool-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ev-pool-item:hover { border-color: var(--color-accent); background: var(--color-accent-subtle); }
+.ev-pool-item__name { font-size: var(--text-sm); font-weight: var(--weight-medium); }
+
+.ev-picker__new-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+.ev-newfile { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.ev-newfile__name { font-size: var(--text-sm); color: var(--color-text-muted); }
+
+.ev-picker__new-note {
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+  line-height: var(--leading-snug);
+}
+
 </style>
     <!-- assets/css/glass.css -->
 <style>
@@ -3544,6 +3769,37 @@ window.I18N = (function () {
         "Ölçüt girebilmek için önce yukarıdan en az bir program seçiniz.",
       "programme.areaCount": "program",
 
+      "evidence.add": "Kanıt ekle",
+      "evidence.addNew": "Yeni kanıt ekle",
+      "evidence.addNewNote":
+        "Eklediğiniz kanıt Belgeler bölümündeki koleksiyona da yazılır ve bu standarda bağlanır.",
+      "evidence.addFile": "Dosya yükle",
+      "evidence.clearFile": "Dosyayı kaldır",
+      "evidence.createAndAttach": "Ekle ve bu standarda bağla",
+      "evidence.detach": "Bu standarttan çıkar",
+      "evidence.empty": "Henüz kanıt eklenmedi. Başvurunuzda kullanacağınız belgeleri buraya yükleyiniz.",
+      "evidence.file": "Dosya",
+      "evidence.link": "Bağlantıyı aç",
+      "evidence.name": "Kanıt adı",
+      "evidence.nameRequired": "Kanıt adı zorunludur.",
+      "evidence.namePlaceholder": "ör. Değerlendirici Eğitim Yönergesi",
+      "evidence.noAccess": "Bağlantı veya dosya eklenmedi",
+      "evidence.noneForStandard": "Bu standarda henüz kanıt bağlanmadı.",
+      "evidence.note": "Açıklama",
+      "evidence.notePlaceholder": "ör. Md. 12, s. 4",
+      "evidence.other": "Tasnif dışı",
+      "evidence.otherGroup": "Sınıflandırma dışı",
+      "evidence.pickFromLibrary": "Koleksiyondan seç",
+      "evidence.remove": "Kanıdı sil",
+      "evidence.replaceFile": "Dosyayı değiştir",
+      "evidence.tagsHint":
+        "Kanıdın hangi ESG standartlarını desteklediğini işaretleyiniz; kanıt o standartların adımlarına kendiliğinden yerleşir.",
+      "evidence.tagsLabel": "Bu kanıt hangi standartları destekliyor?",
+      "evidence.untagged": "etiketsiz",
+      "evidence.url": "Bağlantı (URL)",
+      "evidence.unnamed": "(adsız kanıt)",
+      "evidence.migrated": "Önceki biçimdeki {n} kanıt koleksiyona taşındı.",
+
       "esg.standard": "Standart",
       "esg.guidance": "Rehber ilkeler",
       "esg.practice": "Ajansın uygulaması",
@@ -3696,6 +3952,37 @@ window.I18N = (function () {
       "programme.noSelection":
         "Select at least one programme above before entering criteria.",
       "programme.areaCount": "programmes",
+
+      "evidence.add": "Add evidence",
+      "evidence.addNew": "Add new evidence",
+      "evidence.addNewNote":
+        "Anything you add is also written to the library in the Documents section and attached to this standard.",
+      "evidence.addFile": "Upload file",
+      "evidence.clearFile": "Remove file",
+      "evidence.createAndAttach": "Add and attach to this standard",
+      "evidence.detach": "Detach from this standard",
+      "evidence.empty": "No evidence yet. Upload the documents you will use in your application here.",
+      "evidence.file": "File",
+      "evidence.link": "Open link",
+      "evidence.name": "Evidence name",
+      "evidence.nameRequired": "The evidence name is required.",
+      "evidence.namePlaceholder": "e.g. Reviewer Training Regulation",
+      "evidence.noAccess": "No link or file provided",
+      "evidence.noneForStandard": "No evidence attached to this standard yet.",
+      "evidence.note": "Note",
+      "evidence.notePlaceholder": "e.g. Art. 12, p. 4",
+      "evidence.other": "Unclassified",
+      "evidence.otherGroup": "Outside the classification",
+      "evidence.pickFromLibrary": "Choose from the library",
+      "evidence.remove": "Delete evidence",
+      "evidence.replaceFile": "Replace file",
+      "evidence.tagsHint":
+        "Tick the ESG standards this evidence supports; it will then appear automatically in those steps.",
+      "evidence.tagsLabel": "Which standards does this evidence support?",
+      "evidence.untagged": "untagged",
+      "evidence.url": "Link (URL)",
+      "evidence.unnamed": "(unnamed evidence)",
+      "evidence.migrated": "{n} evidence items from the previous format were moved into the library.",
 
       "esg.standard": "Standard",
       "esg.guidance": "Guidelines",
@@ -6242,6 +6529,221 @@ window.MIS = (function () {
 })();
 
 </script>
+    <!-- assets/js/evidence.js -->
+<script>
+/* ==========================================================================
+   Evidence — merkezî kanıt koleksiyonu / central evidence library
+
+   Başvurudaki tüm kanıtlar tek bir listede tutulur (`evidence.library`).
+   Her kanıt bir veya birden çok ESG standardına etiketlenebilir; ESG
+   adımları kendi kanıt listelerini tutmaz, koleksiyondan etikete göre
+   okurlar. Bağ bu yüzden iki yönlü çalışır:
+
+     • Belgeler bölümünde bir kanıta standart etiketi eklemek, o kanıtı
+       ilgili ESG adımında anında görünür kılar.
+     • ESG adımında kanıt eklemek, kanıtı koleksiyona yazar ve o adımın
+       etiketini otomatik olarak iliştirir.
+
+   Kanıt kaydı:
+     { id, name, url, file: {name,size,data}, note, tags: ["3.1", …] }
+
+   `tags` içindeki OTHER değeri "tasnif dışı" anlamına gelir: kanıt
+   koleksiyonda durur ama hiçbir ESG standardına bağlanmaz.
+   ========================================================================== */
+
+window.Evidence = (function () {
+  "use strict";
+
+  var KEY = "evidence.library";
+  var OTHER = "other";
+
+  function S() {
+    return window.Store;
+  }
+
+  /** Koleksiyonun tamamı. Her zaman dizi döner. */
+  function all() {
+    var v = S().get(KEY);
+    return Array.isArray(v) ? v : [];
+  }
+
+  function save(list) {
+    S().set(KEY, list);
+  }
+
+  /** Çakışmayan kimlik üretir; mevcut kayıtların en büyüğünden devam eder. */
+  function nextId(list) {
+    var max = 0;
+    list.forEach(function (it) {
+      var m = /^EV-(\d+)$/.exec(it.id || "");
+      if (m) max = Math.max(max, parseInt(m[1], 10));
+    });
+    return "EV-" + (max + 1);
+  }
+
+  function find(id) {
+    var list = all();
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id === id) return list[i];
+    }
+    return null;
+  }
+
+  /** Bir standarda etiketlenmiş kanıtlar. */
+  function byStandard(code) {
+    return all().filter(function (it) {
+      return (it.tags || []).indexOf(code) !== -1;
+    });
+  }
+
+  /** Hiçbir standarda bağlanmamış kanıtlar (tasnif dışı ya da etiketsiz). */
+  function unclassified() {
+    return all().filter(function (it) {
+      var tags = (it.tags || []).filter(function (t) {
+        return t !== OTHER;
+      });
+      return tags.length === 0;
+    });
+  }
+
+  /** Kanıt ekler ve üretilen kimliği döner. */
+  function add(item) {
+    var list = all().slice();
+    var rec = {
+      id: nextId(list),
+      name: item.name || "",
+      url: item.url || "",
+      file: item.file || null,
+      note: item.note || "",
+      tags: (item.tags || []).slice(),
+    };
+    list.push(rec);
+    save(list);
+    return rec.id;
+  }
+
+  /** Var olan kanıdın alanlarını günceller. */
+  function update(id, patch) {
+    var list = all().slice();
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id !== id) continue;
+      var next = {};
+      Object.keys(list[i]).forEach(function (k) {
+        next[k] = list[i][k];
+      });
+      Object.keys(patch).forEach(function (k) {
+        next[k] = patch[k];
+      });
+      list[i] = next;
+      save(list);
+      return true;
+    }
+    return false;
+  }
+
+  function remove(id) {
+    save(all().filter(function (it) {
+      return it.id !== id;
+    }));
+  }
+
+  /** Standardı kanıta ekler / kanıttan çıkarır. */
+  function tag(id, code) {
+    var it = find(id);
+    if (!it) return false;
+    var tags = (it.tags || []).slice();
+    if (tags.indexOf(code) === -1) tags.push(code);
+    // Bir standarda bağlanan kanıt artık tasnif dışı değildir.
+    if (code !== OTHER) {
+      tags = tags.filter(function (t) {
+        return t !== OTHER;
+      });
+    }
+    return update(id, { tags: tags });
+  }
+
+  function untag(id, code) {
+    var it = find(id);
+    if (!it) return false;
+    return update(id, {
+      tags: (it.tags || []).filter(function (t) {
+        return t !== code;
+      }),
+    });
+  }
+
+  /** Kanıt en az bir erişim yolu taşımalı: bağlantı veya dosya. */
+  function isUsable(it) {
+    if (!it) return false;
+    if (!it.name || !String(it.name).trim()) return false;
+    return !!(String(it.url || "").trim() || (it.file && it.file.name));
+  }
+
+  /**
+   * Eski biçimden geçiş: kanıtlar standart başına ayrı dizilerde
+   * (esg.<kod>.evidence) tutuluyordu. İçe aktarılan eski başvurular
+   * sessizce kanıt kaybetmesin diye bir kez koleksiyona taşınır.
+   */
+  function migrateLegacy() {
+    if (all().length) return 0;
+    var store = S();
+    var moved = 0;
+    var list = [];
+    var codes = [];
+    ["part1", "part2", "part3"].forEach(function (part) {
+      (window.ESG[part] || []).forEach(function (s) {
+        codes.push(s.code);
+      });
+    });
+    codes.forEach(function (code) {
+      var rows = store.get("esg." + code + ".evidence");
+      if (!Array.isArray(rows)) return;
+      rows.forEach(function (r) {
+        if (!r || (!r.name && !r.url)) return;
+        // Aynı ad+bağlantı birden çok standartta geçiyorsa tek kayıt tutulur.
+        var existing = null;
+        for (var i = 0; i < list.length; i++) {
+          if (list[i].name === (r.name || "") && list[i].url === (r.url || "")) {
+            existing = list[i];
+            break;
+          }
+        }
+        if (existing) {
+          if (existing.tags.indexOf(code) === -1) existing.tags.push(code);
+          return;
+        }
+        list.push({
+          id: "EV-" + (list.length + 1),
+          name: r.name || "",
+          url: r.url || "",
+          file: null,
+          note: r.ref || "",
+          tags: [code],
+        });
+        moved++;
+      });
+    });
+    if (moved) save(list);
+    return moved;
+  }
+
+  return {
+    OTHER: OTHER,
+    all: all,
+    find: find,
+    byStandard: byStandard,
+    unclassified: unclassified,
+    add: add,
+    update: update,
+    remove: remove,
+    tag: tag,
+    untag: untag,
+    isUsable: isUsable,
+    migrateLegacy: migrateLegacy,
+  };
+})();
+
+</script>
     <!-- assets/js/validate.js -->
 <script>
 /* ==========================================================================
@@ -6380,6 +6882,25 @@ window.Validate = (function () {
     if (field.type === "file-upload") {
       if (!field.required) return null;
       if (!v || !v.name) return t("validate.required");
+      return null;
+    }
+
+    /* Kanıt koleksiyonu — Belgeler bölümü.
+       Kullanılabilir kanıt: adı olan ve bağlantı ya da dosya taşıyan. */
+    if (field.type === "evidence-library") {
+      if (!field.required) return null;
+      var lib = window.Evidence.all().filter(window.Evidence.isUsable);
+      var needLib = field.minItems || 1;
+      if (lib.length < needLib) return t("validate.minItems", { n: needLib });
+      return null;
+    }
+
+    /* Bir ESG standardına bağlanmış kanıtlar; kaynak yine koleksiyondur. */
+    if (field.type === "evidence-picker") {
+      if (!field.required) return null;
+      var attached = window.Evidence.byStandard(field.standard).filter(window.Evidence.isUsable);
+      var needAtt = field.minItems || 1;
+      if (attached.length < needAtt) return t("validate.minItems", { n: needAtt });
       return null;
     }
 
@@ -6569,43 +7090,22 @@ window.SCHEMA = (function () {
           }),
         },
         {
-          type: "repeater",
-          id: "esg." + std.code + ".evidence",
+          /* Kanıtlar merkezî koleksiyondan gelir; burada yalnızca bu
+             standarda bağlanır. Bağ iki yönlüdür: Belgeler bölümünde
+             etiketlenen kanıt burada da görünür. */
+          type: "evidence-picker",
+          id: "esg." + std.code + ".evidenceLink",
+          standard: std.code,
           required: true,
           minItems: 1,
           label: { tr: "Kanıtlar", en: "Evidence" },
           hint: {
             tr:
-              "Beyanınızı destekleyen belge, yönerge, rapor veya web bağlantılarını ekleyiniz.",
+              "Bu standardı destekleyen kanıtları Belgeler bölümündeki koleksiyondan seçiniz veya buradan ekleyiniz; eklediğiniz kanıt koleksiyona da yazılır.",
             en:
-              "Add documents, regulations, reports or web links supporting your statement.",
+              "Select the evidence supporting this standard from the library in the Documents section, or add it here; anything you add is also written to the library.",
           },
-          addLabel: { tr: "Kanıt ekle", en: "Add evidence" },
           suggestions: window.EVIDENCE_SUGGESTIONS.forStandard(std.code),
-          itemFields: [
-            {
-              type: "text",
-              id: "name",
-              required: true,
-              label: { tr: "Kanıt adı", en: "Evidence name" },
-              placeholder: {
-                tr: "ör. Değerlendirici Eğitim Yönergesi",
-                en: "e.g. Reviewer Training Regulation",
-              },
-            },
-            {
-              type: "url",
-              id: "url",
-              label: { tr: "Bağlantı (URL)", en: "Link (URL)" },
-              placeholder: { tr: "https://…", en: "https://…" },
-            },
-            {
-              type: "text",
-              id: "ref",
-              label: { tr: "Belge / bölüm referansı", en: "Document / section reference" },
-              placeholder: { tr: "ör. Md. 12, s. 4", en: "e.g. Art. 12, p. 4" },
-            },
-          ],
         },
       ],
     };
@@ -7093,15 +7593,26 @@ window.SCHEMA = (function () {
                 { id: "activityReport", label: { tr: "Yıllık faaliyet raporu", en: "Annual activity report" } },
               ],
             },
+          ],
+        },
+        {
+          id: "evidence-library",
+          title: { tr: "Kanıt Koleksiyonu", en: "Evidence Library" },
+          short: { tr: "Kanıtlar", en: "Evidence" },
+          desc: {
+            tr:
+              "Başvurunuzda kullanacağınız tüm kanıtları burada toplayınız. Her kanıt bir bağlantı, yüklenmiş bir dosya ya da her ikisi olabilir. Kanıta ESG standardı etiketi verdiğinizde, kanıt ilgili ESG adımına kendiliğinden yerleşir.",
+            en:
+              "Collect here all the evidence you will use in your application. Each item may be a link, an uploaded file, or both. Tagging an item with an ESG standard places it automatically in the corresponding ESG step.",
+          },
+          fields: [
             {
-              type: "repeater", id: "docs.additional", minItems: 0,
-              label: { tr: "Ek destekleyici belgeler", en: "Additional supporting documents" },
-              addLabel: { tr: "Belge ekle", en: "Add document" },
-              itemFields: [
-                { type: "text", id: "name", required: true, label: { tr: "Belge adı", en: "Document name" } },
-                { type: "url", id: "url", label: { tr: "Bağlantı", en: "Link" } },
-                { type: "text", id: "note", label: { tr: "Açıklama", en: "Note" } },
-              ],
+              type: "evidence-library", id: "evidence.library", required: true, minItems: 1,
+              label: { tr: "Kanıtlar", en: "Evidence" },
+              hint: {
+                tr: "Kanıt adı zorunludur; ayrıca bağlantı veya dosyadan en az biri verilmelidir.",
+                en: "The evidence name is required; you must also provide either a link or a file.",
+              },
             },
           ],
         },
@@ -7884,6 +8395,447 @@ window.Fields = (function () {
     render();
     if (suggestBox) holder.appendChild(suggestBox);
     holder.appendChild(el("div", { style: "margin-top:var(--space-3)" }, [add]));
+    return wrap(field, holder);
+  }
+
+  /* ------------------------------------------------------------------
+     Kanıt koleksiyonu / evidence library
+
+     Tüm kanıtlar tek listede (window.Evidence) tutulur. Belgeler
+     bölümündeki `evidence-library` alanı koleksiyonu yönetir; ESG
+     adımlarındaki `evidence-picker` alanı aynı koleksiyonu standart
+     etiketi üzerinden okur ve yazar.
+     ------------------------------------------------------------------ */
+
+  var EV_MAX_MB = 4;
+
+  /** Etiketlenebilir ESG standartlarının listesi, bölümlere ayrılmış. */
+  function evidenceStandardGroups() {
+    var E = window.ESG;
+    return [
+      { label: { tr: "ESG 3 · Kalite Güvencesi Ajansları", en: "ESG 3 · Quality Assurance Agencies" }, items: E.part3 || [] },
+      { label: { tr: "ESG 2 · Dış Kalite Güvencesi", en: "ESG 2 · External Quality Assurance" }, items: E.part2 || [] },
+      { label: { tr: "ESG 1 · İç Kalite Güvencesi", en: "ESG 1 · Internal Quality Assurance" }, items: E.part1 || [] },
+    ];
+  }
+
+  function fmtBytes(bytes) {
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1048576) return (bytes / 1024).toFixed(0) + " KB";
+    return (bytes / 1048576).toFixed(1) + " MB";
+  }
+
+  /** Kanıt kaydına dosya okur; kota dolarsa yalnızca üstveriyi saklar. */
+  function readEvidenceFile(file, onDone, onError) {
+    if (file.size > EV_MAX_MB * 1048576) {
+      onError(
+        window.I18N.lang === "tr"
+          ? "Dosya çok büyük (" + fmtBytes(file.size) + "). En fazla " + EV_MAX_MB +
+            " MB yükleyebilirsiniz; daha büyük dosyalar için bağlantı alanını kullanınız."
+          : "File too large (" + fmtBytes(file.size) + "). Maximum is " + EV_MAX_MB +
+            " MB; use the link field for larger files."
+      );
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function () {
+      onDone({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        data: String(reader.result),
+        uploadedAt: new Date().toISOString(),
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  /** Kanıdın taşıdığı standart etiketlerini rozet olarak gösterir. */
+  function evidenceTagChips(item) {
+    var EV = window.Evidence;
+    var box = el("span", { class: "ev-tags" });
+    var tags = (item.tags || []).filter(function (c) {
+      return c !== EV.OTHER;
+    });
+    if (!tags.length) {
+      box.appendChild(el("span", { class: "ev-tag ev-tag--none", text: t("evidence.untagged") }));
+      return box;
+    }
+    tags.sort().forEach(function (code) {
+      box.appendChild(el("span", { class: "ev-tag", text: "ESG " + code }));
+    });
+    return box;
+  }
+
+  /** Kanıdın erişim yolunu (bağlantı ve/veya dosya) özetler. */
+  function evidenceAccess(item) {
+    var box = el("span", { class: "ev-access" });
+    if (item.url) {
+      box.appendChild(el("a", {
+        class: "ev-access__link", href: item.url, target: "_blank",
+        rel: "noopener noreferrer", text: t("evidence.link"),
+      }));
+    }
+    if (item.file && item.file.name) {
+      box.appendChild(el("span", {
+        class: "ev-access__file",
+        text: item.file.name + (item.file.size ? " · " + fmtBytes(item.file.size) : ""),
+      }));
+    }
+    if (!item.url && !(item.file && item.file.name)) {
+      box.appendChild(el("span", { class: "ev-access__missing", text: t("evidence.noAccess") }));
+    }
+    return box;
+  }
+
+  /* ------------------------------------------------------------------
+     Belgeler bölümü — koleksiyonun yönetildiği alan
+     ------------------------------------------------------------------ */
+  function evidenceLibrary(field) {
+    var EV = window.Evidence;
+    var holder = el("div", { class: "ev-library" });
+    var listBox = el("div", { class: "ev-list" });
+
+    function refresh() {
+      showError(field.id, V.field(field, S));
+      onDirty(field);
+      renderList();
+    }
+
+    /** Tek bir kanıdın düzenlenebilir kartı. */
+    function card(item) {
+      var box = el("div", { class: "ev-card" });
+
+      var head = el("div", { class: "ev-card__head" }, [
+        el("span", { class: "ev-card__id", text: item.id }),
+        evidenceTagChips(item),
+      ]);
+      var del = el("button", {
+        type: "button", class: "btn btn--ghost btn--sm ev-card__remove",
+        title: t("evidence.remove"),
+      }, [icon("trash"), document.createTextNode(t("evidence.remove"))]);
+      del.addEventListener("click", function () {
+        EV.remove(item.id);
+        refresh();
+      });
+      head.appendChild(del);
+      box.appendChild(head);
+
+      /* Ad */
+      var name = el("input", {
+        class: "input", type: "text", value: item.name || "",
+        placeholder: t("evidence.namePlaceholder"),
+        "aria-label": t("evidence.name"),
+      });
+      name.addEventListener("input", function () {
+        EV.update(item.id, { name: name.value });
+        showError(field.id, V.field(field, S));
+        onDirty(field);
+      });
+      box.appendChild(el("label", { class: "ev-field" }, [
+        el("span", { class: "ev-field__label", text: t("evidence.name") }), name,
+      ]));
+
+      /* Bağlantı */
+      var url = el("input", {
+        class: "input", type: "url", value: item.url || "",
+        placeholder: "https://…", "aria-label": t("evidence.url"),
+      });
+      url.addEventListener("input", function () {
+        EV.update(item.id, { url: url.value });
+        refreshAccess();
+        showError(field.id, V.field(field, S));
+        onDirty(field);
+      });
+      box.appendChild(el("label", { class: "ev-field" }, [
+        el("span", { class: "ev-field__label", text: t("evidence.url") }), url,
+      ]));
+
+      /* Dosya */
+      var fileRow = el("div", { class: "ev-file" });
+      var fileInput = el("input", { type: "file", class: "sr-only" });
+      var fileBtn = el("button", { type: "button", class: "btn btn--secondary btn--sm" }, [
+        icon("upload", "btn__icon"),
+        document.createTextNode(item.file && item.file.name ? t("evidence.replaceFile") : t("evidence.addFile")),
+      ]);
+      var fileErr = el("p", { class: "ev-file__error", hidden: true });
+      fileBtn.addEventListener("click", function () {
+        fileInput.click();
+      });
+      fileInput.addEventListener("change", function () {
+        var f = fileInput.files && fileInput.files[0];
+        if (!f) return;
+        fileErr.hidden = true;
+        readEvidenceFile(f, function (payload) {
+          try {
+            EV.update(item.id, { file: payload });
+          } catch (e) {
+            delete payload.data;
+            EV.update(item.id, { file: payload });
+          }
+          refresh();
+        }, function (msg) {
+          fileErr.textContent = msg;
+          fileErr.hidden = false;
+        });
+      });
+      fileRow.appendChild(fileBtn);
+      if (item.file && item.file.name) {
+        var clear = el("button", { type: "button", class: "btn btn--ghost btn--sm" },
+          [document.createTextNode(t("evidence.clearFile"))]);
+        clear.addEventListener("click", function () {
+          EV.update(item.id, { file: null });
+          refresh();
+        });
+        fileRow.appendChild(clear);
+      }
+      fileRow.appendChild(fileInput);
+      box.appendChild(el("div", { class: "ev-field" }, [
+        el("span", { class: "ev-field__label", text: t("evidence.file") }), fileRow, fileErr,
+      ]));
+
+      /* Erişim özeti */
+      var accessBox = el("div", { class: "ev-card__access" }, [evidenceAccess(item)]);
+      function refreshAccess() {
+        var fresh = EV.find(item.id) || item;
+        accessBox.innerHTML = "";
+        accessBox.appendChild(evidenceAccess(fresh));
+      }
+      box.appendChild(accessBox);
+
+      /* Üstveri — hangi ESG standartlarına ait */
+      var tagBox = el("div", { class: "ev-tagpicker" });
+      tagBox.appendChild(el("p", { class: "ev-field__label", text: t("evidence.tagsLabel") }));
+      tagBox.appendChild(el("p", { class: "ev-tagpicker__hint", text: t("evidence.tagsHint") }));
+
+      evidenceStandardGroups().forEach(function (grp) {
+        var row = el("div", { class: "ev-tagpicker__group" });
+        row.appendChild(el("span", { class: "ev-tagpicker__group-label", text: pick(grp.label) }));
+        var chips = el("div", { class: "ev-tagpicker__chips" });
+        grp.items.forEach(function (std) {
+          var on = (item.tags || []).indexOf(std.code) !== -1;
+          var b = el("button", {
+            type: "button",
+            class: "ev-chip" + (on ? " ev-chip--on" : ""),
+            title: pick(std.title),
+            "aria-pressed": on ? "true" : "false",
+          }, [document.createTextNode(std.code)]);
+          b.addEventListener("click", function () {
+            if (on) EV.untag(item.id, std.code);
+            else EV.tag(item.id, std.code);
+            refresh();
+          });
+          chips.appendChild(b);
+        });
+        row.appendChild(chips);
+        tagBox.appendChild(row);
+      });
+
+      var otherOn = (item.tags || []).indexOf(EV.OTHER) !== -1;
+      var otherBtn = el("button", {
+        type: "button",
+        class: "ev-chip ev-chip--other" + (otherOn ? " ev-chip--on" : ""),
+        "aria-pressed": otherOn ? "true" : "false",
+      }, [document.createTextNode(t("evidence.other"))]);
+      otherBtn.addEventListener("click", function () {
+        if (otherOn) EV.untag(item.id, EV.OTHER);
+        else EV.tag(item.id, EV.OTHER);
+        refresh();
+      });
+      tagBox.appendChild(el("div", { class: "ev-tagpicker__group" }, [
+        el("span", { class: "ev-tagpicker__group-label", text: t("evidence.otherGroup") }),
+        el("div", { class: "ev-tagpicker__chips" }, [otherBtn]),
+      ]));
+
+      box.appendChild(tagBox);
+
+      /* Açıklama */
+      var note = el("input", {
+        class: "input", type: "text", value: item.note || "",
+        placeholder: t("evidence.notePlaceholder"), "aria-label": t("evidence.note"),
+      });
+      note.addEventListener("input", function () {
+        EV.update(item.id, { note: note.value });
+        onDirty(field);
+      });
+      box.appendChild(el("label", { class: "ev-field" }, [
+        el("span", { class: "ev-field__label", text: t("evidence.note") }), note,
+      ]));
+
+      return box;
+    }
+
+    function renderList() {
+      listBox.innerHTML = "";
+      var items = window.Evidence.all();
+      if (!items.length) {
+        listBox.appendChild(el("p", { class: "repeater__empty", text: t("evidence.empty") }));
+        return;
+      }
+      items.forEach(function (it) {
+        listBox.appendChild(card(it));
+      });
+    }
+
+    var add = el("button", { type: "button", class: "btn btn--secondary" }, [
+      icon("plus", "btn__icon"), document.createTextNode(t("evidence.add")),
+    ]);
+    add.addEventListener("click", function () {
+      window.Evidence.add({ name: "", url: "", tags: [] });
+      refresh();
+    });
+
+    holder.appendChild(listBox);
+    holder.appendChild(el("div", { class: "ev-library__actions" }, [add]));
+    renderList();
+    return wrap(field, holder);
+  }
+
+  /* ------------------------------------------------------------------
+     ESG adımları — koleksiyondan standarda kanıt bağlama
+     ------------------------------------------------------------------ */
+  function evidencePicker(field) {
+    var EV = window.Evidence;
+    var code = field.standard;
+    var holder = el("div", { class: "ev-picker" });
+    var attachedBox = el("div", { class: "ev-picker__attached" });
+    var libraryBox = el("div", { class: "ev-picker__library" });
+
+    function refresh() {
+      showError(field.id, V.field(field, S));
+      onDirty(field);
+      renderAll();
+    }
+
+    function renderAttached() {
+      attachedBox.innerHTML = "";
+      var items = EV.byStandard(code);
+      if (!items.length) {
+        attachedBox.appendChild(el("p", { class: "repeater__empty", text: t("evidence.noneForStandard") }));
+        return;
+      }
+      items.forEach(function (it) {
+        var row = el("div", { class: "ev-row" + (EV.isUsable(it) ? "" : " ev-row--incomplete") }, [
+          el("span", { class: "ev-row__name", text: it.name || t("evidence.unnamed") }),
+          evidenceAccess(it),
+        ]);
+        var off = el("button", {
+          type: "button", class: "ev-row__remove", "aria-label": t("evidence.detach"),
+          title: t("evidence.detach"),
+        }, [icon("x")]);
+        off.addEventListener("click", function () {
+          EV.untag(it.id, code);
+          refresh();
+        });
+        row.appendChild(off);
+        attachedBox.appendChild(row);
+      });
+    }
+
+    /** Koleksiyondaki, bu standarda henüz bağlanmamış kanıtlar. */
+    function renderLibrary() {
+      libraryBox.innerHTML = "";
+      var rest = EV.all().filter(function (it) {
+        return (it.tags || []).indexOf(code) === -1;
+      });
+      if (!rest.length) return;
+
+      var details = el("details", { class: "ev-picker__pool" });
+      details.appendChild(el("summary", { class: "ev-picker__pool-head" }, [
+        el("span", { text: t("evidence.pickFromLibrary") }),
+        el("span", { class: "badge badge--neutral", text: String(rest.length) }),
+      ]));
+      var grid = el("div", { class: "ev-picker__pool-body" });
+      rest.forEach(function (it) {
+        var b = el("button", { type: "button", class: "ev-pool-item" }, [
+          el("span", { class: "ev-pool-item__name", text: it.name || t("evidence.unnamed") }),
+          evidenceTagChips(it),
+        ]);
+        b.addEventListener("click", function () {
+          EV.tag(it.id, code);
+          refresh();
+        });
+        grid.appendChild(b);
+      });
+      details.appendChild(grid);
+      libraryBox.appendChild(details);
+    }
+
+    /* Yeni kanıt — koleksiyona yazılır ve bu standarda bağlanır. */
+    var newName = el("input", { class: "input", type: "text", placeholder: t("evidence.namePlaceholder"), "aria-label": t("evidence.name") });
+    var newUrl = el("input", { class: "input", type: "url", placeholder: "https://…", "aria-label": t("evidence.url") });
+    var newFile = el("input", { type: "file", class: "sr-only" });
+    var pendingFile = null;
+    var fileLabel = el("span", { class: "ev-newfile__name", text: "" });
+    var fileErr = el("p", { class: "ev-file__error", hidden: true });
+
+    var pickFile = el("button", { type: "button", class: "btn btn--secondary btn--sm" }, [
+      icon("upload", "btn__icon"), document.createTextNode(t("evidence.addFile")),
+    ]);
+    pickFile.addEventListener("click", function () {
+      newFile.click();
+    });
+    newFile.addEventListener("change", function () {
+      var f = newFile.files && newFile.files[0];
+      if (!f) return;
+      fileErr.hidden = true;
+      readEvidenceFile(f, function (payload) {
+        pendingFile = payload;
+        fileLabel.textContent = payload.name + " · " + fmtBytes(payload.size);
+      }, function (msg) {
+        fileErr.textContent = msg;
+        fileErr.hidden = false;
+      });
+    });
+
+    var createBtn = el("button", { type: "button", class: "btn btn--primary btn--sm" }, [
+      icon("plus", "btn__icon"), document.createTextNode(t("evidence.createAndAttach")),
+    ]);
+    createBtn.addEventListener("click", function () {
+      if (!newName.value.trim()) {
+        fileErr.textContent = t("evidence.nameRequired");
+        fileErr.hidden = false;
+        return;
+      }
+      EV.add({
+        name: newName.value.trim(),
+        url: newUrl.value.trim(),
+        file: pendingFile,
+        tags: [code],
+      });
+      newName.value = "";
+      newUrl.value = "";
+      pendingFile = null;
+      fileLabel.textContent = "";
+      fileErr.hidden = true;
+      refresh();
+    });
+
+    var creator = el("details", { class: "ev-picker__new" }, [
+      el("summary", { class: "ev-picker__new-head", text: t("evidence.addNew") }),
+      el("div", { class: "ev-picker__new-body" }, [
+        el("label", { class: "ev-field" }, [
+          el("span", { class: "ev-field__label", text: t("evidence.name") }), newName,
+        ]),
+        el("label", { class: "ev-field" }, [
+          el("span", { class: "ev-field__label", text: t("evidence.url") }), newUrl,
+        ]),
+        el("div", { class: "ev-newfile" }, [pickFile, fileLabel, newFile]),
+        fileErr,
+        el("p", { class: "ev-picker__new-note", text: t("evidence.addNewNote") }),
+        createBtn,
+      ]),
+    ]);
+
+    function renderAll() {
+      renderAttached();
+      renderLibrary();
+    }
+
+    holder.appendChild(attachedBox);
+    holder.appendChild(libraryBox);
+    holder.appendChild(creator);
+    renderAll();
     return wrap(field, holder);
   }
 
@@ -8735,6 +9687,10 @@ window.Fields = (function () {
         return documentList(field);
       case "file-upload":
         return fileUpload(field);
+      case "evidence-library":
+        return evidenceLibrary(field);
+      case "evidence-picker":
+        return evidencePicker(field);
       default:
         return null;
     }
@@ -8794,6 +9750,10 @@ window.Fields = (function () {
       prefs.theme ||
       (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     document.documentElement.setAttribute("data-theme", theme);
+
+    // Eski biçimdeki (standart başına dizi) kanıtları koleksiyona taşı.
+    var movedEvidence = window.Evidence.migrateLegacy();
+    if (movedEvidence) toast(t("evidence.migrated", { n: movedEvidence }), "info");
 
     // MİS ön başvurusu devredildiyse alanları besle.
     ingestPreRegistration();
@@ -9339,6 +10299,29 @@ window.Fields = (function () {
 
   function formatValue(field) {
     var v = S.get(field.id);
+
+    /* Kanıt alanları değerlerini kendi kimliklerinde değil merkezî
+       koleksiyonda tutar; boşluk kontrolünden önce ele alınmalıdır. */
+    if (field.type === "evidence-library") {
+      return window.Evidence.all()
+        .filter(window.Evidence.isUsable)
+        .map(function (it) {
+          var tags = (it.tags || []).filter(function (c) {
+            return c !== window.Evidence.OTHER;
+          });
+          return it.name + (tags.length ? " [" + tags.sort().join(", ") + "]" : "");
+        })
+        .join(" · ");
+    }
+
+    if (field.type === "evidence-picker") {
+      return window.Evidence.byStandard(field.standard)
+        .map(function (it) {
+          return it.name || t("evidence.unnamed");
+        })
+        .join(" · ");
+    }
+
     if (V.isEmpty(v)) return "";
 
     if (field.type === "programme-picker") {

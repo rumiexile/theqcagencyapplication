@@ -38,6 +38,10 @@
       (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     document.documentElement.setAttribute("data-theme", theme);
 
+    // Eski biçimdeki (standart başına dizi) kanıtları koleksiyona taşı.
+    var movedEvidence = window.Evidence.migrateLegacy();
+    if (movedEvidence) toast(t("evidence.migrated", { n: movedEvidence }), "info");
+
     // MİS ön başvurusu devredildiyse alanları besle.
     ingestPreRegistration();
 
@@ -582,6 +586,29 @@
 
   function formatValue(field) {
     var v = S.get(field.id);
+
+    /* Kanıt alanları değerlerini kendi kimliklerinde değil merkezî
+       koleksiyonda tutar; boşluk kontrolünden önce ele alınmalıdır. */
+    if (field.type === "evidence-library") {
+      return window.Evidence.all()
+        .filter(window.Evidence.isUsable)
+        .map(function (it) {
+          var tags = (it.tags || []).filter(function (c) {
+            return c !== window.Evidence.OTHER;
+          });
+          return it.name + (tags.length ? " [" + tags.sort().join(", ") + "]" : "");
+        })
+        .join(" · ");
+    }
+
+    if (field.type === "evidence-picker") {
+      return window.Evidence.byStandard(field.standard)
+        .map(function (it) {
+          return it.name || t("evidence.unnamed");
+        })
+        .join(" · ");
+    }
+
     if (V.isEmpty(v)) return "";
 
     if (field.type === "programme-picker") {

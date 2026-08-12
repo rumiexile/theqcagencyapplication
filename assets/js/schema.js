@@ -56,43 +56,22 @@ window.SCHEMA = (function () {
           }),
         },
         {
-          type: "repeater",
-          id: "esg." + std.code + ".evidence",
+          /* Kanıtlar merkezî koleksiyondan gelir; burada yalnızca bu
+             standarda bağlanır. Bağ iki yönlüdür: Belgeler bölümünde
+             etiketlenen kanıt burada da görünür. */
+          type: "evidence-picker",
+          id: "esg." + std.code + ".evidenceLink",
+          standard: std.code,
           required: true,
           minItems: 1,
           label: { tr: "Kanıtlar", en: "Evidence" },
           hint: {
             tr:
-              "Beyanınızı destekleyen belge, yönerge, rapor veya web bağlantılarını ekleyiniz.",
+              "Bu standardı destekleyen kanıtları Belgeler bölümündeki koleksiyondan seçiniz veya buradan ekleyiniz; eklediğiniz kanıt koleksiyona da yazılır.",
             en:
-              "Add documents, regulations, reports or web links supporting your statement.",
+              "Select the evidence supporting this standard from the library in the Documents section, or add it here; anything you add is also written to the library.",
           },
-          addLabel: { tr: "Kanıt ekle", en: "Add evidence" },
           suggestions: window.EVIDENCE_SUGGESTIONS.forStandard(std.code),
-          itemFields: [
-            {
-              type: "text",
-              id: "name",
-              required: true,
-              label: { tr: "Kanıt adı", en: "Evidence name" },
-              placeholder: {
-                tr: "ör. Değerlendirici Eğitim Yönergesi",
-                en: "e.g. Reviewer Training Regulation",
-              },
-            },
-            {
-              type: "url",
-              id: "url",
-              label: { tr: "Bağlantı (URL)", en: "Link (URL)" },
-              placeholder: { tr: "https://…", en: "https://…" },
-            },
-            {
-              type: "text",
-              id: "ref",
-              label: { tr: "Belge / bölüm referansı", en: "Document / section reference" },
-              placeholder: { tr: "ör. Md. 12, s. 4", en: "e.g. Art. 12, p. 4" },
-            },
-          ],
         },
       ],
     };
@@ -580,15 +559,26 @@ window.SCHEMA = (function () {
                 { id: "activityReport", label: { tr: "Yıllık faaliyet raporu", en: "Annual activity report" } },
               ],
             },
+          ],
+        },
+        {
+          id: "evidence-library",
+          title: { tr: "Kanıt Koleksiyonu", en: "Evidence Library" },
+          short: { tr: "Kanıtlar", en: "Evidence" },
+          desc: {
+            tr:
+              "Başvurunuzda kullanacağınız tüm kanıtları burada toplayınız. Her kanıt bir bağlantı, yüklenmiş bir dosya ya da her ikisi olabilir. Kanıta ESG standardı etiketi verdiğinizde, kanıt ilgili ESG adımına kendiliğinden yerleşir.",
+            en:
+              "Collect here all the evidence you will use in your application. Each item may be a link, an uploaded file, or both. Tagging an item with an ESG standard places it automatically in the corresponding ESG step.",
+          },
+          fields: [
             {
-              type: "repeater", id: "docs.additional", minItems: 0,
-              label: { tr: "Ek destekleyici belgeler", en: "Additional supporting documents" },
-              addLabel: { tr: "Belge ekle", en: "Add document" },
-              itemFields: [
-                { type: "text", id: "name", required: true, label: { tr: "Belge adı", en: "Document name" } },
-                { type: "url", id: "url", label: { tr: "Bağlantı", en: "Link" } },
-                { type: "text", id: "note", label: { tr: "Açıklama", en: "Note" } },
-              ],
+              type: "evidence-library", id: "evidence.library", required: true, minItems: 1,
+              label: { tr: "Kanıtlar", en: "Evidence" },
+              hint: {
+                tr: "Kanıt adı zorunludur; ayrıca bağlantı veya dosyadan en az biri verilmelidir.",
+                en: "The evidence name is required; you must also provide either a link or a file.",
+              },
             },
           ],
         },
