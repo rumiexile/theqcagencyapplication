@@ -66,6 +66,13 @@ okurlar. Bağ bu yüzden iki yönlü çalışır:
 Hiçbir standarda bağlanmayan kanıtlar **Tasnif dışı** olarak işaretlenebilir;
 koleksiyonda dururlar ama hiçbir ESG adımına girmezler.
 
+Kenar çubuğundaki **Başvuru Özeti**, koleksiyondaki kanıt sayısını gösterir.
+Sayıya yalnızca erişilebilir kanıtlar girer — bir ESG adımının tamamlanmış
+sayılması için de aynı ölçüt geçerlidir. Tasnif dışı kanıt varsa sayının
+yanında kaç tanesinin hiçbir standarda bağlanmadığı belirtilir; bunlar
+koleksiyonda durur ama ESG adımlarına ulaşmaz. Sayaç kanıt nereden eklenirse
+eklensin (Belgeler dizini ya da bir ESG adımı) anında güncellenir.
+
 ### Dizin görünümü
 
 Belgeler bölümü kanıtları bir dosya sistemi gibi listeler: klasörler ESG

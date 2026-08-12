@@ -2915,6 +2915,19 @@ legend {
   color: var(--color-text);
 }
 
+/* Sayının yanındaki uyarı notu — ör. tasnif dışı kanıt sayısı */
+.sidebar-summary__note {
+  margin-left: var(--space-2);
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  cursor: help;
+}
+
 /* --------------------------------------------------------------------------
    Ana içerik / Main
    -------------------------------------------------------------------------- */
@@ -3935,6 +3948,10 @@ window.I18N = (function () {
       "summary.programmes": "Program",
       "summary.completed": "Tamamlanan",
       "summary.required": "Zorunlu alan",
+      "summary.evidence": "Kanıt",
+      "summary.evidenceLoose": "{n} tasnif dışı",
+      "summary.evidenceLooseHint":
+        "Hiçbir ESG standardına bağlanmamış kanıtlar. Koleksiyonda dururlar ama ESG adımlarına girmezler.",
       "summary.missing": "Eksik",
 
       "field.required": "zorunlu",
@@ -4140,6 +4157,10 @@ window.I18N = (function () {
       "summary.programmes": "Programmes",
       "summary.completed": "Completed",
       "summary.required": "Required fields",
+      "summary.evidence": "Evidence",
+      "summary.evidenceLoose": "{n} unclassified",
+      "summary.evidenceLooseHint":
+        "Evidence not linked to any ESG standard. It stays in the collection but does not appear in the ESG steps.",
       "summary.missing": "Missing",
 
       "field.required": "required",
@@ -10535,6 +10556,7 @@ window.Fields = (function () {
         row(t("summary.type"), typeLabel()),
         row(t("summary.agency"), S.get("agency.acronym") || S.get("agency.nameTr") || "—"),
         row(t("summary.programmes"), String((S.get("scope.programmes", []) || []).length)),
+        evidenceRow(),
         row(t("summary.completed"), p.done + " / " + p.total),
         row(t("summary.missing"), String(p.missing)),
       ]),
@@ -10589,6 +10611,34 @@ window.Fields = (function () {
       el("span", { class: "sidebar-summary__label", text: label }),
       el("span", { class: "sidebar-summary__value", text: value || "—" }),
     ]);
+  }
+
+  /**
+   * Koleksiyondaki kanıt sayısı. Yalnızca erişilebilir kanıtlar sayılır —
+   * bir ESG adımının tamamlanmış sayılması için de aynı ölçüt geçerlidir.
+   * Hiçbir standarda bağlanmamış kanıtlar sayıya girer ama ESG adımlarına
+   * ulaşmadıkları için ayrıca belirtilir.
+   */
+  function evidenceRow() {
+    var EV = window.Evidence;
+    var usable = EV.all().filter(EV.isUsable);
+    var loose = usable.filter(function (it) {
+      return !(it.tags || []).some(function (c) {
+        return c !== EV.OTHER;
+      });
+    }).length;
+
+    var r = row(t("summary.evidence"), String(usable.length));
+    if (loose) {
+      r.querySelector(".sidebar-summary__value").appendChild(
+        el("span", {
+          class: "sidebar-summary__note",
+          text: t("summary.evidenceLoose", { n: loose }),
+          title: t("summary.evidenceLooseHint"),
+        })
+      );
+    }
+    return r;
   }
 
   function typeLabel() {

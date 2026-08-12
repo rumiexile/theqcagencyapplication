@@ -43,6 +43,10 @@ window.I18N = (function () {
       "summary.programmes": "Program",
       "summary.completed": "Tamamlanan",
       "summary.required": "Zorunlu alan",
+      "summary.evidence": "Kanıt",
+      "summary.evidenceLoose": "{n} tasnif dışı",
+      "summary.evidenceLooseHint":
+        "Hiçbir ESG standardına bağlanmamış kanıtlar. Koleksiyonda dururlar ama ESG adımlarına girmezler.",
       "summary.missing": "Eksik",
 
       "field.required": "zorunlu",
@@ -248,6 +252,10 @@ window.I18N = (function () {
       "summary.programmes": "Programmes",
       "summary.completed": "Completed",
       "summary.required": "Required fields",
+      "summary.evidence": "Evidence",
+      "summary.evidenceLoose": "{n} unclassified",
+      "summary.evidenceLooseHint":
+        "Evidence not linked to any ESG standard. It stays in the collection but does not appear in the ESG steps.",
       "summary.missing": "Missing",
 
       "field.required": "required",

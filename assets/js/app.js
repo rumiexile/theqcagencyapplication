@@ -261,6 +261,7 @@
         row(t("summary.type"), typeLabel()),
         row(t("summary.agency"), S.get("agency.acronym") || S.get("agency.nameTr") || "—"),
         row(t("summary.programmes"), String((S.get("scope.programmes", []) || []).length)),
+        evidenceRow(),
         row(t("summary.completed"), p.done + " / " + p.total),
         row(t("summary.missing"), String(p.missing)),
       ]),
@@ -315,6 +316,34 @@
       el("span", { class: "sidebar-summary__label", text: label }),
       el("span", { class: "sidebar-summary__value", text: value || "—" }),
     ]);
+  }
+
+  /**
+   * Koleksiyondaki kanıt sayısı. Yalnızca erişilebilir kanıtlar sayılır —
+   * bir ESG adımının tamamlanmış sayılması için de aynı ölçüt geçerlidir.
+   * Hiçbir standarda bağlanmamış kanıtlar sayıya girer ama ESG adımlarına
+   * ulaşmadıkları için ayrıca belirtilir.
+   */
+  function evidenceRow() {
+    var EV = window.Evidence;
+    var usable = EV.all().filter(EV.isUsable);
+    var loose = usable.filter(function (it) {
+      return !(it.tags || []).some(function (c) {
+        return c !== EV.OTHER;
+      });
+    }).length;
+
+    var r = row(t("summary.evidence"), String(usable.length));
+    if (loose) {
+      r.querySelector(".sidebar-summary__value").appendChild(
+        el("span", {
+          class: "sidebar-summary__note",
+          text: t("summary.evidenceLoose", { n: loose }),
+          title: t("summary.evidenceLooseHint"),
+        })
+      );
+    }
+    return r;
   }
 
   function typeLabel() {
