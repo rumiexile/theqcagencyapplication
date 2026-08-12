@@ -540,206 +540,318 @@ window.Fields = (function () {
     return box;
   }
 
+  /**
+   * Kanıdın bulunduğu "klasör": etiketlerinin en küçüğü. Etiketsiz veya
+   * yalnızca tasnif dışı olanlar ayrı klasörde toplanır. Sıralı en küçük
+   * etiket seçildiği için bir kanıt her zaman tek bir klasörde durur —
+   * dizinde silme ve düzenleme böylece belirsizleşmez.
+   */
+  function evidenceFolder(item) {
+    var tags = (item.tags || []).filter(function (c) {
+      return c !== window.Evidence.OTHER;
+    });
+    if (!tags.length) return null;
+    return tags.slice().sort()[0];
+  }
+
+  /** Kanıt düzenleme penceresi. Kaydedilmeden koleksiyona hiçbir şey yazılmaz. */
+  function evidenceEditor(item, onSave) {
+    var EV = window.Evidence;
+    var isNew = !item;
+    var draft = {
+      name: item ? item.name || "" : "",
+      url: item ? item.url || "" : "",
+      file: item ? item.file || null : null,
+      note: item ? item.note || "" : "",
+      tags: item ? (item.tags || []).slice() : [],
+    };
+
+    var dlg = el("dialog", { class: "modal ev-editor" });
+    var err = el("p", { class: "ev-editor__error", hidden: true, role: "alert" });
+
+    function field(labelKey, control) {
+      return el("label", { class: "ev-field" }, [
+        el("span", { class: "ev-field__label", text: t(labelKey) }), control,
+      ]);
+    }
+
+    var name = el("input", { class: "input", type: "text", value: draft.name, placeholder: t("evidence.namePlaceholder") });
+    name.addEventListener("input", function () {
+      draft.name = name.value;
+    });
+
+    var url = el("input", { class: "input", type: "url", value: draft.url, placeholder: "https://…" });
+    url.addEventListener("input", function () {
+      draft.url = url.value;
+    });
+
+    var note = el("input", { class: "input", type: "text", value: draft.note, placeholder: t("evidence.notePlaceholder") });
+    note.addEventListener("input", function () {
+      draft.note = note.value;
+    });
+
+    /* Dosya — seçim yalnızca taslakta tutulur, kaydedilince yazılır. */
+    var fileInput = el("input", { type: "file", class: "sr-only" });
+    var fileName = el("span", { class: "ev-newfile__name", text: draft.file ? draft.file.name : "" });
+    var pickBtn = el("button", { type: "button", class: "btn btn--secondary btn--sm" }, [
+      icon("upload", "btn__icon"), document.createTextNode(t("evidence.addFile")),
+    ]);
+    pickBtn.addEventListener("click", function () {
+      fileInput.click();
+    });
+    var clearBtn = el("button", { type: "button", class: "btn btn--ghost btn--sm", text: t("evidence.clearFile") });
+    clearBtn.addEventListener("click", function () {
+      draft.file = null;
+      fileName.textContent = "";
+      clearBtn.hidden = true;
+    });
+    clearBtn.hidden = !draft.file;
+    fileInput.addEventListener("change", function () {
+      var f = fileInput.files && fileInput.files[0];
+      if (!f) return;
+      err.hidden = true;
+      readEvidenceFile(f, function (payload) {
+        draft.file = payload;
+        fileName.textContent = payload.name + " · " + fmtBytes(payload.size);
+        clearBtn.hidden = false;
+      }, function (msg) {
+        err.textContent = msg;
+        err.hidden = false;
+      });
+    });
+
+    /* Etiketler */
+    var tagBox = el("div", { class: "ev-tagpicker" });
+    tagBox.appendChild(el("p", { class: "ev-field__label", text: t("evidence.tagsLabel") }));
+    tagBox.appendChild(el("p", { class: "ev-tagpicker__hint", text: t("evidence.tagsHint") }));
+
+    function chip(code, label) {
+      var b = el("button", { type: "button", class: "ev-chip", "aria-pressed": "false" },
+        [document.createTextNode(label)]);
+      function sync() {
+        var on = draft.tags.indexOf(code) !== -1;
+        b.className = "ev-chip" + (on ? " ev-chip--on" : "") + (code === EV.OTHER ? " ev-chip--other" : "");
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+      }
+      b.addEventListener("click", function () {
+        var i = draft.tags.indexOf(code);
+        if (i === -1) {
+          draft.tags.push(code);
+          // Bir standarda bağlanan kanıt artık tasnif dışı sayılmaz.
+          if (code !== EV.OTHER) {
+            draft.tags = draft.tags.filter(function (c) {
+              return c !== EV.OTHER;
+            });
+          }
+        } else {
+          draft.tags.splice(i, 1);
+        }
+        tagBox.querySelectorAll(".ev-chip").forEach(function (el2) {
+          if (el2.__sync) el2.__sync();
+        });
+      });
+      b.__sync = sync;
+      sync();
+      return b;
+    }
+
+    evidenceStandardGroups().forEach(function (grp) {
+      var chips = el("div", { class: "ev-tagpicker__chips" });
+      grp.items.forEach(function (std) {
+        chips.appendChild(chip(std.code, std.code));
+      });
+      tagBox.appendChild(el("div", { class: "ev-tagpicker__group" }, [
+        el("span", { class: "ev-tagpicker__group-label", text: pick(grp.label) }), chips,
+      ]));
+    });
+    tagBox.appendChild(el("div", { class: "ev-tagpicker__group" }, [
+      el("span", { class: "ev-tagpicker__group-label", text: t("evidence.otherGroup") }),
+      el("div", { class: "ev-tagpicker__chips" }, [chip(EV.OTHER, t("evidence.other"))]),
+    ]));
+
+    var cancel = el("button", { type: "button", class: "btn btn--secondary", text: t("evidence.cancel") });
+    cancel.addEventListener("click", function () {
+      dlg.close();
+    });
+
+    var save = el("button", { type: "button", class: "btn btn--primary" }, [
+      icon("save", "btn__icon"), document.createTextNode(t("evidence.save")),
+    ]);
+    save.addEventListener("click", function () {
+      if (!draft.name.trim()) {
+        err.textContent = t("evidence.nameRequired");
+        err.hidden = false;
+        name.focus();
+        return;
+      }
+      if (!draft.url.trim() && !(draft.file && draft.file.name)) {
+        err.textContent = t("evidence.accessRequired");
+        err.hidden = false;
+        return;
+      }
+      var payload = {
+        name: draft.name.trim(),
+        url: draft.url.trim(),
+        file: draft.file,
+        note: draft.note.trim(),
+        tags: draft.tags,
+      };
+      try {
+        if (isNew) EV.add(payload);
+        else EV.update(item.id, payload);
+      } catch (e) {
+        // Depolama kotası dolduysa dosya içeriği olmadan kaydet
+        if (payload.file) delete payload.file.data;
+        if (isNew) EV.add(payload);
+        else EV.update(item.id, payload);
+      }
+      dlg.close();
+      onSave();
+    });
+
+    dlg.appendChild(el("div", {}, [
+      el("div", { class: "modal__header" }, [
+        el("h2", { class: "modal__title", text: isNew ? t("evidence.newTitle") : t("evidence.editTitle") }),
+      ]),
+      el("div", { class: "modal__body ev-editor__body" }, [
+        field("evidence.name", name),
+        field("evidence.url", url),
+        el("div", { class: "ev-field" }, [
+          el("span", { class: "ev-field__label", text: t("evidence.file") }),
+          el("div", { class: "ev-newfile" }, [pickBtn, fileName, clearBtn, fileInput]),
+        ]),
+        el("p", { class: "ev-editor__note", text: t("evidence.accessHint") }),
+        tagBox,
+        field("evidence.note", note),
+        err,
+      ]),
+      el("div", { class: "modal__footer" }, [cancel, save]),
+    ]));
+
+    document.body.appendChild(dlg);
+    dlg.addEventListener("close", function () {
+      dlg.remove();
+    });
+    dlg.showModal();
+    name.focus();
+  }
+
   /* ------------------------------------------------------------------
-     Belgeler bölümü — koleksiyonun yönetildiği alan
+     Belgeler bölümü — kanıt dizini
+     Kanıtlar bir dosya sistemi gibi klasörler altında listelenir;
+     ekleme, güncelleme ve silme dizinden yapılır.
      ------------------------------------------------------------------ */
   function evidenceLibrary(field) {
     var EV = window.Evidence;
     var holder = el("div", { class: "ev-library" });
-    var listBox = el("div", { class: "ev-list" });
+    var dirBox = el("div", { class: "ev-dir" });
+    var countLabel = el("span", { class: "ev-dir__count" });
 
     function refresh() {
       showError(field.id, V.field(field, S));
       onDirty(field);
-      renderList();
+      renderDir();
     }
 
-    /** Tek bir kanıdın düzenlenebilir kartı. */
-    function card(item) {
-      var box = el("div", { class: "ev-card" });
+    function fileRow(item) {
+      var row = el("div", { class: "ev-file-row" + (EV.isUsable(item) ? "" : " ev-file-row--incomplete") });
 
-      var head = el("div", { class: "ev-card__head" }, [
-        el("span", { class: "ev-card__id", text: item.id }),
-        evidenceTagChips(item),
+      row.appendChild(el("span", { class: "ev-file-row__icon", "aria-hidden": "true" }, [icon("save")]));
+
+      var main = el("span", { class: "ev-file-row__main" }, [
+        el("span", { class: "ev-file-row__name", text: item.name || t("evidence.unnamed") }),
+        item.note ? el("span", { class: "ev-file-row__note", text: item.note }) : null,
       ]);
+      row.appendChild(main);
+
+      row.appendChild(evidenceAccess(item));
+
+      // Birden çok standarda bağlıysa ek etiketleri göster.
+      var extra = (item.tags || []).filter(function (c) {
+        return c !== EV.OTHER && c !== evidenceFolder(item);
+      });
+      if (extra.length) {
+        row.appendChild(el("span", {
+          class: "ev-file-row__more",
+          title: extra.sort().map(function (c) { return "ESG " + c; }).join(", "),
+          text: "+" + extra.length,
+        }));
+      }
+
+      var edit = el("button", {
+        type: "button", class: "btn btn--ghost btn--sm",
+        title: t("evidence.edit"),
+      }, [document.createTextNode(t("evidence.edit"))]);
+      edit.addEventListener("click", function () {
+        evidenceEditor(item, refresh);
+      });
+
       var del = el("button", {
-        type: "button", class: "btn btn--ghost btn--sm ev-card__remove",
-        title: t("evidence.remove"),
-      }, [icon("trash"), document.createTextNode(t("evidence.remove"))]);
+        type: "button", class: "btn btn--ghost btn--sm ev-file-row__delete",
+        title: t("evidence.remove"), "aria-label": t("evidence.remove"),
+      }, [icon("trash", "btn__icon")]);
       del.addEventListener("click", function () {
         EV.remove(item.id);
         refresh();
       });
-      head.appendChild(del);
-      box.appendChild(head);
 
-      /* Ad */
-      var name = el("input", {
-        class: "input", type: "text", value: item.name || "",
-        placeholder: t("evidence.namePlaceholder"),
-        "aria-label": t("evidence.name"),
-      });
-      name.addEventListener("input", function () {
-        EV.update(item.id, { name: name.value });
-        showError(field.id, V.field(field, S));
-        onDirty(field);
-      });
-      box.appendChild(el("label", { class: "ev-field" }, [
-        el("span", { class: "ev-field__label", text: t("evidence.name") }), name,
-      ]));
-
-      /* Bağlantı */
-      var url = el("input", {
-        class: "input", type: "url", value: item.url || "",
-        placeholder: "https://…", "aria-label": t("evidence.url"),
-      });
-      url.addEventListener("input", function () {
-        EV.update(item.id, { url: url.value });
-        refreshAccess();
-        showError(field.id, V.field(field, S));
-        onDirty(field);
-      });
-      box.appendChild(el("label", { class: "ev-field" }, [
-        el("span", { class: "ev-field__label", text: t("evidence.url") }), url,
-      ]));
-
-      /* Dosya */
-      var fileRow = el("div", { class: "ev-file" });
-      var fileInput = el("input", { type: "file", class: "sr-only" });
-      var fileBtn = el("button", { type: "button", class: "btn btn--secondary btn--sm" }, [
-        icon("upload", "btn__icon"),
-        document.createTextNode(item.file && item.file.name ? t("evidence.replaceFile") : t("evidence.addFile")),
-      ]);
-      var fileErr = el("p", { class: "ev-file__error", hidden: true });
-      fileBtn.addEventListener("click", function () {
-        fileInput.click();
-      });
-      fileInput.addEventListener("change", function () {
-        var f = fileInput.files && fileInput.files[0];
-        if (!f) return;
-        fileErr.hidden = true;
-        readEvidenceFile(f, function (payload) {
-          try {
-            EV.update(item.id, { file: payload });
-          } catch (e) {
-            delete payload.data;
-            EV.update(item.id, { file: payload });
-          }
-          refresh();
-        }, function (msg) {
-          fileErr.textContent = msg;
-          fileErr.hidden = false;
-        });
-      });
-      fileRow.appendChild(fileBtn);
-      if (item.file && item.file.name) {
-        var clear = el("button", { type: "button", class: "btn btn--ghost btn--sm" },
-          [document.createTextNode(t("evidence.clearFile"))]);
-        clear.addEventListener("click", function () {
-          EV.update(item.id, { file: null });
-          refresh();
-        });
-        fileRow.appendChild(clear);
-      }
-      fileRow.appendChild(fileInput);
-      box.appendChild(el("div", { class: "ev-field" }, [
-        el("span", { class: "ev-field__label", text: t("evidence.file") }), fileRow, fileErr,
-      ]));
-
-      /* Erişim özeti */
-      var accessBox = el("div", { class: "ev-card__access" }, [evidenceAccess(item)]);
-      function refreshAccess() {
-        var fresh = EV.find(item.id) || item;
-        accessBox.innerHTML = "";
-        accessBox.appendChild(evidenceAccess(fresh));
-      }
-      box.appendChild(accessBox);
-
-      /* Üstveri — hangi ESG standartlarına ait */
-      var tagBox = el("div", { class: "ev-tagpicker" });
-      tagBox.appendChild(el("p", { class: "ev-field__label", text: t("evidence.tagsLabel") }));
-      tagBox.appendChild(el("p", { class: "ev-tagpicker__hint", text: t("evidence.tagsHint") }));
-
-      evidenceStandardGroups().forEach(function (grp) {
-        var row = el("div", { class: "ev-tagpicker__group" });
-        row.appendChild(el("span", { class: "ev-tagpicker__group-label", text: pick(grp.label) }));
-        var chips = el("div", { class: "ev-tagpicker__chips" });
-        grp.items.forEach(function (std) {
-          var on = (item.tags || []).indexOf(std.code) !== -1;
-          var b = el("button", {
-            type: "button",
-            class: "ev-chip" + (on ? " ev-chip--on" : ""),
-            title: pick(std.title),
-            "aria-pressed": on ? "true" : "false",
-          }, [document.createTextNode(std.code)]);
-          b.addEventListener("click", function () {
-            if (on) EV.untag(item.id, std.code);
-            else EV.tag(item.id, std.code);
-            refresh();
-          });
-          chips.appendChild(b);
-        });
-        row.appendChild(chips);
-        tagBox.appendChild(row);
-      });
-
-      var otherOn = (item.tags || []).indexOf(EV.OTHER) !== -1;
-      var otherBtn = el("button", {
-        type: "button",
-        class: "ev-chip ev-chip--other" + (otherOn ? " ev-chip--on" : ""),
-        "aria-pressed": otherOn ? "true" : "false",
-      }, [document.createTextNode(t("evidence.other"))]);
-      otherBtn.addEventListener("click", function () {
-        if (otherOn) EV.untag(item.id, EV.OTHER);
-        else EV.tag(item.id, EV.OTHER);
-        refresh();
-      });
-      tagBox.appendChild(el("div", { class: "ev-tagpicker__group" }, [
-        el("span", { class: "ev-tagpicker__group-label", text: t("evidence.otherGroup") }),
-        el("div", { class: "ev-tagpicker__chips" }, [otherBtn]),
-      ]));
-
-      box.appendChild(tagBox);
-
-      /* Açıklama */
-      var note = el("input", {
-        class: "input", type: "text", value: item.note || "",
-        placeholder: t("evidence.notePlaceholder"), "aria-label": t("evidence.note"),
-      });
-      note.addEventListener("input", function () {
-        EV.update(item.id, { note: note.value });
-        onDirty(field);
-      });
-      box.appendChild(el("label", { class: "ev-field" }, [
-        el("span", { class: "ev-field__label", text: t("evidence.note") }), note,
-      ]));
-
-      return box;
+      row.appendChild(el("span", { class: "ev-file-row__actions" }, [edit, del]));
+      return row;
     }
 
-    function renderList() {
-      listBox.innerHTML = "";
-      var items = window.Evidence.all();
+    function folderBlock(label, items, open) {
+      var det = el("details", { class: "ev-folder", open: open ? "" : null });
+      det.appendChild(el("summary", { class: "ev-folder__head" }, [
+        el("span", { class: "ev-folder__name", text: label }),
+        el("span", { class: "ev-folder__count", text: items.length + " " + t("evidence.itemsSuffix") }),
+      ]));
+      var body = el("div", { class: "ev-folder__body" });
+      items.forEach(function (it) {
+        body.appendChild(fileRow(it));
+      });
+      det.appendChild(body);
+      return det;
+    }
+
+    function renderDir() {
+      dirBox.innerHTML = "";
+      var items = EV.all();
+      countLabel.textContent = items.length + " " + t("evidence.itemsSuffix");
+
       if (!items.length) {
-        listBox.appendChild(el("p", { class: "repeater__empty", text: t("evidence.empty") }));
+        dirBox.appendChild(el("p", { class: "repeater__empty", text: t("evidence.empty") }));
         return;
       }
+
+      // Klasörler: ESG standardı koduna göre, sonra tasnif dışı.
+      var byFolder = {};
+      var loose = [];
       items.forEach(function (it) {
-        listBox.appendChild(card(it));
+        var f = evidenceFolder(it);
+        if (f === null) loose.push(it);
+        else (byFolder[f] = byFolder[f] || []).push(it);
       });
+
+      Object.keys(byFolder).sort().forEach(function (code) {
+        var std = window.ESG.byCode ? window.ESG.byCode(code) : null;
+        var label = "ESG " + code + (std && std.title ? " · " + pick(std.title) : "");
+        dirBox.appendChild(folderBlock(label, byFolder[code], true));
+      });
+      if (loose.length) {
+        dirBox.appendChild(folderBlock(t("evidence.otherFolder"), loose, true));
+      }
     }
 
-    var add = el("button", { type: "button", class: "btn btn--secondary" }, [
+    var add = el("button", { type: "button", class: "btn btn--primary" }, [
       icon("plus", "btn__icon"), document.createTextNode(t("evidence.add")),
     ]);
     add.addEventListener("click", function () {
-      window.Evidence.add({ name: "", url: "", tags: [] });
-      refresh();
+      evidenceEditor(null, refresh);
     });
 
-    holder.appendChild(listBox);
-    holder.appendChild(el("div", { class: "ev-library__actions" }, [add]));
-    renderList();
+    holder.appendChild(el("div", { class: "ev-dir__bar" }, [add, countLabel]));
+    holder.appendChild(dirBox);
+    renderDir();
     return wrap(field, holder);
   }
 

@@ -85,6 +85,16 @@ window.I18N = (function () {
         "Ölçüt girebilmek için önce yukarıdan en az bir program seçiniz.",
       "programme.areaCount": "program",
 
+      "evidence.accessHint":
+        "Kanıta erişilebilmesi için bağlantı veya dosyadan en az biri verilmelidir; ikisi birden de eklenebilir.",
+      "evidence.accessRequired": "Bağlantı veya dosyadan en az birini sağlayınız.",
+      "evidence.cancel": "Vazgeç",
+      "evidence.edit": "Düzenle",
+      "evidence.editTitle": "Kanıdı düzenle",
+      "evidence.itemsSuffix": "kanıt",
+      "evidence.newTitle": "Yeni kanıt",
+      "evidence.otherFolder": "Tasnif dışı",
+      "evidence.save": "Kaydet",
       "evidence.add": "Kanıt ekle",
       "evidence.addNew": "Yeni kanıt ekle",
       "evidence.addNewNote":
@@ -269,6 +279,16 @@ window.I18N = (function () {
         "Select at least one programme above before entering criteria.",
       "programme.areaCount": "programmes",
 
+      "evidence.accessHint":
+        "To make the evidence reachable, provide a link or a file — you may add both.",
+      "evidence.accessRequired": "Provide at least a link or a file.",
+      "evidence.cancel": "Cancel",
+      "evidence.edit": "Edit",
+      "evidence.editTitle": "Edit evidence",
+      "evidence.itemsSuffix": "items",
+      "evidence.newTitle": "New evidence",
+      "evidence.otherFolder": "Unclassified",
+      "evidence.save": "Save",
       "evidence.add": "Add evidence",
       "evidence.addNew": "Add new evidence",
       "evidence.addNewNote":

@@ -66,6 +66,19 @@ okurlar. Bağ bu yüzden iki yönlü çalışır:
 Hiçbir standarda bağlanmayan kanıtlar **Tasnif dışı** olarak işaretlenebilir;
 koleksiyonda dururlar ama hiçbir ESG adımına girmezler.
 
+### Dizin görünümü
+
+Belgeler bölümü kanıtları bir dosya sistemi gibi listeler: klasörler ESG
+standardı kodlarıdır, satırlar kanıtlardır. Bir kanıt birden çok standarda
+bağlanabildiğinden klasörü **etiketlerinin en küçüğü** belirlenir; böylece her
+kanıt dizinde tek bir yerde durur ve silme/güncelleme belirsizleşmez. Ek
+etiketler satırda `+n` rozetiyle gösterilir.
+
+Ekleme ve düzenleme, **Kaydet** ve **Vazgeç** düğmeleri olan bir pencerede
+yapılır. Kaydedilmeden koleksiyona hiçbir şey yazılmaz; vazgeçmek boş kayıt
+bırakmaz. Kaydetme, kanıt adı **ve** en az bir erişim yolu (bağlantı veya
+dosya) verilmeden tamamlanmaz.
+
 Doğrulama da koleksiyondan beslenir: bir ESG adımı, o standarda bağlı **ve
 erişim yolu olan** en az bir kanıt yoksa tamamlanmış sayılmaz.
 
