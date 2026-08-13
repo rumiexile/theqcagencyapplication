@@ -36,15 +36,20 @@ def guard(text):
     return text.replace("</script", "<\\/script").replace("</style", "<\\/style")
 
 
-def read(rel):
-    p = ROOT / rel
+def read(rel, taban=None):
+    """Göreli yolu kaynak HTML'in bulunduğu dizine göre çözer."""
+    p = ((taban or ROOT) / rel).resolve()
     if not p.is_file():
         sys.exit("HATA: dosya bulunamadı: %s" % rel)
     return p
 
 
-def build(body_only=False):
-    html = read("index.html").read_text(encoding="utf-8")
+def build(body_only=False, kaynak="index.html"):
+    src_path = (ROOT / kaynak).resolve()
+    if not src_path.is_file():
+        sys.exit("HATA: kaynak bulunamadı: %s" % kaynak)
+    taban = src_path.parent
+    html = src_path.read_text(encoding="utf-8")
     stats = {"css": 0, "js": 0, "img": 0}
 
     def inline_css(m):
@@ -53,19 +58,19 @@ def build(body_only=False):
         # Kaynak işaretçisi: tek dosyada hata ayıklarken bloğun hangi
         # dosyadan geldiğini gösterir.
         return "<!-- %s -->\n<style>\n%s\n</style>" % (
-            href, guard(read(href).read_text(encoding="utf-8")))
+            href, guard(read(href, taban).read_text(encoding="utf-8")))
 
     def inline_js(m):
         src = m.group(1)
         stats["js"] += 1
         return "<!-- %s -->\n<script>\n%s\n</script>" % (
-            src, guard(read(src).read_text(encoding="utf-8")))
+            src, guard(read(src, taban).read_text(encoding="utf-8")))
 
     def inline_img(m):
         src = m.group(1)
         if src.startswith(("data:", "http:", "https:")):
             return m.group(0)
-        p = read(src)
+        p = read(src, taban)
         mime = MIME.get(p.suffix.lstrip(".").lower())
         if not mime:
             sys.exit("HATA: bilinmeyen görsel türü: %s" % src)
@@ -73,6 +78,19 @@ def build(body_only=False):
         b64 = base64.b64encode(p.read_bytes()).decode("ascii")
         return 'src="data:%s;base64,%s"' % (mime, b64)
 
+    def inline_icon(m):
+        href = m.group(1)
+        if href.startswith(("data:", "http:", "https:")):
+            return m.group(0)
+        p = read(href, taban)
+        mime = MIME.get(p.suffix.lstrip(".").lower())
+        if not mime:
+            sys.exit("HATA: bilinmeyen simge türü: %s" % href)
+        stats["img"] += 1
+        b64 = base64.b64encode(p.read_bytes()).decode("ascii")
+        return '<link rel="icon" href="data:%s;base64,%s" />' % (mime, b64)
+
+    html = re.sub(r'<link\s+rel="icon"\s+href="([^"]+)"\s*/?>', inline_icon, html)
     html = re.sub(r'<link\s+rel="stylesheet"\s+href="([^"]+)"\s*/?>', inline_css, html)
     html = re.sub(r'<script\s+src="([^"]+)"\s*></script>', inline_js, html)
     html = re.sub(r'src="([^"]+\.(?:png|jpe?g|gif|svg|webp))"', inline_img, html, flags=re.I)
@@ -102,11 +120,13 @@ def build(body_only=False):
 def main():
     ap = argparse.ArgumentParser(description="Tek dosyalık HTML paketleyici")
     ap.add_argument("output", help="yazılacak dosya")
+    ap.add_argument("--source", default="index.html",
+                    help="paketlenecek HTML (varsayılan: index.html)")
     ap.add_argument("--body-only", action="store_true",
                     help="belge iskeletini dışarıdan alan ortamlar için yalnızca gövde üret")
     args = ap.parse_args()
 
-    html, stats = build(body_only=args.body_only)
+    html, stats = build(body_only=args.body_only, kaynak=args.source)
     out = pathlib.Path(args.output)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(html, encoding="utf-8")

@@ -1,0 +1,197 @@
+/* ==========================================================================
+   Kılavuz — baskı katmanı
+
+   Belgenin PDF hâli tarayıcının "Yazdır → PDF olarak kaydet" akışıyla
+   üretilir; ayrı bir dizgi zinciri yoktur. Bu, uygulamanın sunucusuz
+   mimarisiyle tutarlıdır: tek kaynak, tek çıktı.
+
+   Yazdırma penceresinde "Üstbilgi ve altbilgi" seçeneği KAPALI olmalıdır;
+   üstbilgi, altbilgi ve sayfa numarası burada tanımlanır.
+   ========================================================================== */
+
+@page {
+  size: A4;
+  margin: 22mm 20mm 20mm;
+}
+
+/* Kapak sayfası kenarlıksız ve numarasız */
+@page :first {
+  margin: 32mm 20mm 20mm;
+}
+
+@media print {
+  :root {
+    /* Baskıda her zaman açık tema — mürekkep ve okunabilirlik için. */
+    color-scheme: light;
+    --color-bg: #fff;
+    --color-surface: #fff;
+    --color-surface-sunken: #f4f6f9;
+    --color-text: #10203a;
+    --color-text-muted: #3d4c61;
+    --color-text-subtle: #5b6a7f;
+    --color-border: #c9d4e0;
+    --color-border-strong: #9fb0c2;
+    --color-brand: #1a4270;
+    --color-brand-subtle: #eef3f9;
+    --color-brand-border: #b9cde0;
+    --color-accent: #0a5a67;
+    --color-info-bg: #eef4fa;
+    --color-info-text: #14385c;
+    --color-info: #1a4270;
+    --color-warning-bg: #fdf4e6;
+    --color-warning-text: #7a3906;
+    --color-warning: #b45309;
+    --color-danger-bg: #fdeef0;
+    --color-danger-text: #8d0f19;
+    --color-danger: #b3121d;
+  }
+
+  html, body {
+    background: #fff !important;
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
+
+  /* Ekran kromu baskıya girmez */
+  .kv-ray,
+  .kv-arac,
+  .kv-ara,
+  .no-print { display: none !important; }
+
+  .kv { display: block; }
+
+  .kv-govde {
+    padding: 0;
+    max-width: none;
+  }
+
+  .kv { --olcu: none; }
+
+  .kv-kisim p, .kv-alt p, .kv-liste, .kv-tanim, .kv-not, .kv-bekliyor {
+    max-width: none;
+  }
+
+  /* ---------- Kapak ---------- */
+  .kv-kapak {
+    break-after: page;
+    border-bottom: none;
+    padding-top: 40mm;
+    text-align: left;
+  }
+
+  .kv-kapak__baslik { font-size: 24pt; line-height: 1.15; }
+  .kv-kapak__kurum { font-size: 9pt; }
+
+  /* Kapağa sürüm künyesi ve yasal dayanak bloğu basılır */
+  .kv-kapak__baski { display: block !important; margin-top: 60mm; font-size: 9.5pt; color: var(--color-text-muted); }
+  .kv-kapak__baski strong { color: var(--color-text); }
+
+  /* ---------- İçindekiler (baskıya özel) ---------- */
+  .kv-baski-toc { display: block !important; break-after: page; }
+
+  .kv-baski-toc h2 {
+    font-size: 14pt;
+    margin: 0 0 12pt;
+    padding-bottom: 6pt;
+    border-bottom: 1pt solid var(--color-border-strong);
+  }
+
+  .kv-baski-toc ol { list-style: none; margin: 0; padding: 0; }
+
+  .kv-baski-toc li {
+    display: flex;
+    gap: 6pt;
+    align-items: baseline;
+    padding: 2.5pt 0;
+    font-size: 10pt;
+  }
+
+  .kv-baski-toc li.kv-baski-toc--alt { padding-left: 14pt; font-size: 9.5pt; color: var(--color-text-muted); }
+
+  .kv-baski-toc__no { font-variant-numeric: tabular-nums; min-width: 22pt; flex: none; }
+
+  .kv-baski-toc__nokta {
+    flex: 1;
+    border-bottom: 1px dotted var(--color-border-strong);
+    transform: translateY(-3pt);
+    min-width: 12pt;
+  }
+
+  .kv-baski-toc__sayfa { font-variant-numeric: tabular-nums; flex: none; }
+
+  /* ---------- Bölümler ---------- */
+  .kv-bolum { break-before: page; margin-bottom: 0; }
+  .kv-bolum:first-of-type { break-before: auto; }
+
+  .kv-bolum__baslik { font-size: 16pt; break-after: avoid; }
+  .kv-bolum__ust { font-size: 8.5pt; break-after: avoid; }
+
+  .kv-kisim { break-inside: auto; margin-bottom: 14pt; }
+  .kv-kisim__baslik, .kv-alt__baslik { break-after: avoid; font-size: 12pt; }
+  .kv-alt__baslik { font-size: 11pt; }
+
+  p { orphans: 3; widows: 3; }
+
+  /* Kutular ve tablolar sayfa ortasından bölünmesin */
+  .kv-not,
+  .kv-bekliyor,
+  .kv-asama__oge,
+  .kv-olcut { break-inside: avoid; }
+
+  .kv-tablo-sar { overflow: visible; break-inside: auto; }
+  .kv-tablo { font-size: 9.5pt; }
+  .kv-tablo thead { display: table-header-group; }
+  .kv-tablo tr { break-inside: avoid; }
+
+  /* Ölçüt kartları — her biri bütün kalsın, sığmıyorsa yeni sayfaya */
+  .kv-olcut { border: 1pt solid var(--color-border); margin-bottom: 10pt; }
+  .kv-olcut__ust { background: var(--color-brand-subtle) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .kv-not, .kv-bekliyor, .kv-olcut__ust, .kv-tablo thead th {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Bağlantılar baskıda adresini göstersin — mevzuat belgesi izlenebilir olmalı */
+  .kv-govde a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8.5pt;
+    color: var(--color-text-subtle);
+    word-break: break-all;
+  }
+
+  /* Ekran içi çapa bağlantıları adres basmasın */
+  .kv-govde a[href^="#"]::after { content: none; }
+
+  .kv-kaynak { font-size: 8pt; }
+
+  /* Sayfa altı künyesi — her sayfada */
+  .kv-baski-alt {
+    display: block !important;
+    position: fixed;
+    bottom: -14mm;
+    left: 0;
+    right: 0;
+    font-size: 8pt;
+    color: var(--color-text-subtle);
+    border-top: .5pt solid var(--color-border);
+    padding-top: 2mm;
+  }
+
+  .kv-baski-ust {
+    display: block !important;
+    position: fixed;
+    top: -14mm;
+    left: 0;
+    right: 0;
+    font-size: 8pt;
+    color: var(--color-text-subtle);
+    text-align: right;
+  }
+}
+
+/* Baskıya özel parçalar ekranda görünmez */
+.kv-baski-toc,
+.kv-baski-alt,
+.kv-baski-ust,
+.kv-kapak__baski { display: none; }

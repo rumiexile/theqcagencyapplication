@@ -269,6 +269,50 @@ Standart metinleri `assets/js/esg-data.js` içinde TR + EN olarak tutulur.
 
 ---
 
+## Kılavuz (Sürüm 3.0)
+
+Depo yalnızca başvuru uygulamasını değil, uygulamanın dayandığı **normatif
+kılavuzu** da barındırır: *Dış Değerlendirme ve Akreditasyon Kuruluşlarının
+Yetkilendirilmesi, Tanınması ve İzlenmesine İlişkin Kılavuz*, Sürüm 3.0.
+Mayıs 2020 tarihli Sürüm 2.1'in yerine geçer.
+
+`kilavuz/index.html` doğrudan tarayıcıda açılır. Tek dosyalık sürüm:
+[`dist/yokak-kilavuz-3.0.html`](dist/yokak-kilavuz-3.0.html).
+
+Belge iki biçimde birden çalışır:
+
+| Ekranda | Baskıda |
+|---|---|
+| Kalıcı içindekiler rayı, okunan kısmı işaretler | Ray kaldırılır, noktalı içindekiler tablosu ve sayfa numaraları basılır |
+| Arama kutusu bölüm ve metin içinde eşleşir | Arama ve araç çubuğu basılmaz |
+| TR/EN düğmesi belgeyi yeniden çizer | Seçili dil basılır, her sayfada üstbilgi ve künye |
+| Kutular ve ölçüt kartları akışta | A4 düzeni, bölümler yeni sayfada, kutular ortadan bölünmez |
+
+PDF, tarayıcının **Yazdır → PDF olarak kaydet** akışıyla üretilir; ayrı bir
+dizgi zinciri yoktur. Yazdırma penceresinde *Üstbilgi ve altbilgi* seçeneği
+kapatılmalıdır — bunlar belgenin kendi baskı katmanında tanımlıdır.
+
+### İçeriğin kaynağı
+
+Kılavuz metni `kilavuz/data/icerik.js` içindedir. Her kısım, metnin nereden
+geldiğini söyleyen bir `kaynak` alanı taşır; kaynağı henüz alınmamış kısımlar
+`kaynakBekliyor` ile işaretlenir ve ekranda da baskıda da açıkça
+"Kaynak bekleniyor" uyarısıyla çıkar — taslak iskelet mevzuat sanılmasın.
+
+Üç bölüm **uygulamanın kendi verisinden üretilir**, elle yazılmaz:
+
+```bash
+node tools/gen-ek1.js   > kilavuz/data/ek1.js      # EK 1 — 13 ölçüt, 64 kanıt
+node tools/gen-ekler.js > kilavuz/data/ekler.js    # mali hükümler + beyanlar
+```
+
+`EK 1`, ESG standart metinleri ve rehber ilkeleriyle önerilen kanıt
+listesinden; mali hükümler ve taahhüt maddeleri ise başvuru şemasından
+türer. Böylece formda değişen bir madde kılavuzda eski hâliyle kalamaz.
+Kaynak dosyalar değiştiğinde üreteçler yeniden çalıştırılmalıdır.
+
+---
+
 ## Dosya düzeni
 
 ```
@@ -294,9 +338,24 @@ assets/
     programs.js             ← Program listesi (ISCED-F alan → ön lisans/lisans)
     yokak-criteria.js       ← YÖKAK Program Akreditasyon Ölçütleri (ana başlıklar)
     evidence-suggestions.js ← Standart bazında önerilen kanıtlar
+kilavuz/
+  index.html                Kılavuz kabuğu (Sürüm 3.0)
+  assets/
+    kilavuz.css             Belge tipografisi ve yerleşimi
+    print.css               A4 baskı katmanı
+    kilavuz.js              Çizici, içindekiler, arama, dil, sayfa numarası
+  data/
+    icerik.js               ← Kılavuz metni (bölüm → kısım → blok)
+    ek1.js                  ÜRETİLMİŞ — tools/gen-ek1.js
+    ekler.js                ÜRETİLMİŞ — tools/gen-ekler.js
+tools/
+  bundle.py                 Tek dosyalık paketleyici (--source ile kaynak seçilir)
+  gen-ek1.js                EK 1'i ESG verisinden üretir
+  gen-ekler.js              Mali hükümleri ve beyanları şemadan üretir
 ```
 
 `←` işaretli dosyalar, içerik güncellemesi için düzenlemeniz gereken yerlerdir.
+`ÜRETİLMİŞ` işaretliler elle düzenlenmez; üreteçleri yeniden çalıştırınız.
 
 ---
 
