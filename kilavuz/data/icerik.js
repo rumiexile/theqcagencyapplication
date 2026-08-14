@@ -46,8 +46,8 @@ window.KILAVUZ = {
       surum: "3.0",
       tarih: { tr: "2026", en: "2026" },
       degisiklik: {
-        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı; Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmek yerine başvuru formundan üretilir hâle geldi. Başvuru türleri ayrı ayrı düzenlendi; yenileme başvurusunun üç ay önce tamamlanması, süresinde başvurmayan kuruluşlar için altı aylık başvuru yasağı ve yenileme kararının yürürlük tarihi açıkça belirlendi. İki yıl süreli tescil kararı ilk yetkilendirme başvurusu ile sınırlandırıldı; Tanıma Belgesinin beş yıl süreyle verileceği belirtildi. Kapsam genişletme başvurusunun yapılabileceği zaman aralığı tanımlandı. İtiraz ve şikâyetlerin YÖKAK İtiraz ve Şikâyet Yönergesi kapsamında ele alınacağı eklendi. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
-        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS; the Self-Evaluation Report is produced from the application form instead of being drawn up as a separate document. The types of application were set out separately; the requirement to complete a renewal application three months in advance, the six-month bar on organisations that fail to apply in time, and the date from which a renewal decision takes effect were stated expressly. The two-year registration decision was confined to first applications for authorisation, and the Recognition Certificate was stated to be issued for five years. The window within which a scope extension application may be made was defined. It was added that appeals and complaints are dealt with under the YÖKAK Appeals and Complaints Directive. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
+        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı; Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmek yerine başvuru formundan üretilir hâle geldi. Başvuru türleri ayrı ayrı düzenlendi; yenileme başvurusunun üç ay önce tamamlanması, süresinde başvurmayan kuruluşlar için altı aylık başvuru yasağı ve yenileme kararının yürürlük tarihi açıkça belirlendi. İki yıl süreli tescil kararı ilk yetkilendirme başvurusu ile sınırlandırıldı; Kalite Değerlendirme Tanınma Belgesinin beş yıl süreyle verileceği belirtildi. Kapsam genişletme başvurusunun yapılabileceği zaman aralığı tanımlandı. İtiraz ve şikâyetlerin YÖKAK İtiraz ve Şikâyet Yönergesi kapsamında ele alınacağı eklendi. Sürüm 2.1'de “Tanıma Belgesi” olarak geçen belge, mali hükümlerdeki adlandırmayla birleştirilerek “Kalite Değerlendirme Tanınma Belgesi” olarak tanımlandı. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
+        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS; the Self-Evaluation Report is produced from the application form instead of being drawn up as a separate document. The types of application were set out separately; the requirement to complete a renewal application three months in advance, the six-month bar on organisations that fail to apply in time, and the date from which a renewal decision takes effect were stated expressly. The two-year registration decision was confined to first applications for authorisation, and the Quality Evaluation Recognition Certificate was stated to be issued for five years. The window within which a scope extension application may be made was defined. It was added that appeals and complaints are dealt with under the YÖKAK Appeals and Complaints Directive. The certificate referred to in Version 2.1 as the “Recognition Certificate” was aligned with the naming used in the financial provisions and defined as the “Quality Evaluation Recognition Certificate”. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
       },
     },
     {
@@ -117,8 +117,8 @@ window.KILAVUZ = {
             {
               tip: "p",
               metin: {
-                tr: "Kılavuz; yurt içinde faaliyet gösteren kuruluşların Kalite Değerlendirme Tescil Belgesi ile yetkilendirilmesi, yurt dışında faaliyet gösteren kuruluşların Tanıma Belgesi ile tanınması ve belge sahibi kuruluşların izlenmesi süreçlerini kapsar.",
-                en: "The Guide covers the authorisation of organisations operating within the country through the Quality Evaluation Registration Certificate, the recognition of organisations operating abroad through the Recognition Certificate, and the monitoring of certificate-holding organisations.",
+                tr: "Kılavuz; yurt içinde faaliyet gösteren kuruluşların Kalite Değerlendirme Tescil Belgesi ile yetkilendirilmesi, yurt dışında faaliyet gösteren kuruluşların Kalite Değerlendirme Tanınma Belgesi ile tanınması ve belge sahibi kuruluşların izlenmesi süreçlerini kapsar.",
+                en: "The Guide covers the authorisation of organisations operating within the country through the Quality Evaluation Registration Certificate, the recognition of organisations operating abroad through the Quality Evaluation Recognition Certificate, and the monitoring of certificate-holding organisations.",
               },
             },
             {
@@ -156,8 +156,8 @@ window.KILAVUZ = {
                 {
                   terim: { tr: "Başvuru Değerlendirme Raporu", en: "Application Evaluation Report" },
                   metin: {
-                    tr: "Kalite Değerlendirme Tescil Belgesi veya Tanıma Belgesi için başvuran Kuruluşun başvurusu incelenerek Komisyon tarafından hazırlanan raporu,",
-                    en: "the report prepared by the Commission upon examination of the application of an Organisation applying for a Quality Evaluation Registration Certificate or a Recognition Certificate,",
+                    tr: "Kalite Değerlendirme Tescil Belgesi veya Kalite Değerlendirme Tanınma Belgesi için başvuran Kuruluşun başvurusu incelenerek Komisyon tarafından hazırlanan raporu,",
+                    en: "the report prepared by the Commission upon examination of the application of an Organisation applying for a Quality Evaluation Registration Certificate or a Quality Evaluation Recognition Certificate,",
                   },
                 },
                 {
@@ -210,6 +210,16 @@ window.KILAVUZ = {
                   },
                 },
                 {
+                  terim: {
+                    tr: "Kalite Değerlendirme Tanınma Belgesi",
+                    en: "Quality Evaluation Recognition Certificate",
+                  },
+                  metin: {
+                    tr: "Alana özgü önceden belirlenmiş ölçütlere göre yükseköğretim programlarını değerlendiren uluslararası bağımsız dış değerlendirme ve akreditasyon kuruluşlarına Kurul tarafından verilen belgeyi,",
+                    en: "the certificate awarded by the Council to international independent external evaluation and accreditation organisations that evaluate higher education programmes against field-specific predetermined criteria,",
+                  },
+                },
+                {
                   terim: { tr: "Kalite Değerlendirme Tescil Belgesi", en: "Quality Evaluation Registration Certificate" },
                   metin: {
                     tr: "Ulusal kuruluşların, önceden belirlenmiş ölçütlere göre program akreditasyonu faaliyeti yürütmek üzere yetkilendirildiğini gösteren, Kurul tarafından onaylanan belgeyi,",
@@ -256,13 +266,6 @@ window.KILAVUZ = {
                   metin: {
                     tr: "Ulusal ya da uluslararası dış değerlendirme ve akreditasyon kuruluşlarının yetkilendirilmesine ve tanınmasına ilişkin ölçütlerin kuruluş tarafından karşılandığına ilişkin kanıtlarla başvuru ekranı üzerinden hazırlanan Öz Değerlendirme Raporunu,",
                     en: "the Self-Evaluation Report prepared through the application screen, with the evidence that the criteria for the authorisation of national or the recognition of international external evaluation and accreditation organisations are met by the organisation,",
-                  },
-                },
-                {
-                  terim: { tr: "Tanıma Belgesi", en: "Recognition Certificate" },
-                  metin: {
-                    tr: "Uluslararası kuruluşların program akreditasyonu faaliyetlerinin Kurul tarafından tanındığını gösteren belgeyi,",
-                    en: "the certificate showing that the programme accreditation activities of an international organisation are recognised by the Council,",
                   },
                 },
               ],
@@ -346,12 +349,12 @@ window.KILAVUZ = {
                     {
                       tr: [
                         "İlk başvuru",
-                        "Kuruluşun ilk kez Kalite Değerlendirme Tescil Belgesi veya Tanıma Belgesi talep etmesi.",
+                        "Kuruluşun ilk kez Kalite Değerlendirme Tescil Belgesi veya Kalite Değerlendirme Tanınma Belgesi talep etmesi.",
                         "—",
                       ],
                       en: [
                         "First application",
-                        "The organisation requests a Quality Evaluation Registration Certificate or a Recognition Certificate for the first time.",
+                        "The organisation requests a Quality Evaluation Registration Certificate or a Quality Evaluation Recognition Certificate for the first time.",
                         "—",
                       ],
                     },
@@ -391,8 +394,8 @@ window.KILAVUZ = {
                 {
                   tip: "p",
                   metin: {
-                    tr: "Kuruluşlar, Kalite Değerlendirme Tescil Belgesi veya Tanıma Belgesi yenileme başvurularını, mevcut sürenin bitiminden üç ay önce tamamlamış olmalıdır. Süresi içerisinde yenileme başvurusunu yapmayan kuruluşlar altı ay süreyle başvuru yapamaz. Yenileme kararı, bir önceki tescil süresinin bitiminden itibaren geçerli olacak şekilde Kurul tarafından verilir.",
-                    en: "Organisations shall have completed their applications for renewal of the Quality Evaluation Registration Certificate or the Recognition Certificate three months before the expiry of the current period. Organisations that do not submit their renewal application within that period may not apply for a period of six months. The renewal decision shall be taken by the Council so as to take effect from the expiry of the previous registration period.",
+                    tr: "Kuruluşlar, Kalite Değerlendirme Tescil Belgesi veya Kalite Değerlendirme Tanınma Belgesi yenileme başvurularını, mevcut sürenin bitiminden üç ay önce tamamlamış olmalıdır. Süresi içerisinde yenileme başvurusunu yapmayan kuruluşlar altı ay süreyle başvuru yapamaz. Yenileme kararı, bir önceki tescil süresinin bitiminden itibaren geçerli olacak şekilde Kurul tarafından verilir.",
+                    en: "Organisations shall have completed their applications for renewal of the Quality Evaluation Registration Certificate or the Quality Evaluation Recognition Certificate three months before the expiry of the current period. Organisations that do not submit their renewal application within that period may not apply for a period of six months. The renewal decision shall be taken by the Council so as to take effect from the expiry of the previous registration period.",
                   },
                 },
                 {
@@ -738,11 +741,11 @@ window.KILAVUZ = {
                     {
                       tr: [
                         "Ret",
-                        "Ölçütlerden herhangi biri karşılanmıyor veya ikiden fazlası kısmen karşılanıyor.",
+                        "Ölçütlerden herhangi biri karşılanmıyor, ikiden fazlası kısmen karşılanıyor veya yenileme başvurusunda ölçütlerin tamamı karşılanmıyor.",
                       ],
                       en: [
                         "Rejection",
-                        "Any criterion is not met, or more than two criteria are partially met.",
+                        "Any criterion is not met, more than two criteria are partially met, or, in a renewal application, not all the criteria are met.",
                       ],
                     },
                   ],
@@ -750,8 +753,8 @@ window.KILAVUZ = {
                 {
                   tip: "p",
                   metin: {
-                    tr: "Kalite Değerlendirme Tescil Belgesi beş yıl veya iki yıl süreyle verilir. İki yıl süreli tescil kararı, kuruluşun ilk yetkilendirme başvurusu sonucunda yapılan değerlendirmede ve tek sefere mahsus olmak üzere verilir.",
-                    en: "The Quality Evaluation Registration Certificate is issued for a period of five years or two years. A two-year registration decision is taken only on the evaluation carried out following the organisation's first application for authorisation, and on one occasion only.",
+                    tr: "Kalite Değerlendirme Tescil Belgesi beş yıl veya iki yıl süreyle verilir. İki yıl süreli tescil kararı, kuruluşun ilk yetkilendirme başvurusu sonucunda yapılan değerlendirmede ve tek sefere mahsus olmak üzere verilir. Yenileme başvurularında beş yıl süreyle yetkilendirme kararı verilebilmesi için ölçütlerin tamamının karşılanması gerekir; bu koşulun sağlanmaması hâlinde ret kararı verilir.",
+                    en: "The Quality Evaluation Registration Certificate is issued for a period of five years or two years. A two-year registration decision is taken only on the evaluation carried out following the organisation's first application for authorisation, and on one occasion only. In renewal applications, a decision to authorise for five years requires that all the criteria be met; where that condition is not satisfied, the application is rejected.",
                   },
                 },
                 {
@@ -788,8 +791,8 @@ window.KILAVUZ = {
                 {
                   tip: "p",
                   metin: {
-                    tr: "Tanıma Belgesi beş yıl süreyle verilir; 4.1'de yer alan iki yıl süreli karar seçeneği tanınma kararlarında uygulanmaz. Ölçütlerin karşılanmasına ilişkin diğer koşullar ile belgenin geçerlilik süresinin başlangıcına ilişkin kurallar tanınma kararlarında da uygulanır. Tanıma Belgesi, yalnızca beyan edilen program ve öğretim düzeyleri için geçerlidir.",
-                    en: "The Recognition Certificate is issued for a period of five years; the two-year decision provided for in 4.1 does not apply to recognition decisions. The other conditions relating to the fulfilment of the criteria, and the rules on when the certificate's period of validity begins, also apply to recognition decisions. The Recognition Certificate is valid only for the programmes and levels of study declared.",
+                    tr: "Kalite Değerlendirme Tanınma Belgesi beş yıl süreyle verilir; 4.1'de yer alan iki yıl süreli karar seçeneği tanınma kararlarında uygulanmaz. Ölçütlerin karşılanmasına ilişkin diğer koşullar ile belgenin geçerlilik süresinin başlangıcına ilişkin kurallar tanınma kararlarında da uygulanır. Kalite Değerlendirme Tanınma Belgesi, yalnızca beyan edilen program ve öğretim düzeyleri için geçerlidir.",
+                    en: "The Quality Evaluation Recognition Certificate is issued for a period of five years; the two-year decision provided for in 4.1 does not apply to recognition decisions. The other conditions relating to the fulfilment of the criteria, and the rules on when the certificate's period of validity begins, also apply to recognition decisions. The Quality Evaluation Recognition Certificate is valid only for the programmes and levels of study declared.",
                   },
                 },
               ],
