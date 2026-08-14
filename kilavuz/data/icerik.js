@@ -46,8 +46,8 @@ window.KILAVUZ = {
       surum: "3.0",
       tarih: { tr: "2026", en: "2026" },
       degisiklik: {
-        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı ve Öz Değerlendirme Raporunun yerini yapılandırılmış başvuru formu ile kanıt koleksiyonu aldı. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
-        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS, and the structured application form together with the evidence collection replaces the Self-Evaluation Report. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
+        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı; Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmek yerine başvuru formundan üretilir hâle geldi. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
+        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS; the Self-Evaluation Report is produced from the application form instead of being drawn up as a separate document. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
       },
     },
     {
@@ -252,6 +252,13 @@ window.KILAVUZ = {
                   },
                 },
                 {
+                  terim: { tr: "Öz Değerlendirme Raporu", en: "Self-Evaluation Report" },
+                  metin: {
+                    tr: "Ulusal ya da uluslararası dış değerlendirme ve akreditasyon kuruluşlarının yetkilendirilmesine ve tanınmasına ilişkin ölçütlerin kuruluş tarafından karşılandığına ilişkin kanıtlarla başvuru ekranı üzerinden hazırlanan Öz Değerlendirme Raporunu,",
+                    en: "the Self-Evaluation Report prepared through the application screen, with the evidence that the criteria for the authorisation of national or the recognition of international external evaluation and accreditation organisations are met by the organisation,",
+                  },
+                },
+                {
                   terim: { tr: "Tanıma Belgesi", en: "Recognition Certificate" },
                   metin: {
                     tr: "Uluslararası kuruluşların program akreditasyonu faaliyetlerinin Kurul tarafından tanındığını gösteren belgeyi,",
@@ -377,8 +384,8 @@ window.KILAVUZ = {
                   tur: "degisiklik",
                   baslik: { tr: "Öz Değerlendirme Raporu", en: "Self-Evaluation Report" },
                   metin: {
-                    tr: "Sürüm 2.1'de istenen ayrı Öz Değerlendirme Raporu artık düzenlenmez. Ölçütlere ilişkin açıklamalar ve kanıtlar başvuru formunun kendisinde toplanır; form ve kanıt koleksiyonu birlikte öz değerlendirmenin yerini alır.",
-                    en: "The separate Self-Evaluation Report required under Version 2.1 is no longer produced. Explanations and evidence relating to the criteria are gathered within the application form itself; the form and the evidence collection together replace the self-evaluation.",
+                    tr: "Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmez. Ölçütlere ilişkin açıklamalar ve bunları destekleyen kanıtlar başvuru formunun kendisinde toplanır; rapor bu formdan üretilir.",
+                    en: "The Self-Evaluation Report is not drawn up as a separate document. Explanations relating to the criteria and the evidence supporting them are gathered within the application form itself; the report is produced from that form.",
                   },
                 },
                 {
