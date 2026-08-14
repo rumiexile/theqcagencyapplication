@@ -46,8 +46,8 @@ window.KILAVUZ = {
       surum: "3.0",
       tarih: { tr: "2026", en: "2026" },
       degisiklik: {
-        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı; Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmek yerine başvuru formundan üretilir hâle geldi. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
-        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS; the Self-Evaluation Report is produced from the application form instead of being drawn up as a separate document. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
+        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı; Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmek yerine başvuru formundan üretilir hâle geldi. Başvuru türleri ayrı ayrı düzenlendi; yenileme başvurusu için altı aylık süre ile yenileme kararının yürürlük tarihi açıkça belirlendi. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
+        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS; the Self-Evaluation Report is produced from the application form instead of being drawn up as a separate document. The types of application were set out separately; the six-month period for renewal applications and the date from which a renewal decision takes effect were stated expressly. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
       },
     },
     {
@@ -391,15 +391,15 @@ window.KILAVUZ = {
                 {
                   tip: "p",
                   metin: {
-                    tr: "Yenileme başvurusunun Kurul karar tarihi, mevcut belgenin bitiş tarihinden önce ise kararda belirtilen süre, bitiş tarihinden itibaren başlar. Kapsam genişletme kararı, yürürlükteki belgenin süresini değiştirmez.",
-                    en: "Where the date of the Council's decision on a renewal application precedes the expiry of the existing certificate, the period stated in the decision begins on the date of that expiry. A scope extension decision does not alter the period of the certificate in force.",
+                    tr: "Yenileme başvurusu, önceki tanınma veya yetkilendirme tescil süresinin bitiminden en az altı ay önce yapılır. Yenileme kararı, bir önceki tescil süresinin bitiminden itibaren geçerli olacak şekilde Kurul tarafından verilir.",
+                    en: "A renewal application shall be made at least six months before the expiry of the previous recognition or authorisation registration period. The renewal decision shall be taken by the Council so as to take effect from the expiry of the previous registration period.",
                   },
                 },
                 {
                   tip: "p",
                   metin: {
-                    tr: "Kapsam genişletme başvurusu, yürürlükteki belgenin süresi içinde yapılır ve yalnızca kapsama eklenmek istenen yeni program ve öğretim düzeylerine ilişkindir. Bu başvuruda kuruluş, yalnızca kapsam beyanını ve eklenen programlara ilişkin destekleyici bölümleri doldurur; kuruluşun kimliği, yasal statüsü, yönetişimi ile ESG'nin üçüncü ve ikinci bölümlerine ilişkin bilgiler yürürlükteki başvurudan devralınır.",
-                    en: "A scope extension application is made within the period of the certificate in force and concerns only the new programmes and levels of study to be added to the scope. In such an application the organisation completes only the scope declaration and the supporting sections relating to the programmes being added; the identity, legal status and governance of the organisation and the information relating to Parts 3 and 2 of the ESG are carried over from the application in force.",
+                    tr: "Kapsam genişletme başvurusu, yürürlükteki belgenin süresi içinde yapılır ve yalnızca kapsama eklenmek istenen yeni program ve öğretim düzeylerine ilişkindir. Bu başvuruda kuruluş, yalnızca kapsam beyanını ve eklenen programlara ilişkin destekleyici bölümleri doldurur; kuruluşun kimliği, yasal statüsü, yönetişimi ile ESG'nin üçüncü ve ikinci bölümlerine ilişkin bilgiler yürürlükteki başvurudan devralınır. Kapsam genişletme kararı, yürürlükteki belgenin süresini değiştirmez.",
+                    en: "A scope extension application is made within the period of the certificate in force and concerns only the new programmes and levels of study to be added to the scope. In such an application the organisation completes only the scope declaration and the supporting sections relating to the programmes being added; the identity, legal status and governance of the organisation and the information relating to Parts 3 and 2 of the ESG are carried over from the application in force. A scope extension decision does not alter the period of the certificate in force.",
                   },
                 },
               ],
@@ -683,8 +683,8 @@ window.KILAVUZ = {
                 {
                   tip: "p",
                   metin: {
-                    tr: "Kalite Değerlendirme Tescil Belgesinin geçerlilik süresi Kurulun karar tarihi itibarıyla başlar. Yenileme başvurularında Kurul karar tarihi tescil bitiş tarihinden önce ise, kararda belirtilen süre tescil bitiş tarihinden itibaren başlar.",
-                    en: "The period of validity of the Quality Evaluation Registration Certificate begins on the date of the Council's decision. In renewal applications, where the date of the Council's decision precedes the expiry of the registration, the period stated in the decision begins on the date of that expiry.",
+                    tr: "Kalite Değerlendirme Tescil Belgesinin geçerlilik süresi Kurulun karar tarihi itibarıyla başlar. Yenileme başvurularında Kurul kararı, bir önceki tescil süresinin bitiminden itibaren geçerli olacak şekilde verilir; kararda belirtilen süre bu tarihten itibaren işlemeye başlar.",
+                    en: "The period of validity of the Quality Evaluation Registration Certificate begins on the date of the Council's decision. In renewal applications, the Council's decision is taken so as to take effect from the expiry of the previous registration period; the period stated in the decision runs from that date.",
                   },
                 },
                 {
