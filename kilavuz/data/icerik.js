@@ -46,8 +46,8 @@ window.KILAVUZ = {
       surum: "3.0",
       tarih: { tr: "2026", en: "2026" },
       degisiklik: {
-        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı; Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmek yerine başvuru formundan üretilir hâle geldi. Başvuru türleri ayrı ayrı düzenlendi; yenileme başvurusu için altı aylık süre ile yenileme kararının yürürlük tarihi açıkça belirlendi. İki yıl süreli tescil kararı ilk yetkilendirme başvurusu ile sınırlandırıldı; Tanıma Belgesinin beş yıl süreyle verileceği belirtildi. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
-        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS; the Self-Evaluation Report is produced from the application form instead of being drawn up as a separate document. The types of application were set out separately; the six-month period for renewal applications and the date from which a renewal decision takes effect were stated expressly. The two-year registration decision was confined to first applications for authorisation, and the Recognition Certificate was stated to be issued for five years. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
+        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı; Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmek yerine başvuru formundan üretilir hâle geldi. Başvuru türleri ayrı ayrı düzenlendi; yenileme başvurusunun üç ay önce tamamlanması, süresinde başvurmayan kuruluşlar için altı aylık başvuru yasağı ve yenileme kararının yürürlük tarihi açıkça belirlendi. İki yıl süreli tescil kararı ilk yetkilendirme başvurusu ile sınırlandırıldı; Tanıma Belgesinin beş yıl süreyle verileceği belirtildi. Kapsam genişletme başvurusunun yapılabileceği zaman aralığı tanımlandı. İtiraz ve şikâyetlerin YÖKAK İtiraz ve Şikâyet Yönergesi kapsamında ele alınacağı eklendi. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
+        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS; the Self-Evaluation Report is produced from the application form instead of being drawn up as a separate document. The types of application were set out separately; the requirement to complete a renewal application three months in advance, the six-month bar on organisations that fail to apply in time, and the date from which a renewal decision takes effect were stated expressly. The two-year registration decision was confined to first applications for authorisation, and the Recognition Certificate was stated to be issued for five years. The window within which a scope extension application may be made was defined. It was added that appeals and complaints are dealt with under the YÖKAK Appeals and Complaints Directive. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
       },
     },
     {
@@ -391,15 +391,22 @@ window.KILAVUZ = {
                 {
                   tip: "p",
                   metin: {
-                    tr: "Yenileme başvurusu, önceki tanınma veya yetkilendirme tescil süresinin bitiminden en az altı ay önce yapılır. Yenileme kararı, bir önceki tescil süresinin bitiminden itibaren geçerli olacak şekilde Kurul tarafından verilir.",
-                    en: "A renewal application shall be made at least six months before the expiry of the previous recognition or authorisation registration period. The renewal decision shall be taken by the Council so as to take effect from the expiry of the previous registration period.",
+                    tr: "Kuruluşlar, Kalite Değerlendirme Tescil Belgesi veya Tanıma Belgesi yenileme başvurularını, mevcut sürenin bitiminden üç ay önce tamamlamış olmalıdır. Süresi içerisinde yenileme başvurusunu yapmayan kuruluşlar altı ay süreyle başvuru yapamaz. Yenileme kararı, bir önceki tescil süresinin bitiminden itibaren geçerli olacak şekilde Kurul tarafından verilir.",
+                    en: "Organisations shall have completed their applications for renewal of the Quality Evaluation Registration Certificate or the Recognition Certificate three months before the expiry of the current period. Organisations that do not submit their renewal application within that period may not apply for a period of six months. The renewal decision shall be taken by the Council so as to take effect from the expiry of the previous registration period.",
                   },
                 },
                 {
                   tip: "p",
                   metin: {
-                    tr: "Kapsam genişletme başvurusu, yürürlükteki belgenin süresi içinde yapılır ve yalnızca kapsama eklenmek istenen yeni program ve öğretim düzeylerine ilişkindir. Bu başvuruda kuruluş, yalnızca kapsam beyanını ve eklenen programlara ilişkin destekleyici bölümleri doldurur; kuruluşun kimliği, yasal statüsü, yönetişimi ile ESG'nin üçüncü ve ikinci bölümlerine ilişkin bilgiler yürürlükteki başvurudan devralınır. Kapsam genişletme kararı, yürürlükteki belgenin süresini değiştirmez.",
-                    en: "A scope extension application is made within the period of the certificate in force and concerns only the new programmes and levels of study to be added to the scope. In such an application the organisation completes only the scope declaration and the supporting sections relating to the programmes being added; the identity, legal status and governance of the organisation and the information relating to Parts 3 and 2 of the ESG are carried over from the application in force. A scope extension decision does not alter the period of the certificate in force.",
+                    tr: "Kapsam genişletme başvurusu, yalnızca kapsama eklenmek istenen yeni program ve öğretim düzeylerine ilişkindir. Bu başvuru, kuruluş tarafından, ilk tescil veya tanınma belgesinin alındığı tarihten itibaren birinci yılın sonundan başlayarak mevcut belge süresinin dolmasına altı ay kalıncaya kadar başvuru sistemi üzerinden yapılır. İki yıl süreli tescil belgesi almış olan kuruluşlar, bu süre içerisinde kapsam genişletme başvurusunda bulunamaz.",
+                    en: "A scope extension application concerns only the new programmes and levels of study to be added to the scope. Such an application is submitted by the organisation through the application system from the end of the first year following the date on which the first registration or recognition certificate was obtained until six months before the expiry of the current certificate. Organisations that have been granted a two-year registration certificate may not apply for a scope extension during that period.",
+                  },
+                },
+                {
+                  tip: "p",
+                  metin: {
+                    tr: "Kapsam genişletme başvurusunda kuruluş, yalnızca kapsam beyanını ve eklenen programlara ilişkin destekleyici bölümleri doldurur; kuruluşun kimliği, yasal statüsü, yönetişimi ile ESG'nin üçüncü ve ikinci bölümlerine ilişkin bilgiler yürürlükteki başvurudan devralınır. Kapsam genişletme kararı, yürürlükteki belgenin süresini değiştirmez.",
+                    en: "In a scope extension application the organisation completes only the scope declaration and the supporting sections relating to the programmes being added; the identity, legal status and governance of the organisation and the information relating to Parts 3 and 2 of the ESG are carried over from the application in force. A scope extension decision does not alter the period of the certificate in force.",
                   },
                 },
               ],
@@ -562,7 +569,65 @@ window.KILAVUZ = {
           no: "3",
           baslik: { tr: "Değerlendirme Süreci", en: "Evaluation Process" },
           kaynak: "K21 §3",
-          bloklar: [
+          bloklar: [],
+          altKisimlar: [
+            {
+              id: "k3-1",
+              no: "3.1",
+              baslik: {
+                tr: "Komisyonun Oluşumu ve Görevleri",
+                en: "Composition and Duties of the Commission",
+              },
+              bloklar: [
+                {
+                  tip: "p",
+                  metin: {
+                    tr: "Dış değerlendirme ve akreditasyon kuruluşlarının yetkilendirilmesi ve tanınması komisyonu; ikisi Kurul üyesi, ikisi YÖKAK uzmanı veya uzman yardımcısı, biri Kurulda çalışan diğer personel olmak üzere toplam beş üyeden oluşur. Üyelerden biri komisyona başkanlık eder.",
+                    en: "The commission for the authorisation and recognition of external evaluation and accreditation organisations consists of five members in total: two members of the Council, two YÖKAK experts or assistant experts, and one other member of staff working at the Council. One of the members chairs the commission.",
+                  },
+                },
+                {
+                  tip: "p",
+                  metin: {
+                    tr: "Komisyon salt çoğunlukla toplanır ve üye tam sayısının salt çoğunluğu ile karar alır.",
+                    en: "The Commission meets with an absolute majority and takes its decisions by an absolute majority of its full membership.",
+                  },
+                },
+                {
+                  tip: "p",
+                  metin: {
+                    tr: "Komisyonun görevleri şunlardır:",
+                    en: "The duties of the Commission are as follows:",
+                  },
+                },
+                {
+                  tip: "liste",
+                  tur: "harf",
+                  ogeler: [
+                    {
+                      tr: "Raportör tarafından başvurulara ilişkin hazırlanan taslak başvuru değerlendirme raporunu incelemek ve komisyonun kanaatini de içerecek şekilde hazırlanan Başvuru Değerlendirme Raporunu Kurula sunmak,",
+                      en: "to examine the draft application evaluation report prepared by the rapporteur in respect of applications and to submit to the Council the Application Evaluation Report drawn up so as to include the Commission's opinion,",
+                    },
+                    {
+                      tr: "İzleme Yetkilisi tarafından hazırlanan raporu inceleyerek İzleme Raporunu ve İzleme Yetkilisinin önerisine ilişkin oluşan komisyon kanaatini Kurula sunmak,",
+                      en: "to examine the report prepared by the Monitoring Officer and to submit to the Council the Monitoring Report together with the Commission's opinion on the Monitoring Officer's proposal,",
+                    },
+                    {
+                      tr: "Akredite programlara ilişkin bilgilerin YÖK'e iletilmesini Kurula sunmak.",
+                      en: "to submit to the Council the transmission to the Council of Higher Education (YÖK) of information concerning accredited programmes.",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: "k3-2",
+              no: "3.2",
+              baslik: {
+                tr: "Değerlendirme Aşamaları",
+                en: "Stages of the Evaluation",
+              },
+              bloklar: [
             {
               tip: "p",
               metin: {
@@ -615,6 +680,8 @@ window.KILAVUZ = {
                 tr: "Kurul veya Komisyon, gerekli gördüğü durumlarda kuruluşun faaliyetlerini yerinde inceleyebilir ve ilave kanıt talep edebilir.",
                 en: "Where it deems necessary, the Council or the Commission may examine the activities of the organisation on site and may request additional evidence.",
               },
+            },
+              ],
             },
           ],
         },
@@ -730,7 +797,7 @@ window.KILAVUZ = {
             {
               id: "k4-3",
               no: "4.3",
-              baslik: { tr: "İtiraz", en: "Appeals" },
+              baslik: { tr: "İtiraz ve Şikâyet", en: "Appeals and Complaints" },
               bloklar: [
                 {
                   tip: "p",
@@ -744,6 +811,13 @@ window.KILAVUZ = {
                   metin: {
                     tr: "İtirazlar İtiraz Değerlendirme Komisyonu tarafından incelenir. Komisyon, kanaatini de içeren İtiraz Değerlendirme Raporunu Kurula sunar. Kurul, söz konusu raporu dikkate alarak itiraz hakkında karar verir ve kararı kuruluşa bildirir.",
                     en: "Appeals are examined by the Appeals Evaluation Commission. The Commission submits to the Council the Appeals Evaluation Report, including its opinion. The Council decides on the appeal having regard to that report and notifies the organisation of its decision.",
+                  },
+                },
+                {
+                  tip: "p",
+                  metin: {
+                    tr: "Kuruluşlar ve faaliyetleri hakkında yapılacak itiraz ve şikâyetlere YÖKAK İtiraz ve Şikâyet Yönergesi kapsamında işlem yapılır.",
+                    en: "Appeals and complaints concerning organisations and their activities are dealt with under the YÖKAK Appeals and Complaints Directive.",
                   },
                 },
               ],

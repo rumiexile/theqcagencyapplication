@@ -91,8 +91,12 @@
   function blok(b) {
     if (b.tip === "p") return el("p", { text: p(b.metin) });
 
+    /* tur: "harf" → a) b) c) — mevzuat bentleri için atıf yapılabilir işaret. */
     if (b.tip === "liste") {
-      return el("ul", { class: "kv-liste" }, (b.ogeler || []).map(function (o) {
+      var harf = b.tur === "harf";
+      return el(harf ? "ol" : "ul", {
+        class: "kv-liste" + (harf ? " kv-liste--harf" : ""),
+      }, (b.ogeler || []).map(function (o) {
         return el("li", { text: p(o) });
       }));
     }

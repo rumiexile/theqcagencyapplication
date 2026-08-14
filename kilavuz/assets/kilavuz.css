@@ -272,6 +272,23 @@
   background: var(--color-accent);
 }
 
+/* Bentli liste: nokta yerine atıf yapılabilir a) b) c) işareti. */
+.kv-liste--harf { counter-reset: bent; }
+
+.kv-liste--harf li { counter-increment: bent; }
+
+.kv-liste--harf li::before {
+  content: counter(bent, lower-alpha) ")";
+  left: var(--space-2);
+  top: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
 /* --- tanımlar --- */
 .kv-tanim { margin: 0 0 var(--space-4); max-width: var(--olcu); }
 
