@@ -9,8 +9,8 @@ window.KILAVUZ_EKLER = {
       anahtar: "tariff",
       baslik: { tr: "MADDE 12/(1) — Ücret tarifesinin Kurula bildirilmesi ve onaylanması",
                 en: "Article 12(1) — Notification and approval of the fee tariff" },
-      metin: { tr: "Kuruluşlar, program akreditasyonunda bir program için uygulayacakları akreditasyon ücret tarifesini, her yıl aralık ayının sonuna kadar gerekçeli maliyet raporlarıyla birlikte Kurula bildirmek zorundadır. Tarife, Kurulun onayından sonra geçerlilik kazanır; onaylanmayan veya fahiş fiyat artışı içerdiği tespit edilen tarifeler uygulanamaz. Kurul, gerekli gördüğü durumlarda tarifenin revize edilmesini isteyebilir.",
-               en: "Organisations must notify the Board, by the end of December each year, of the accreditation fee tariff they will apply for a programme, together with justified cost reports. The tariff takes effect after the Board's approval; tariffs that are not approved or found to contain excessive increases cannot be applied. The Board may request a revision where it deems necessary." },
+      metin: { tr: "Kuruluşlar, program akreditasyonunda bir program için uygulayacakları akreditasyon ücret tarifesini, her yıl aralık ayının sonuna kadar gerekçeli maliyet raporlarıyla birlikte Kurula bildirmek zorundadır. Kurulun onayından sonra akreditasyon ücret tarifesi geçerlilik kazanır. Kurul tarafından onaylanmayan veya fahiş fiyat artışı içerdiği tespit edilen tarifeler uygulanamaz. Kurul, gerekli gördüğü durumlarda ücret tarifesinin revize edilmesini isteyebilir.",
+               en: "Organisations must notify the Board, by the end of December each year, of the accreditation fee tariff they will apply for a programme, together with justified cost reports. The accreditation fee tariff takes effect after the Board's approval. Tariffs that are not approved by the Board, or that are found to contain excessive price increases, cannot be applied. The Board may request that the fee tariff be revised where it deems necessary." },
     },
     {
       anahtar: "single",
@@ -23,7 +23,7 @@ window.KILAVUZ_EKLER = {
       anahtar: "publish",
       baslik: { tr: "MADDE 12/(3) — Ücret tarifesinin web sitesinde yayımlanması",
                 en: "Article 12(3) — Publication of the fee tariff on the website" },
-      metin: { tr: "Kuruluş kendi web sitesinde, Kurul da kendi web sitesinde kabul edilen ücret tarifelerini yayımlar.",
+      metin: { tr: "Kuruluş, kendi web sitesinde, Kurul da kendi web sitesinde kabul edilen ücret tarifelerini yayımlar.",
                en: "The organisation publishes the accepted fee tariffs on its own website, as does the Board on its own website." },
     },
     {
