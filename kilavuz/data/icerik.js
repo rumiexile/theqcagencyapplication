@@ -1463,5 +1463,46 @@ window.KILAVUZ = {
         },
       ],
     },
+    {
+      id: "ek-7",
+      tur: "ek",
+      no: "7",
+      baslik: {
+        tr: "YÖKAK Program Akreditasyonu Ölçütleri (ESG Bölüm 1)",
+        en: "YÖKAK Programme Accreditation Criteria (ESG Part 1)",
+      },
+      kisimlar: [
+        {
+          id: "ek7-1",
+          kaynak: "YÖKAK Program Akreditasyonu Ölçütleri · Değerlendirme Ölçütleri",
+          bloklar: [
+            {
+              tip: "p",
+              metin: {
+                tr: "Bu ek, YÖKAK'ın Ulusal Program Akreditasyonu Ölçütleri olarak kabul ettiği ölçüt setini içerir. Set, ESG'nin birinci bölümündeki dokuz standartla birebir örtüşen dokuz ana ölçütten ve bunlara bağlı elli yedi alt ölçütten oluşur. Her alt ölçüt için göstergeler ile beklenen kanıt örnekleri verilir; ayrıca alt ölçütün YÖKAK Kurumsal Akreditasyon rubriğindeki karşılıkları gösterilir.",
+                en: "This Annex sets out the body of criteria that YÖKAK has adopted as the National Programme Accreditation Criteria. The set consists of nine main criteria, corresponding one-to-one with the nine standards of Part 1 of the ESG, and fifty-seven sub-criteria under them. For each sub-criterion, indicators and examples of expected evidence are given, together with the corresponding references in the YÖKAK institutional accreditation rubric.",
+              },
+            },
+            {
+              tip: "p",
+              metin: {
+                tr: "Kuruluşlar, 10. kısım uyarınca kullanacakları genel ölçütlerin bu setle başlık düzeyindeki ilişkisini başvuru sisteminde tanımlar.",
+                en: "Pursuant to section 10, Organisations define in the application system the relationship, at heading level, between the general criteria they will use and this set.",
+              },
+            },
+            {
+              tip: "not",
+              tur: "bilgi",
+              baslik: { tr: "Ölçüt metinlerinin dili", en: "Language of the criteria" },
+              metin: {
+                tr: "Ana ölçüt başlıkları iki dilde verilmiştir. Alt ölçüt metinleri, göstergeler ve kanıt örnekleri, yayımlandıkları hâliyle Türkçe olarak yer alır; İngilizce görünümde de değişmez.",
+                en: "The main criterion headings are given in both languages. The sub-criterion texts, indicators and examples of evidence appear in Turkish as published, and are unchanged in the English view.",
+              },
+            },
+            { tip: "olcutler7" },
+          ],
+        },
+      ],
+    },
   ],
 };

@@ -15,6 +15,7 @@
   var K = window.KILAVUZ;
   var EK1 = window.KILAVUZ_EK1;
   var EKLER = window.KILAVUZ_EKLER;
+  var EK7 = window.KILAVUZ_EK7;
   var dil = "tr";
 
   var METIN = {
@@ -32,6 +33,8 @@
       olcut: "Ölçüt",
       aciklama: "Açıklama",
       kanitlar: "Beklenen kanıtlar",
+      gostergeler: "Göstergeler",
+      rubrik: "YÖKAK rubrik ilişkisi",
       bekliyor: "Kaynak bekleniyor",
       bekliyorMetin:
         "Bu kısmın normatif metni henüz kaynağından alınmamıştır. Taslak iskelettir; mevzuat hükmü olarak kullanılamaz.",
@@ -57,6 +60,8 @@
       olcut: "Criterion",
       aciklama: "Explanation",
       kanitlar: "Expected evidence",
+      gostergeler: "Indicators",
+      rubrik: "YÖKAK rubric mapping",
       bekliyor: "Awaiting source",
       bekliyorMetin:
         "The normative text of this section has not yet been taken from its source. It is a draft skeleton and cannot be used as a regulatory provision.",
@@ -146,6 +151,7 @@
     if (b.tip === "mali") return maliBlok();
     if (b.tip === "beyanlar") return beyanBlok();
     if (b.tip === "olcutler") return olcutBlok();
+    if (b.tip === "olcutler7") return olcut7Blok();
     if (b.tip === "surec") return surecBlok();
     return null;
   }
@@ -198,6 +204,52 @@
             : null,
         ]),
       ]);
+    }));
+  }
+
+  /* EK 7 — YÖKAK program akreditasyonu ölçütleri, ana ölçüt altında gruplu.
+     Kart düzeni EK 1 ile aynıdır; ölçüt metni Türkçe yayımlandığı hâliyle
+     verilir, bu yüzden dile göre değişmez. */
+  function olcut7Blok() {
+    return el("div", {}, (EK7.gruplar || []).map(function (g) {
+      return el("section", { class: "kv-ek7", id: "yolcut-" + g.kod }, [
+        el("h4", { class: "kv-ek7__baslik" }, [
+          el("span", { class: "kv-ek7__kod", text: g.kod }),
+          el("span", { text: p(g.ad) }),
+          el("span", { class: "kv-ek7__esg", text: "ESG " + g.esg1 }),
+        ]),
+      ].concat((g.altlar || []).map(function (a) {
+        return el("div", { class: "kv-olcut", id: "yolcut-" + a.kod.replace(".", "-") }, [
+          el("div", { class: "kv-olcut__ust" }, [
+            el("span", { class: "kv-olcut__sira", text: a.kod }),
+            el("span", { class: "kv-olcut__ad", text: a.metin }),
+          ]),
+          el("div", { class: "kv-olcut__govde" }, [
+            (a.gostergeler || []).length
+              ? el("div", { class: "kv-olcut__blok" }, [
+                  el("h5", { text: t("gostergeler") }),
+                  el("ul", {}, a.gostergeler.map(function (x) {
+                    return el("li", { text: x });
+                  })),
+                ])
+              : null,
+            (a.kanitlar || []).length
+              ? el("div", { class: "kv-olcut__blok" }, [
+                  el("h5", { text: t("kanitlar") }),
+                  el("ul", {}, a.kanitlar.map(function (x) {
+                    return el("li", { text: x });
+                  })),
+                ])
+              : null,
+            (a.rubrik || []).length
+              ? el("div", { class: "kv-olcut__blok" }, [
+                  el("h5", { text: t("rubrik") }),
+                  el("p", { class: "kv-ek7__rubrik", text: a.rubrik.join(" · ") }),
+                ])
+              : null,
+          ]),
+        ]);
+      })));
     }));
   }
 
