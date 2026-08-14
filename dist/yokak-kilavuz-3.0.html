@@ -3296,8 +3296,81 @@ window.KILAVUZ = {
           bloklar: [],
           altKisimlar: [
             {
-              id: "k2-1",
+              id: "k2-0",
               no: "2.1",
+              baslik: { tr: "Başvuru Türleri", en: "Types of Application" },
+              bloklar: [
+                {
+                  tip: "p",
+                  metin: {
+                    tr: "Kuruluşlar, başvurularının niteliğini başvuru sırasında beyan eder. Beyan edilen nitelik, başvuruda istenen bilgi ve belgeleri ve değerlendirmede dikkate alınacak hususları belirler.",
+                    en: "Organisations declare the nature of their application at the time of application. The declared nature determines the information and documents required in the application and the matters to be taken into account in the evaluation.",
+                  },
+                },
+                {
+                  tip: "tablo",
+                  basliklar: {
+                    tr: ["Başvuru türü", "Kapsamı", "Ayrıca dikkate alınanlar"],
+                    en: ["Type of application", "Coverage", "Additionally considered"],
+                  },
+                  satirlar: [
+                    {
+                      tr: [
+                        "İlk başvuru",
+                        "Kuruluşun ilk kez Kalite Değerlendirme Tescil Belgesi veya Tanıma Belgesi talep etmesi.",
+                        "—",
+                      ],
+                      en: [
+                        "First application",
+                        "The organisation requests a Quality Evaluation Registration Certificate or a Recognition Certificate for the first time.",
+                        "—",
+                      ],
+                    },
+                    {
+                      tr: [
+                        "Yenileme başvurusu",
+                        "Mevcut belgenin geçerlilik süresinin uzatılması.",
+                        "Belge süresi boyunca sunulan Faaliyet Raporları ile İzleme Raporları.",
+                      ],
+                      en: [
+                        "Renewal application",
+                        "Extension of the period of validity of an existing certificate.",
+                        "The Activity Reports and Monitoring Reports submitted during the certificate period.",
+                      ],
+                    },
+                    {
+                      tr: [
+                        "Kapsam genişletme",
+                        "Belge kapsamına yeni program veya öğretim düzeyi eklenmesi.",
+                        "Yürürlükteki belgenin kapsamı ve o kapsamdaki izleme bulguları.",
+                      ],
+                      en: [
+                        "Scope extension",
+                        "Addition of new programmes or levels of study to the scope of the certificate.",
+                        "The scope of the certificate in force and the monitoring findings within that scope.",
+                      ],
+                    },
+                  ],
+                },
+                {
+                  tip: "p",
+                  metin: {
+                    tr: "Başvuru türü ne olursa olsun, bu Kılavuzda yer alan başvuru, değerlendirme ve karar süreçleri aynı şekilde uygulanır. Yenileme ve kapsam genişletme başvurularında, önceki Kurul kararının tarihi ve sayısı da beyan edilir.",
+                    en: "Whatever the type of application, the application, evaluation and decision processes set out in this Guide apply in the same manner. In renewal and scope extension applications, the date and number of the previous Council decision shall also be declared.",
+                  },
+                },
+                {
+                  tip: "p",
+                  metin: {
+                    tr: "Yenileme başvurusunun Kurul karar tarihi, mevcut belgenin bitiş tarihinden önce ise kararda belirtilen süre, bitiş tarihinden itibaren başlar. Kapsam genişletme kararı, yürürlükteki belgenin süresini değiştirmez.",
+                    en: "Where the date of the Council's decision on a renewal application precedes the expiry of the existing certificate, the period stated in the decision begins on the date of that expiry. A scope extension decision does not alter the period of the certificate in force.",
+                  },
+                },
+              ],
+            },
+            {
+              id: "k2-1",
+              no: "2.2",
               baslik: {
                 tr: "Ulusal Kuruluşların Başvuru Süreci",
                 en: "Application Process for National Organisations",
@@ -3353,8 +3426,8 @@ window.KILAVUZ = {
                 {
                   tip: "p",
                   metin: {
-                    tr: "Niyet mektubunun iletilmesinde 2.2'de belirtilen usul uygulanır.",
-                    en: "The procedure set out in 2.2 applies to the submission of the letter of intent.",
+                    tr: "Niyet mektubunun iletilmesinde 2.3'te belirtilen usul uygulanır.",
+                    en: "The procedure set out in 2.3 applies to the submission of the letter of intent.",
                   },
                 },
                 {
@@ -3377,7 +3450,7 @@ window.KILAVUZ = {
             },
             {
               id: "k2-2",
-              no: "2.2",
+              no: "2.3",
               baslik: {
                 tr: "Uluslararası Kuruluşların Başvuru Süreci",
                 en: "Application Process for International Organisations",
@@ -3417,7 +3490,7 @@ window.KILAVUZ = {
             },
             {
               id: "k2-3",
-              no: "2.3",
+              no: "2.4",
               baslik: {
                 tr: "Akreditasyon Kapsamının Beyanı",
                 en: "Declaration of the Accreditation Scope",
