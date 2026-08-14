@@ -7678,6 +7678,44 @@ window.SCHEMA = (function () {
           ],
         },
 
+        /* ---- Niyet mektubu ----
+           Her başvuruda istenir: yetkilendirme ve tanınma, ilk başvuru,
+           yenileme ve kapsam genişletme ayrımı yapılmaz. Bu yüzden
+           koşullu görünürlüğü yoktur. */
+        {
+          id: "intent-letter",
+          title: { tr: "Niyet Mektubu", en: "Letter of Intent" },
+          short: { tr: "Niyet mektubu", en: "Letter of intent" },
+          desc: {
+            tr:
+              "Kuruluşunuzun başvuru niyetini beyan eden, imza yetkisi bulunan kişi tarafından imzalanmış niyet mektubunu yükleyiniz.",
+            en:
+              "Upload the letter of intent declaring your organisation's intention to apply, signed by a person authorised to sign.",
+          },
+          fields: [
+            {
+              type: "file-upload", id: "intentLetter.file", required: true, maxSizeMB: 4,
+              accept: ".pdf",
+              label: { tr: "Niyet mektubu (PDF)", en: "Letter of intent (PDF)" },
+              hint: {
+                tr:
+                  "Yalnızca PDF kabul edilir. Mektup, imza yetkisi bulunan kişi tarafından imzalanmış olmalıdır.",
+                en:
+                  "Only PDF is accepted. The letter must be signed by a person authorised to sign.",
+              },
+            },
+            {
+              type: "text", id: "intentLetter.ref", half: true,
+              label: { tr: "Resmî yazı sayısı", en: "Official letter reference number" },
+              placeholder: { tr: "ör. E-12345678-000-1234", en: "e.g. E-12345678-000-1234" },
+            },
+            {
+              type: "date", id: "intentLetter.sentAt", half: true,
+              label: { tr: "Resmî yazının tarihi", en: "Date of the official letter" },
+            },
+          ],
+        },
+
         /* ---- Önceki dış değerlendirme (EQAR) ---- */
         {
           id: "prior-review",

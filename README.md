@@ -200,7 +200,7 @@ Sekmeler (`tabs`) → adımlar (`steps`) → alanlar (`fields`):
 
 | # | Sekme | Adımlar |
 |---|-------|---------|
-| 1 | **Başvuru Türü** | Tür seçimi (Yetkilendirme / Tanınma), başvuru niteliği · **Önceki dış değerlendirme (EQAR)** |
+| 1 | **Başvuru Türü** | Tür seçimi (Yetkilendirme / Tanınma), başvuru niteliği · **Niyet mektubu** (PDF, her senaryoda zorunlu) · **Önceki dış değerlendirme (EQAR)** |
 | 2 | **Ajans Bilgileri** | Kimlik (kuruluş bilgileri · **sicil numaraları** · **ağ ve çatı kuruluş üyelikleri**) · İletişim · Yasal statü (**kuruluş ve tescil dokümanları**) · Yönetişim ve kaynaklar |
 | 3 | **Belgeler** | **Kanıt koleksiyonu** — tüm kanıtlar, ESG standardı etiketleriyle |
 | 4 | **ESG 3** — Kalite Güvencesi Ajansları | 3.1 → 3.6 (her standart bir adım) · *EQAR raporu sunulduysa muaf* |
