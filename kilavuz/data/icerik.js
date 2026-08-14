@@ -122,15 +122,6 @@ window.KILAVUZ = {
               },
             },
             {
-              tip: "not",
-              tur: "bilgi",
-              baslik: { tr: "Kapsam", en: "Scope" },
-              metin: {
-                tr: "Bu Kılavuz yalnızca program akreditasyonu faaliyetlerine ilişkindir. Kurumsal akreditasyon ve kurumsal dış değerlendirme süreçleri kendi kılavuzlarına tabidir.",
-                en: "This Guide concerns programme accreditation activities only. Institutional accreditation and institutional external evaluation processes are subject to their own guides.",
-              },
-            },
-            {
               tip: "p",
               metin: {
                 tr: "Değerlendirme ölçütleri, Avrupa Yükseköğretim Alanında Kalite Güvencesi İlke ve Standartları (ESG) ile uyumlu olarak belirlenmiştir. Kuruluşların hem kendi kurumsal yapıları hem de yürüttükleri dış kalite güvencesi süreçleri bu standartlar üzerinden değerlendirilir.",
@@ -337,8 +328,8 @@ window.KILAVUZ = {
                 {
                   tip: "p",
                   metin: {
-                    tr: "Kalite Değerlendirme Tescil Belgesi almak üzere başvuracak kuruluşlar, başvurularını MİS üzerinden elektronik olarak yaparlar. Başvuru, sistemde bir kiracı hesabı ve kullanıcı oluşturulmasının ardından açılan yapılandırılmış başvuru formu doldurularak hazırlanır.",
-                    en: "Organisations applying for a Quality Evaluation Registration Certificate submit their applications electronically through MİS. The application is prepared by completing the structured application form that becomes available once a tenant account and user have been created in the system.",
+                    tr: "Kalite Değerlendirme Tescil Belgesi almak üzere başvuracak kuruluşlar, başvurularını MİS üzerinden elektronik olarak yaparlar. Başvuru, sistemde bir kullanıcı oluşturulmasının ardından açılan yapılandırılmış başvuru formu doldurulmak suretiyle hazırlanır.",
+                    en: "Organisations applying for a Quality Evaluation Registration Certificate submit their applications electronically through MİS. The application is prepared by completing the structured application form that becomes available once a user has been created in the system.",
                   },
                 },
                 {
