@@ -46,8 +46,8 @@ window.KILAVUZ = {
       surum: "3.0",
       tarih: { tr: "2026", en: "2026" },
       degisiklik: {
-        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı; Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmek yerine başvuru formundan üretilir hâle geldi. Başvuru türleri ayrı ayrı düzenlendi; yenileme başvurusu için altı aylık süre ile yenileme kararının yürürlük tarihi açıkça belirlendi. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
-        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS; the Self-Evaluation Report is produced from the application form instead of being drawn up as a separate document. The types of application were set out separately; the six-month period for renewal applications and the date from which a renewal decision takes effect were stated expressly. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
+        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı; Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmek yerine başvuru formundan üretilir hâle geldi. Başvuru türleri ayrı ayrı düzenlendi; yenileme başvurusu için altı aylık süre ile yenileme kararının yürürlük tarihi açıkça belirlendi. İki yıl süreli tescil kararı ilk yetkilendirme başvurusu ile sınırlandırıldı; Tanıma Belgesinin beş yıl süreyle verileceği belirtildi. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
+        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS; the Self-Evaluation Report is produced from the application form instead of being drawn up as a separate document. The types of application were set out separately; the six-month period for renewal applications and the date from which a renewal decision takes effect were stated expressly. The two-year registration decision was confined to first applications for authorisation, and the Recognition Certificate was stated to be issued for five years. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
       },
     },
     {
@@ -661,11 +661,11 @@ window.KILAVUZ = {
                     {
                       tr: [
                         "İki yıl süreyle yetkilendirme",
-                        "Ölçütlerden en fazla ikisi kısmen karşılanıyor, diğerlerinin tamamı karşılanıyor.",
+                        "Başvuru, kuruluşun ilk yetkilendirme başvurusudur ve ölçütlerden en fazla ikisi kısmen karşılanıyor, diğerlerinin tamamı karşılanıyor.",
                       ],
                       en: [
                         "Authorisation for two years",
-                        "At most two criteria are partially met and all others are met.",
+                        "The application is the organisation's first application for authorisation and at most two criteria are partially met, all others being met.",
                       ],
                     },
                     {
@@ -679,6 +679,13 @@ window.KILAVUZ = {
                       ],
                     },
                   ],
+                },
+                {
+                  tip: "p",
+                  metin: {
+                    tr: "Kalite Değerlendirme Tescil Belgesi beş yıl veya iki yıl süreyle verilir. İki yıl süreli tescil kararı, kuruluşun ilk yetkilendirme başvurusu sonucunda yapılan değerlendirmede ve tek sefere mahsus olmak üzere verilir.",
+                    en: "The Quality Evaluation Registration Certificate is issued for a period of five years or two years. A two-year registration decision is taken only on the evaluation carried out following the organisation's first application for authorisation, and on one occasion only.",
+                  },
                 },
                 {
                   tip: "p",
@@ -714,8 +721,8 @@ window.KILAVUZ = {
                 {
                   tip: "p",
                   metin: {
-                    tr: "Tanınma kararlarında da 4.1'de belirtilen süre ve koşullar uygulanır. Tanıma Belgesi, yalnızca beyan edilen program ve öğretim düzeyleri için geçerlidir.",
-                    en: "The periods and conditions set out in 4.1 also apply to recognition decisions. The Recognition Certificate is valid only for the programmes and levels of study declared.",
+                    tr: "Tanıma Belgesi beş yıl süreyle verilir; 4.1'de yer alan iki yıl süreli karar seçeneği tanınma kararlarında uygulanmaz. Ölçütlerin karşılanmasına ilişkin diğer koşullar ile belgenin geçerlilik süresinin başlangıcına ilişkin kurallar tanınma kararlarında da uygulanır. Tanıma Belgesi, yalnızca beyan edilen program ve öğretim düzeyleri için geçerlidir.",
+                    en: "The Recognition Certificate is issued for a period of five years; the two-year decision provided for in 4.1 does not apply to recognition decisions. The other conditions relating to the fulfilment of the criteria, and the rules on when the certificate's period of validity begins, also apply to recognition decisions. The Recognition Certificate is valid only for the programmes and levels of study declared.",
                   },
                 },
               ],
