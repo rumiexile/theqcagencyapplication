@@ -1190,7 +1190,7 @@ window.KILAVUZ = {
             {
               id: "k8-2",
               no: "8.2",
-              baslik: { tr: "Görev Bağdaşmazlığı", en: "Incompatibility of Office" },
+              baslik: { tr: "Çıkar Çatışması/Çakışması", en: "Conflict of Interest" },
               bloklar: [
                 {
                   tip: "p",
@@ -1254,15 +1254,15 @@ window.KILAVUZ = {
               id: "k9-1",
               no: "9.1",
               baslik: {
-                tr: "Karar Türleri ve Süreleri",
-                en: "Types of Decision and Their Periods",
+                tr: "Akreditasyon Süreleri",
+                en: "Periods of Accreditation",
               },
               bloklar: [
                 {
                   tip: "p",
                   metin: {
-                    tr: "Kuruluşlar, akreditasyon kararını yalnızca iki yıl süreli koşullu akreditasyon, en az beş yıl süreli tam akreditasyon veya akreditasyonun reddi şeklinde üç ayrı karar olarak verebilir.",
-                    en: "Organisations may take an accreditation decision only in one of three forms: conditional accreditation for two years, full accreditation for at least five years, or refusal of accreditation.",
+                    tr: "Kuruluşların akreditasyon kararının, Yükseköğretim Programları ve Kontenjanları Kılavuzu ve Türkiye Yeterlilikler Çerçevesine eklenebilmesi için en az iki yıl geçerlilik süresi olması gerekir.",
+                    en: "For an Organisation's accreditation decision to be included in the Higher Education Programmes and Quotas Guide and in the Turkish Qualifications Framework, it must have a validity period of at least two years.",
                   },
                 },
                 {
@@ -1277,20 +1277,6 @@ window.KILAVUZ = {
             {
               id: "k9-2",
               no: "9.2",
-              baslik: { tr: "Ara Değerlendirme", en: "Intermediate Evaluation" },
-              bloklar: [
-                {
-                  tip: "p",
-                  metin: {
-                    tr: "Tam akreditasyona sahip olan programın ara değerlendirmesi, ara değerlendirme takımı tarafından bir gün süreyle çevrim içi olarak gerçekleştirilir ve programın gelişmeye açık yönleri değerlendirilir.",
-                    en: "The intermediate evaluation of a programme holding full accreditation is carried out online over one day by the intermediate evaluation team, and the aspects of the programme open to improvement are assessed.",
-                  },
-                },
-              ],
-            },
-            {
-              id: "k9-3",
-              no: "9.3",
               baslik: {
                 tr: "Belgenin İptali veya Askıya Alınması",
                 en: "Cancellation or Suspension of the Certificate",
