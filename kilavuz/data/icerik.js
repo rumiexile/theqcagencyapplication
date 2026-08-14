@@ -1468,8 +1468,8 @@ window.KILAVUZ = {
       tur: "ek",
       no: "7",
       baslik: {
-        tr: "YÖKAK Program Akreditasyonu Ölçütleri (ESG Bölüm 1)",
-        en: "YÖKAK Programme Accreditation Criteria (ESG Part 1)",
+        tr: "Ajansların Program Akreditasyonunda Kullandığı Ölçütlerin ESG Bölüm 1'e Uyumu",
+        en: "Alignment of the Criteria Used by Agencies in Programme Accreditation with ESG Part 1",
       },
       kisimlar: [
         {
