@@ -33,7 +33,6 @@
       olcut: "Ölçüt",
       aciklama: "Açıklama",
       kanitlar: "Beklenen kanıtlar",
-      yokakKarsiligi: "YÖKAK ana ölçüt karşılığı",
       bekliyor: "Kaynak bekleniyor",
       bekliyorMetin:
         "Bu kısmın normatif metni henüz kaynağından alınmamıştır. Taslak iskelettir; mevzuat hükmü olarak kullanılamaz.",
@@ -59,7 +58,6 @@
       olcut: "Criterion",
       aciklama: "Explanation",
       kanitlar: "Expected evidence",
-      yokakKarsiligi: "Corresponding YÖKAK main criterion",
       bekliyor: "Awaiting source",
       bekliyorMetin:
         "The normative text of this section has not yet been taken from its source. It is a draft skeleton and cannot be used as a regulatory provision.",
@@ -150,7 +148,6 @@
     if (b.tip === "beyanlar") return beyanBlok();
     if (b.tip === "olcutler") return olcutBlok();
     if (b.tip === "olcutler7") return olcut7Blok();
-    if (b.tip === "ortakKanitlar") return ortakKanitBlok();
     if (b.tip === "surec") return surecBlok();
     return null;
   }
@@ -175,10 +172,14 @@
     }));
   }
 
-  /* EK 1 — ESG standartlarından üretilmiş ölçüt kartları. */
+  /* EK 1 ve EK 7 — ESG standartlarından üretilmiş ölçüt kartları. */
   function olcutBlok() {
-    return el("div", {}, (EK1.olcutler || []).map(function (o) {
-      return el("div", { class: "kv-olcut", id: "olcut-" + o.kod.replace(".", "-") }, [
+    return olcutKartlari(EK1.olcutler || [], "olcut-");
+  }
+
+  function olcutKartlari(olcutler, onek) {
+    return el("div", {}, olcutler.map(function (o) {
+      return el("div", { class: "kv-olcut", id: onek + o.kod.replace(".", "-") }, [
         el("div", { class: "kv-olcut__ust" }, [
           el("span", { class: "kv-olcut__sira", text: o.sira + "." }),
           el("span", { class: "kv-olcut__kod", text: "ESG " + o.kod }),
@@ -206,39 +207,9 @@
     }));
   }
 
-  /* EK 7 — ESG Bölüm 1 standartları, EK 1 ile aynı kart düzeninde.
-     Bölüm 1 verisinde ayrı bir açıklama alanı yoktur; beklenen kanıtlar
-     bölümün tamamı için ortak olduğundan ekte bir kez verilir. */
+  /* EK 7 — ESG Bölüm 1, EK 1 ile aynı kart düzeninde çizilir. */
   function olcut7Blok() {
-    return el("div", {}, (EK7.olcutler || []).map(function (o) {
-      return el("div", { class: "kv-olcut", id: "esg1-" + o.kod.replace(".", "-") }, [
-        el("div", { class: "kv-olcut__ust" }, [
-          el("span", { class: "kv-olcut__sira", text: o.sira + "." }),
-          el("span", { class: "kv-olcut__kod", text: "ESG " + o.kod }),
-          el("span", { class: "kv-olcut__ad", text: p(o.baslik) }),
-        ]),
-        el("div", { class: "kv-olcut__govde" }, [
-          el("div", { class: "kv-olcut__blok" }, [
-            el("h5", { text: t("olcut") }),
-            el("p", { class: "kv-olcut__metin", text: p(o.olcut) }),
-          ]),
-          o.yokak
-            ? el("div", { class: "kv-olcut__blok" }, [
-                el("h5", { text: t("yokakKarsiligi") }),
-                el("p", { class: "kv-ek7__rubrik",
-                          text: o.yokak.kod + " · " + p(o.yokak.ad) }),
-              ])
-            : null,
-        ]),
-      ]);
-    }));
-  }
-
-  /* EK 7 — bölümün tamamı için ortak kanıt listesi. */
-  function ortakKanitBlok() {
-    return el("ul", { class: "kv-liste" }, (EK7.ortakKanitlar || []).map(function (k) {
-      return el("li", { text: p(k) });
-    }));
+    return olcutKartlari(EK7.olcutler || [], "esg1-");
   }
 
   /* EK 2 — süreç aşamaları, metindeki sürelerle tutarlı. */

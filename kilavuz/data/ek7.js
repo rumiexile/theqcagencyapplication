@@ -1,8 +1,7 @@
 /* ÜRETİLMİŞ DOSYA — elle düzenlemeyiniz.
    Kaynak: assets/js/esg-data.js + assets/data/evidence-suggestions.js
-           + assets/data/yokak-criteria.js
    Yeniden üretmek için: node tools/gen-ek7.js > kilavuz/data/ek7.js
-   9 standart · ESG Bölüm 1 */
+   9 ölçüt · ESG Bölüm 1 */
 
 window.KILAVUZ_EK7 = {
   uretim: "2026-08-14",
@@ -13,7 +12,10 @@ window.KILAVUZ_EK7 = {
       baslik: { tr: "Kalite Güvencesi Politikası", en: "Policy for Quality Assurance" },
       olcut: { tr: "Kurumlar; öğrenme, öğretme ve değerlendirmenin kalite güvencesine ilişkin açık bir politikayı, ilgili yapılarla birlikte oluşturmalı, yayımlamalı ve etkili biçimde duyurmalı; bu politika sürekli iyileştirmenin etkili bir döngüsünü oluşturan tutarlı bir sistemi desteklemelidir.",
                en: "Institutions should have in place, publish and effectively communicate a clear policy for quality assurance of learning, teaching and assessment, with associated structures and supporting a coherent system that forms an effective cycle of continuous improvement." },
-      yokak: { kod: "1", ad: { tr: "Kalite Güvencesi Politikası ve Yönetişim", en: "Quality Assurance Policy and Governance" } },
+      aciklama: { tr: ["Politika; öğrenme, öğretme ve değerlendirmeyi destekleyen tüm birimleri ve paydaşları kapsamalıdır.", "Politika, kalite kültürünün geliştirilmesini, akademik dürüstlüğü ve akademik özgürlüğü gözetmelidir.", "Politikanın uygulanmasına ilişkin sorumluluklar ve yapılar tanımlı olmalıdır."],
+                  en: ["The policy should cover all units and stakeholders that support learning, teaching and assessment.", "The policy should foster a quality culture and safeguard academic integrity and academic freedom.", "Responsibilities and structures for implementing the policy should be defined."] },
+      kanitlar: { tr: ["Kuruluşun ölçütlerinde kurumun kalite güvencesi politikasını ve ilgili yapıları arayan ölçüt veya alt ölçüt", "Politikanın yayımlanması ve duyurulmasına ilişkin beklentinin ölçütler rehberinde nasıl tanımlandığı", "Sürekli iyileştirme döngüsünün değerlendirmede nasıl arandığını gösteren kılavuz metni"],
+                  en: ["The criterion or sub-criterion in the organisation's criteria that looks for the institution's quality assurance policy and the associated structures", "How the expectation that the policy be published and communicated is defined in the criteria guide", "The handbook text showing how the continuous improvement cycle is looked for in the review"] },
     },
     {
       sira: 2,
@@ -21,7 +23,10 @@ window.KILAVUZ_EK7 = {
       baslik: { tr: "Programların Tasarımı, Onayı, Sürekli İzlenmesi ve Periyodik Gözden Geçirilmesi", en: "Design, approval, ongoing monitoring and periodic review of programmes" },
       olcut: { tr: "Kurumlar; programlarının tutarlı olmasını, güncel akademik ve mesleki gelişmelerle beslenmesini ve amaçlanan öğrenme kazanımlarına güvenilir biçimde ulaşmasını sağlamak üzere programlarının tasarımı, onayı, izlenmesi ve periyodik olarak gözden geçirilmesine yönelik süreçlere sahip olmalıdır.",
                en: "Institutions should have processes for the design, approval, monitoring and periodic review of their programmes to ensure that they are coherent, informed by the latest academic and professional developments, and reliable in leading to the intended learning outcomes." },
-      yokak: { kod: "2", ad: { tr: "Programın Tasarımı, Onayı, İzlenmesi ve Güncellenmesi", en: "Design, Approval, Monitoring and Updating of the Programme" } },
+      aciklama: { tr: ["Programlar, amaçlanan öğrenme kazanımları da dâhil olmak üzere tanımlı hedeflerle tasarlanmalıdır.", "Program tasarımına öğrenciler ve diğer paydaşlar katılmalıdır.", "Programlar; yeterlilik düzeyine ve ilgili yeterlilik çerçevesine uygun biçimde onaylanmalı, izlenmeli ve periyodik olarak gözden geçirilmelidir."],
+                  en: ["Programmes should be designed with defined objectives, including the intended learning outcomes.", "Students and other stakeholders should be involved in programme design.", "Programmes should be approved, monitored and periodically reviewed in line with the level of qualification and the relevant qualifications framework."] },
+      kanitlar: { tr: ["Program tasarımı, onayı, izlenmesi ve gözden geçirilmesini ele alan ölçüt veya alt ölçütler", "Öğrenme kazanımlarının ve yeterlilik çerçevesiyle ilişkinin ölçütlerde nasıl arandığı", "Paydaş katılımının program tasarımında aranmasına ilişkin ölçüt metni"],
+                  en: ["The criteria or sub-criteria addressing programme design, approval, monitoring and review", "How the learning outcomes and the link to the qualifications framework are looked for in the criteria", "The criterion text requiring stakeholder involvement in programme design"] },
     },
     {
       sira: 3,
@@ -29,7 +34,10 @@ window.KILAVUZ_EK7 = {
       baslik: { tr: "Öğrenci Merkezli Öğrenme, Öğretme ve Değerlendirme", en: "Student-Centred Learning, Teaching and Assessment" },
       olcut: { tr: "Kurumlar, programların öğrencileri öğrenme sürecinin oluşturulmasında etkin rol almaya teşvik edecek biçimde yürütülmesini ve öğrenci değerlendirmesinin bu yaklaşımı yansıtmasını sağlamalıdır.",
                en: "Institutions should ensure that the programmes are delivered in a way that encourages students to take an active role in creating the learning process, and that the assessment of students reflects this approach." },
-      yokak: { kod: "3", ad: { tr: "Öğrenci Merkezli Öğrenme, Öğretme ve Ölçme-Değerlendirme", en: "Student-Centred Learning, Teaching and Assessment" } },
+      aciklama: { tr: ["Öğretim yöntemleri öğrencilerin çeşitliliğini ve esnek öğrenme yollarını dikkate almalıdır.", "Öğrenciler ile öğretim elemanları arasında karşılıklı saygıya dayalı bir ilişki kurulmalıdır.", "Değerlendirme ölçütleri ve yöntemleri önceden yayımlanmalı, tutarlı ve adil biçimde uygulanmalıdır.", "Öğrencilere geri bildirim verilmeli ve değerlendirmeye itiraz yolu tanımlı olmalıdır."],
+                  en: ["Teaching methods should take account of the diversity of students and flexible learning paths.", "A relationship based on mutual respect between students and teaching staff should be established.", "Assessment criteria and methods should be published in advance and applied consistently and fairly.", "Students should receive feedback and have a defined route of appeal against assessment."] },
+      kanitlar: { tr: ["Öğrenci merkezli öğrenme ve öğretmeyi ele alan ölçüt veya alt ölçütler", "Ölçme ve değerlendirmenin tutarlılığı, adilliği ve önceden yayımlanmasına ilişkin ölçüt metni", "Değerlendirmeye itiraz yolunun ölçütlerde arandığını gösteren kanıt"],
+                  en: ["The criteria or sub-criteria addressing student-centred learning and teaching", "The criterion text on the consistency, fairness and prior publication of assessment", "Evidence that a route of appeal against assessment is required by the criteria"] },
     },
     {
       sira: 4,
@@ -37,7 +45,10 @@ window.KILAVUZ_EK7 = {
       baslik: { tr: "Öğrenci Kabulü, Gelişimi, Tanınma ve Belgelendirme", en: "Student Admission, Progression, Recognition and Certification" },
       olcut: { tr: "Kurumlar; öğrenci kabulü, gelişimi, tanınma ve belgelendirme gibi öğrenci yaşam döngüsünün tüm aşamalarını kapsayan, önceden tanımlanmış ve yayımlanmış düzenlemeleri tutarlı biçimde uygulamalıdır.",
                en: "Institutions should consistently apply pre-defined and published regulations covering all phases of the student life cycle, e.g. student admission, progression, recognition and certification." },
-      yokak: { kod: "4", ad: { tr: "Öğrenci Kabulü, İlerlemesi, Tanınma ve Mezuniyet", en: "Student Admission, Progression, Recognition and Graduation" } },
+      aciklama: { tr: ["Kabul, gelişim, tanınma ve belgelendirme düzenlemeleri önceden tanımlanmalı ve yayımlanmalıdır.", "Önceki öğrenmelerin ve yurt dışında elde edilen yeterliliklerin tanınması Lizbon Tanıma Sözleşmesi ile uyumlu olmalıdır.", "Mezunlara, kazandıkları yeterliliği ve öğrenme kazanımlarını açıklayan belgeler verilmelidir."],
+                  en: ["Regulations on admission, progression, recognition and certification should be predefined and published.", "Recognition of prior learning and of qualifications obtained abroad should comply with the Lisbon Recognition Convention.", "Graduates should receive documentation explaining the qualification gained and the learning outcomes achieved."] },
+      kanitlar: { tr: ["Öğrenci kabulü, gelişimi, tanınma ve belgelendirmeyi ele alan ölçüt veya alt ölçütler", "Önceki öğrenmenin ve yurt dışı yeterliliklerin tanınmasına ilişkin ölçüt metni", "Mezuniyet belgelerinin içeriğine ilişkin beklentinin ölçütlerde nasıl tanımlandığı"],
+                  en: ["The criteria or sub-criteria addressing student admission, progression, recognition and certification", "The criterion text on the recognition of prior learning and of qualifications obtained abroad", "How the expectation concerning the content of graduation documents is defined in the criteria"] },
     },
     {
       sira: 5,
@@ -45,7 +56,10 @@ window.KILAVUZ_EK7 = {
       baslik: { tr: "Öğretim Elemanları", en: "Teaching Staff" },
       olcut: { tr: "Kurumlar, öğretim elemanlarının yetkinliğinden emin olmalıdır. Personelin işe alınması ve geliştirilmesinde adil ve şeffaf süreçler uygulamalıdır.",
                en: "Institutions should assure themselves of the competence of their teaching staff. They should apply fair and transparent processes for the recruitment and development of the staff." },
-      yokak: { kod: "5", ad: { tr: "Öğretim Kadrosu ve Eğitim-Öğretimi Destekleyen Personel", en: "Teaching Staff and Staff Supporting Education" } },
+      aciklama: { tr: ["İşe alma, atama ve yükseltme süreçleri adil, şeffaf ve tanımlı olmalıdır.", "Öğretim elemanlarının mesleki gelişimi için fırsatlar sunulmalı ve desteklenmelidir.", "Öğretimle araştırma ve yenilikçilik arasındaki bağ ile öğrenci merkezli öğretim yaklaşımları teşvik edilmelidir."],
+                  en: ["Recruitment, appointment and promotion processes should be fair, transparent and defined.", "Opportunities for the professional development of teaching staff should be offered and supported.", "The link between teaching, research and innovation, and student-centred approaches to teaching, should be encouraged."] },
+      kanitlar: { tr: ["Öğretim elemanlarının yetkinliğini ele alan ölçüt veya alt ölçütler", "İşe alma ve yükseltmede adillik ve şeffaflığın ölçütlerde nasıl arandığı", "Mesleki gelişim olanaklarının değerlendirmede aranmasına ilişkin kılavuz metni"],
+                  en: ["The criteria or sub-criteria addressing the competence of teaching staff", "How fairness and transparency in recruitment and promotion are looked for in the criteria", "The handbook text requiring opportunities for professional development to be examined"] },
     },
     {
       sira: 6,
@@ -53,7 +67,10 @@ window.KILAVUZ_EK7 = {
       baslik: { tr: "Öğrenme Ortamı ve Kaynaklar", en: "Learning environment and resources" },
       olcut: { tr: "Kurumlar, öğrenme ve öğretme faaliyetleri için uygun finansmana sahip olmalı; yeterli ve kolay erişilebilir öğrenme kaynakları ile öğrenci desteğinin sağlandığından emin olmalıdır.",
                en: "Institutions should have appropriate funding for learning and teaching activities and ensure that adequate and readily accessible learning resources and student support are provided." },
-      yokak: { kod: "6", ad: { tr: "Öğrenme Ortamı, Kaynaklar ve Öğrenci Desteği", en: "Learning Environment, Resources and Student Support" } },
+      aciklama: { tr: ["Kütüphane, öğrenme alanları, laboratuvar ve bilişim altyapısı gibi kaynaklar yeterli ve erişilebilir olmalıdır.", "Rehberlik, danışmanlık ve öğrenci desteği hizmetleri öğrencilerin ihtiyaçlarına göre sunulmalıdır.", "Kaynakların yeterliliği ve erişilebilirliği düzenli olarak izlenmeli ve gözden geçirilmelidir."],
+                  en: ["Resources such as libraries, learning spaces, laboratories and IT infrastructure should be adequate and accessible.", "Guidance, counselling and student support services should be provided according to students' needs.", "The adequacy and accessibility of resources should be regularly monitored and reviewed."] },
+      kanitlar: { tr: ["Öğrenme ortamı, kaynaklar ve öğrenci desteğini ele alan ölçüt veya alt ölçütler", "Kaynakların yeterliliği ve erişilebilirliğinin ölçütlerde nasıl arandığı", "Rehberlik ve danışmanlık hizmetlerine ilişkin ölçüt metni"],
+                  en: ["The criteria or sub-criteria addressing the learning environment, resources and student support", "How the adequacy and accessibility of resources are looked for in the criteria", "The criterion text on guidance and counselling services"] },
     },
     {
       sira: 7,
@@ -61,7 +78,10 @@ window.KILAVUZ_EK7 = {
       baslik: { tr: "Bilgi Yönetimi", en: "Information Management" },
       olcut: { tr: "Kurumlar; programlarının ve diğer faaliyetlerinin etkili yönetimi için ilgili bilgiyi topladıklarından, çözümlediklerinden ve kullandıklarından emin olmalıdır.",
                en: "Institutions should ensure that they collect, analyse and use relevant information for the effective management of their programmes and other activities." },
-      yokak: { kod: "7", ad: { tr: "Bilgi Yönetimi ve Sürekli İyileştirme", en: "Information Management and Continuous Improvement" } },
+      aciklama: { tr: ["Öğrenci profili, ilerleme, başarı ve mezuniyet oranlarına ilişkin veriler toplanmalıdır.", "Öğrenci memnuniyeti, öğrenme kaynaklarının yeterliliği ve mezunların istihdamına ilişkin veriler izlenmelidir.", "Toplanan veriler; öğrencilerin ve personelin katılımıyla çözümlenmeli ve kararlarda kullanılmalıdır."],
+                  en: ["Data on the student profile, progression, success and graduation rates should be collected.", "Data on student satisfaction, the adequacy of learning resources and graduate employment should be monitored.", "The data collected should be analysed with the involvement of students and staff and used in decision-making."] },
+      kanitlar: { tr: ["Bilgi yönetimini ele alan ölçüt veya alt ölçütler", "Hangi verilerin toplanmasının beklendiğini gösteren ölçütler rehberi metni", "Verilerin kararlarda kullanılmasının değerlendirmede nasıl arandığı"],
+                  en: ["The criteria or sub-criteria addressing information management", "The criteria guide text showing which data are expected to be collected", "How the use of data in decision-making is looked for in the review"] },
     },
     {
       sira: 8,
@@ -69,7 +89,10 @@ window.KILAVUZ_EK7 = {
       baslik: { tr: "Kamuoyunu Bilgilendirme", en: "Public Information" },
       olcut: { tr: "Kurumlar; programları da dâhil olmak üzere faaliyetlerine ilişkin açık, doğru, nesnel, güncel ve kolay erişilebilir bilgileri yayımlamalıdır.",
                en: "Institutions should publish information about their activities, including programmes, which is clear, accurate, objective, up-to-date and readily accessible." },
-      yokak: { kod: "8", ad: { tr: "Kamuoyunu Bilgilendirme ve Şeffaflık", en: "Public Information and Transparency" } },
+      aciklama: { tr: ["Programlara ilişkin bilgi; kabul koşullarını, öğrenme kazanımlarını, verilen yeterliliği ve öğretim yöntemlerini içermelidir.", "Yayımlanan bilgi doğru, nesnel, güncel ve kolay erişilebilir olmalıdır.", "Mezunların istihdam olanaklarına ve öğrencilerin başarı durumuna ilişkin bilgiler de kamuoyuna açık olmalıdır."],
+                  en: ["Information on programmes should include admission requirements, learning outcomes, the qualification awarded and teaching methods.", "Published information should be accurate, objective, up to date and easily accessible.", "Information on graduate employment opportunities and on student success should also be publicly available."] },
+      kanitlar: { tr: ["Kamuoyunu bilgilendirmeyi ele alan ölçüt veya alt ölçütler", "Yayımlanan bilginin doğruluğu, güncelliği ve erişilebilirliğine ilişkin ölçüt metni", "Program bilgisinde bulunması beklenen unsurların kanıt listesinde nasıl sayıldığı"],
+                  en: ["The criteria or sub-criteria addressing public information", "The criterion text on the accuracy, currency and accessibility of published information", "How the elements expected in programme information are enumerated in the evidence list"] },
     },
     {
       sira: 9,
@@ -77,14 +100,10 @@ window.KILAVUZ_EK7 = {
       baslik: { tr: "Periyodik Dış Kalite Güvencesi", en: "Cyclical External Quality Assurance" },
       olcut: { tr: "Kurumlar, ESG ile uyumlu biçimde periyodik olarak dış kalite güvencesi sürecinden geçmelidir.",
                en: "Institutions should undergo external quality assurance in line with the ESG on a cyclical basis." },
-      yokak: { kod: "9", ad: { tr: "Dış Kalite Güvencesi (Kurumsal ve/veya Program) ve Akreditasyon Döngüsü", en: "External Quality Assurance (Institutional and/or Programme) and the Accreditation Cycle" } },
+      aciklama: { tr: ["Dış değerlendirme, iç kalite güvencesinin etkinliğini doğrulamalı ve iyileştirmeyi desteklemelidir.", "Süreç periyodik olarak tekrarlanmalı; sıklığı ilgili ulusal düzenlemede tanımlanmalıdır.", "Önceki dış değerlendirmenin sonuçları ve verilen tavsiyeler dikkate alınmalıdır."],
+                  en: ["External quality assurance should verify the effectiveness of internal quality assurance and support enhancement.", "The process should be repeated cyclically, with its frequency defined in the relevant national regulation.", "The outcomes and recommendations of the previous external review should be taken into account."] },
+      kanitlar: { tr: ["Periyodik dış kalite güvencesini ele alan ölçüt veya alt ölçütler", "Önceki dış değerlendirme sonuçlarının dikkate alınmasına ilişkin ölçüt metni", "Değerlendirme döngüsünün sıklığının kuruluş kılavuzunda nasıl tanımlandığı"],
+                  en: ["The criteria or sub-criteria addressing cyclical external quality assurance", "The criterion text on taking account of the outcomes of the previous external review", "How the frequency of the review cycle is defined in the organisation's handbook"] },
     },
-  ],
-  ortakKanitlar: [
-    { tr: "Genel değerlendirme ölçütleri", en: "General evaluation criteria" },
-    { tr: "Alana özgü değerlendirme ölçütleri", en: "Field-specific evaluation criteria" },
-    { tr: "Ölçütler rehberi", en: "Criteria guide" },
-    { tr: "Kuruluşun değerlendirme kılavuzu", en: "The organisation's evaluation handbook" },
-    { tr: "İlgili ölçüt kapsamında kurumdan talep edilen kanıt listesi", en: "List of evidence required from the institution under the related criterion" },
   ],
 };

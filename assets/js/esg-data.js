@@ -34,6 +34,18 @@ window.ESG = (function () {
         tr:
           "Kurumlar; öğrenme, öğretme ve değerlendirmenin kalite güvencesine ilişkin açık bir politikayı, ilgili yapılarla birlikte oluşturmalı, yayımlamalı ve etkili biçimde duyurmalı; bu politika sürekli iyileştirmenin etkili bir döngüsünü oluşturan tutarlı bir sistemi desteklemelidir.",
       },
+      guidance: {
+        tr: [
+          "Politika; öğrenme, öğretme ve değerlendirmeyi destekleyen tüm birimleri ve paydaşları kapsamalıdır.",
+          "Politika, kalite kültürünün geliştirilmesini, akademik dürüstlüğü ve akademik özgürlüğü gözetmelidir.",
+          "Politikanın uygulanmasına ilişkin sorumluluklar ve yapılar tanımlı olmalıdır.",
+        ],
+        en: [
+          "The policy should cover all units and stakeholders that support learning, teaching and assessment.",
+          "The policy should foster a quality culture and safeguard academic integrity and academic freedom.",
+          "Responsibilities and structures for implementing the policy should be defined.",
+        ],
+      },
     },
     {
       code: "1.2",
@@ -49,6 +61,18 @@ window.ESG = (function () {
         tr:
           "Kurumlar; programlarının tutarlı olmasını, güncel akademik ve mesleki gelişmelerle beslenmesini ve amaçlanan öğrenme kazanımlarına güvenilir biçimde ulaşmasını sağlamak üzere programlarının tasarımı, onayı, izlenmesi ve periyodik olarak gözden geçirilmesine yönelik süreçlere sahip olmalıdır.",
       },
+      guidance: {
+        tr: [
+          "Programlar, amaçlanan öğrenme kazanımları da dâhil olmak üzere tanımlı hedeflerle tasarlanmalıdır.",
+          "Program tasarımına öğrenciler ve diğer paydaşlar katılmalıdır.",
+          "Programlar; yeterlilik düzeyine ve ilgili yeterlilik çerçevesine uygun biçimde onaylanmalı, izlenmeli ve periyodik olarak gözden geçirilmelidir.",
+        ],
+        en: [
+          "Programmes should be designed with defined objectives, including the intended learning outcomes.",
+          "Students and other stakeholders should be involved in programme design.",
+          "Programmes should be approved, monitored and periodically reviewed in line with the level of qualification and the relevant qualifications framework.",
+        ],
+      },
     },
     {
       code: "1.3",
@@ -61,6 +85,20 @@ window.ESG = (function () {
           "Institutions should ensure that the programmes are delivered in a way that encourages students to take an active role in creating the learning process, and that the assessment of students reflects this approach.",
         tr:
           "Kurumlar, programların öğrencileri öğrenme sürecinin oluşturulmasında etkin rol almaya teşvik edecek biçimde yürütülmesini ve öğrenci değerlendirmesinin bu yaklaşımı yansıtmasını sağlamalıdır.",
+      },
+      guidance: {
+        tr: [
+          "Öğretim yöntemleri öğrencilerin çeşitliliğini ve esnek öğrenme yollarını dikkate almalıdır.",
+          "Öğrenciler ile öğretim elemanları arasında karşılıklı saygıya dayalı bir ilişki kurulmalıdır.",
+          "Değerlendirme ölçütleri ve yöntemleri önceden yayımlanmalı, tutarlı ve adil biçimde uygulanmalıdır.",
+          "Öğrencilere geri bildirim verilmeli ve değerlendirmeye itiraz yolu tanımlı olmalıdır.",
+        ],
+        en: [
+          "Teaching methods should take account of the diversity of students and flexible learning paths.",
+          "A relationship based on mutual respect between students and teaching staff should be established.",
+          "Assessment criteria and methods should be published in advance and applied consistently and fairly.",
+          "Students should receive feedback and have a defined route of appeal against assessment.",
+        ],
       },
     },
     {
@@ -76,6 +114,18 @@ window.ESG = (function () {
         tr:
           "Kurumlar; öğrenci kabulü, gelişimi, tanınma ve belgelendirme gibi öğrenci yaşam döngüsünün tüm aşamalarını kapsayan, önceden tanımlanmış ve yayımlanmış düzenlemeleri tutarlı biçimde uygulamalıdır.",
       },
+      guidance: {
+        tr: [
+          "Kabul, gelişim, tanınma ve belgelendirme düzenlemeleri önceden tanımlanmalı ve yayımlanmalıdır.",
+          "Önceki öğrenmelerin ve yurt dışında elde edilen yeterliliklerin tanınması Lizbon Tanıma Sözleşmesi ile uyumlu olmalıdır.",
+          "Mezunlara, kazandıkları yeterliliği ve öğrenme kazanımlarını açıklayan belgeler verilmelidir.",
+        ],
+        en: [
+          "Regulations on admission, progression, recognition and certification should be predefined and published.",
+          "Recognition of prior learning and of qualifications obtained abroad should comply with the Lisbon Recognition Convention.",
+          "Graduates should receive documentation explaining the qualification gained and the learning outcomes achieved.",
+        ],
+      },
     },
     {
       code: "1.5",
@@ -85,6 +135,18 @@ window.ESG = (function () {
           "Institutions should assure themselves of the competence of their teaching staff. They should apply fair and transparent processes for the recruitment and development of the staff.",
         tr:
           "Kurumlar, öğretim elemanlarının yetkinliğinden emin olmalıdır. Personelin işe alınması ve geliştirilmesinde adil ve şeffaf süreçler uygulamalıdır.",
+      },
+      guidance: {
+        tr: [
+          "İşe alma, atama ve yükseltme süreçleri adil, şeffaf ve tanımlı olmalıdır.",
+          "Öğretim elemanlarının mesleki gelişimi için fırsatlar sunulmalı ve desteklenmelidir.",
+          "Öğretimle araştırma ve yenilikçilik arasındaki bağ ile öğrenci merkezli öğretim yaklaşımları teşvik edilmelidir.",
+        ],
+        en: [
+          "Recruitment, appointment and promotion processes should be fair, transparent and defined.",
+          "Opportunities for the professional development of teaching staff should be offered and supported.",
+          "The link between teaching, research and innovation, and student-centred approaches to teaching, should be encouraged.",
+        ],
       },
     },
     {
@@ -99,6 +161,18 @@ window.ESG = (function () {
         tr:
           "Kurumlar, öğrenme ve öğretme faaliyetleri için uygun finansmana sahip olmalı; yeterli ve kolay erişilebilir öğrenme kaynakları ile öğrenci desteğinin sağlandığından emin olmalıdır.",
       },
+      guidance: {
+        tr: [
+          "Kütüphane, öğrenme alanları, laboratuvar ve bilişim altyapısı gibi kaynaklar yeterli ve erişilebilir olmalıdır.",
+          "Rehberlik, danışmanlık ve öğrenci desteği hizmetleri öğrencilerin ihtiyaçlarına göre sunulmalıdır.",
+          "Kaynakların yeterliliği ve erişilebilirliği düzenli olarak izlenmeli ve gözden geçirilmelidir.",
+        ],
+        en: [
+          "Resources such as libraries, learning spaces, laboratories and IT infrastructure should be adequate and accessible.",
+          "Guidance, counselling and student support services should be provided according to students' needs.",
+          "The adequacy and accessibility of resources should be regularly monitored and reviewed.",
+        ],
+      },
     },
     {
       code: "1.7",
@@ -109,6 +183,18 @@ window.ESG = (function () {
         tr:
           "Kurumlar; programlarının ve diğer faaliyetlerinin etkili yönetimi için ilgili bilgiyi topladıklarından, çözümlediklerinden ve kullandıklarından emin olmalıdır.",
       },
+      guidance: {
+        tr: [
+          "Öğrenci profili, ilerleme, başarı ve mezuniyet oranlarına ilişkin veriler toplanmalıdır.",
+          "Öğrenci memnuniyeti, öğrenme kaynaklarının yeterliliği ve mezunların istihdamına ilişkin veriler izlenmelidir.",
+          "Toplanan veriler; öğrencilerin ve personelin katılımıyla çözümlenmeli ve kararlarda kullanılmalıdır.",
+        ],
+        en: [
+          "Data on the student profile, progression, success and graduation rates should be collected.",
+          "Data on student satisfaction, the adequacy of learning resources and graduate employment should be monitored.",
+          "The data collected should be analysed with the involvement of students and staff and used in decision-making.",
+        ],
+      },
     },
     {
       code: "1.8",
@@ -118,6 +204,18 @@ window.ESG = (function () {
           "Institutions should publish information about their activities, including programmes, which is clear, accurate, objective, up-to-date and readily accessible.",
         tr:
           "Kurumlar; programları da dâhil olmak üzere faaliyetlerine ilişkin açık, doğru, nesnel, güncel ve kolay erişilebilir bilgileri yayımlamalıdır.",
+      },
+      guidance: {
+        tr: [
+          "Programlara ilişkin bilgi; kabul koşullarını, öğrenme kazanımlarını, verilen yeterliliği ve öğretim yöntemlerini içermelidir.",
+          "Yayımlanan bilgi doğru, nesnel, güncel ve kolay erişilebilir olmalıdır.",
+          "Mezunların istihdam olanaklarına ve öğrencilerin başarı durumuna ilişkin bilgiler de kamuoyuna açık olmalıdır.",
+        ],
+        en: [
+          "Information on programmes should include admission requirements, learning outcomes, the qualification awarded and teaching methods.",
+          "Published information should be accurate, objective, up to date and easily accessible.",
+          "Information on graduate employment opportunities and on student success should also be publicly available.",
+        ],
       },
     },
     {
@@ -131,6 +229,18 @@ window.ESG = (function () {
           "Institutions should undergo external quality assurance in line with the ESG on a cyclical basis.",
         tr:
           "Kurumlar, ESG ile uyumlu biçimde periyodik olarak dış kalite güvencesi sürecinden geçmelidir.",
+      },
+      guidance: {
+        tr: [
+          "Dış değerlendirme, iç kalite güvencesinin etkinliğini doğrulamalı ve iyileştirmeyi desteklemelidir.",
+          "Süreç periyodik olarak tekrarlanmalı; sıklığı ilgili ulusal düzenlemede tanımlanmalıdır.",
+          "Önceki dış değerlendirmenin sonuçları ve verilen tavsiyeler dikkate alınmalıdır.",
+        ],
+        en: [
+          "External quality assurance should verify the effectiveness of internal quality assurance and support enhancement.",
+          "The process should be repeated cyclically, with its frequency defined in the relevant national regulation.",
+          "The outcomes and recommendations of the previous external review should be taken into account.",
+        ],
       },
     },
   ];

@@ -262,6 +262,134 @@ window.EVIDENCE_SUGGESTIONS = (function () {
         "Evidence that appeals and complaints processes are communicated to institutions"
       ),
     ],
+
+    /* ESG Bölüm 1 — ölçütlerin ilgili standardı kapsadığını gösteren kanıtlar */
+    "1.1": [
+      e(
+        "Kuruluşun ölçütlerinde kurumun kalite güvencesi politikasını ve ilgili yapıları arayan ölçüt veya alt ölçüt",
+        "The criterion or sub-criterion in the organisation's criteria that looks for the institution's quality assurance policy and the associated structures"
+      ),
+      e(
+        "Politikanın yayımlanması ve duyurulmasına ilişkin beklentinin ölçütler rehberinde nasıl tanımlandığı",
+        "How the expectation that the policy be published and communicated is defined in the criteria guide"
+      ),
+      e(
+        "Sürekli iyileştirme döngüsünün değerlendirmede nasıl arandığını gösteren kılavuz metni",
+        "The handbook text showing how the continuous improvement cycle is looked for in the review"
+      ),
+    ],
+    "1.2": [
+      e(
+        "Program tasarımı, onayı, izlenmesi ve gözden geçirilmesini ele alan ölçüt veya alt ölçütler",
+        "The criteria or sub-criteria addressing programme design, approval, monitoring and review"
+      ),
+      e(
+        "Öğrenme kazanımlarının ve yeterlilik çerçevesiyle ilişkinin ölçütlerde nasıl arandığı",
+        "How the learning outcomes and the link to the qualifications framework are looked for in the criteria"
+      ),
+      e(
+        "Paydaş katılımının program tasarımında aranmasına ilişkin ölçüt metni",
+        "The criterion text requiring stakeholder involvement in programme design"
+      ),
+    ],
+    "1.3": [
+      e(
+        "Öğrenci merkezli öğrenme ve öğretmeyi ele alan ölçüt veya alt ölçütler",
+        "The criteria or sub-criteria addressing student-centred learning and teaching"
+      ),
+      e(
+        "Ölçme ve değerlendirmenin tutarlılığı, adilliği ve önceden yayımlanmasına ilişkin ölçüt metni",
+        "The criterion text on the consistency, fairness and prior publication of assessment"
+      ),
+      e(
+        "Değerlendirmeye itiraz yolunun ölçütlerde arandığını gösteren kanıt",
+        "Evidence that a route of appeal against assessment is required by the criteria"
+      ),
+    ],
+    "1.4": [
+      e(
+        "Öğrenci kabulü, gelişimi, tanınma ve belgelendirmeyi ele alan ölçüt veya alt ölçütler",
+        "The criteria or sub-criteria addressing student admission, progression, recognition and certification"
+      ),
+      e(
+        "Önceki öğrenmenin ve yurt dışı yeterliliklerin tanınmasına ilişkin ölçüt metni",
+        "The criterion text on the recognition of prior learning and of qualifications obtained abroad"
+      ),
+      e(
+        "Mezuniyet belgelerinin içeriğine ilişkin beklentinin ölçütlerde nasıl tanımlandığı",
+        "How the expectation concerning the content of graduation documents is defined in the criteria"
+      ),
+    ],
+    "1.5": [
+      e(
+        "Öğretim elemanlarının yetkinliğini ele alan ölçüt veya alt ölçütler",
+        "The criteria or sub-criteria addressing the competence of teaching staff"
+      ),
+      e(
+        "İşe alma ve yükseltmede adillik ve şeffaflığın ölçütlerde nasıl arandığı",
+        "How fairness and transparency in recruitment and promotion are looked for in the criteria"
+      ),
+      e(
+        "Mesleki gelişim olanaklarının değerlendirmede aranmasına ilişkin kılavuz metni",
+        "The handbook text requiring opportunities for professional development to be examined"
+      ),
+    ],
+    "1.6": [
+      e(
+        "Öğrenme ortamı, kaynaklar ve öğrenci desteğini ele alan ölçüt veya alt ölçütler",
+        "The criteria or sub-criteria addressing the learning environment, resources and student support"
+      ),
+      e(
+        "Kaynakların yeterliliği ve erişilebilirliğinin ölçütlerde nasıl arandığı",
+        "How the adequacy and accessibility of resources are looked for in the criteria"
+      ),
+      e(
+        "Rehberlik ve danışmanlık hizmetlerine ilişkin ölçüt metni",
+        "The criterion text on guidance and counselling services"
+      ),
+    ],
+    "1.7": [
+      e(
+        "Bilgi yönetimini ele alan ölçüt veya alt ölçütler",
+        "The criteria or sub-criteria addressing information management"
+      ),
+      e(
+        "Hangi verilerin toplanmasının beklendiğini gösteren ölçütler rehberi metni",
+        "The criteria guide text showing which data are expected to be collected"
+      ),
+      e(
+        "Verilerin kararlarda kullanılmasının değerlendirmede nasıl arandığı",
+        "How the use of data in decision-making is looked for in the review"
+      ),
+    ],
+    "1.8": [
+      e(
+        "Kamuoyunu bilgilendirmeyi ele alan ölçüt veya alt ölçütler",
+        "The criteria or sub-criteria addressing public information"
+      ),
+      e(
+        "Yayımlanan bilginin doğruluğu, güncelliği ve erişilebilirliğine ilişkin ölçüt metni",
+        "The criterion text on the accuracy, currency and accessibility of published information"
+      ),
+      e(
+        "Program bilgisinde bulunması beklenen unsurların kanıt listesinde nasıl sayıldığı",
+        "How the elements expected in programme information are enumerated in the evidence list"
+      ),
+    ],
+    "1.9": [
+      e(
+        "Periyodik dış kalite güvencesini ele alan ölçüt veya alt ölçütler",
+        "The criteria or sub-criteria addressing cyclical external quality assurance"
+      ),
+      e(
+        "Önceki dış değerlendirme sonuçlarının dikkate alınmasına ilişkin ölçüt metni",
+        "The criterion text on taking account of the outcomes of the previous external review"
+      ),
+      e(
+        "Değerlendirme döngüsünün sıklığının kuruluş kılavuzunda nasıl tanımlandığı",
+        "How the frequency of the review cycle is defined in the organisation's handbook"
+      ),
+    ],
   };
 
   /* ESG Bölüm 1 — ölçütlerin standartları kapsamasına ilişkin ortak öneriler */

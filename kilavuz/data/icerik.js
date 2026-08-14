@@ -1479,8 +1479,8 @@ window.KILAVUZ = {
             {
               tip: "p",
               metin: {
-                tr: "YÖKAK, ulusal program akreditasyonu ölçütü olarak ESG'nin birinci bölümünü kabul etmiştir. Bu ek, söz konusu dokuz standardı EK 1 ile aynı düzende verir; her standart için ölçüt metni ile o standardın YÖKAK ana ölçütlerindeki karşılığı gösterilir.",
-                en: "YÖKAK has adopted Part 1 of the ESG as the national programme accreditation criteria. This Annex sets out those nine standards in the same layout as ANNEX 1; for each standard the text of the criterion is given, together with its counterpart among the YÖKAK main criteria.",
+                tr: "YÖKAK, ulusal program akreditasyonu ölçütü olarak ESG'nin birinci bölümünü kabul etmiştir. Bu ek, söz konusu dokuz standardı EK 1 ile aynı düzende verir; her standart için ölçüt metni, açıklama ve beklenen kanıtlar birlikte sunulur.",
+                en: "YÖKAK has adopted Part 1 of the ESG as the national programme accreditation criteria. This Annex sets out those nine standards in the same layout as ANNEX 1; for each standard the text of the criterion, the explanation and the expected evidence are given together.",
               },
             },
             {
@@ -1491,14 +1491,6 @@ window.KILAVUZ = {
               },
             },
             { tip: "olcutler7" },
-            {
-              tip: "p",
-              metin: {
-                tr: "Bu bölümdeki standartların tamamı için beklenen kanıtlar ortaktır:",
-                en: "The expected evidence is common to all the standards in this Part:",
-              },
-            },
-            { tip: "ortakKanitlar" },
           ],
         },
       ],
