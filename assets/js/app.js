@@ -196,13 +196,15 @@
     tabs.forEach(function (tab, i) {
       var prog = V.tabProgress(tab, S);
       var exempt = V.isTabExempt(tab, S);
+      var carried = V.isTabCarriedOver(tab, S);
       var complete = !exempt && prog.total > 0 && prog.done === prog.total;
 
       var btn = el("button", {
         type: "button",
         role: "tab",
         id: "tab_" + tab.id,
-        class: "tab" + (complete ? " tab--complete" : "") + (exempt ? " tab--exempt" : ""),
+        class: "tab" + (complete ? " tab--complete" : "") + (exempt ? " tab--exempt" : "")
+          + (carried ? " tab--carried" : ""),
         "aria-selected": i === state.tab ? "true" : "false",
         "aria-controls": "panel_" + tab.id,
         tabindex: i === state.tab ? "0" : "-1",
@@ -218,7 +220,9 @@
         el("span", { class: "tab__label-main", text: pick(tab.label) }),
         el("span", {
           class: "tab__label-sub",
-          text: exempt ? t("exempt.badge") : tab.sublabel ? pick(tab.sublabel) : "",
+          text: exempt ? t("exempt.badge")
+            : carried ? t("carried.badge")
+            : tab.sublabel ? pick(tab.sublabel) : "",
         }),
       ]);
       btn.appendChild(labelBox);
@@ -423,6 +427,19 @@
       );
     }
 
+    /* Devir uyarısı — kapsam genişletmede önceki başvurudan gelen bölümler */
+    if (V.isTabCarriedOver(tab, S)) {
+      view.appendChild(
+        el("div", { class: "alert alert--info", style: "margin-bottom:var(--space-8)" }, [
+          icon("info", "alert__icon"),
+          el("div", {}, [
+            el("div", { class: "alert__title", text: t("carried.title") }),
+            el("div", { text: t("carried.body") }),
+          ]),
+        ])
+      );
+    }
+
     /* Alanlar */
     if (step.fields.some(function (f) { return f.type === "review"; })) {
       view.appendChild(renderReview());
@@ -479,6 +496,7 @@
     }
     tabs.forEach(function (tab) {
       note(tab.exemptIf);
+      note(tab.carriedOverIf);
       tab.steps.forEach(function (step) {
         note(step.showIf);
         step.fields.forEach(function (f) {

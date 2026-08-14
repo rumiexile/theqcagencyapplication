@@ -210,6 +210,10 @@ window.I18N = (function () {
       "confirm.cancel": "Vazgeç",
       "confirm.confirm": "Evet, sıfırla",
 
+      "carried.badge": "Devralındı",
+      "carried.title": "Bu bölüm önceki başvurunuzdan devralınır",
+      "carried.body":
+        "Kapsam genişletme başvurusunda bu bölümü yeniden doldurmanız gerekmez; bilgiler yürürlükteki başvurunuzdan gelir. Değişen bir husus varsa güncelleyiniz. Önceki başvurunuz yüklü değilse üst çubuktaki İçe aktar ile ekleyiniz.",
       "exempt.badge": "Muaf",
       "exempt.title": "Bu bölüm muaf tutulmuştur",
       "exempt.body":
@@ -424,6 +428,10 @@ window.I18N = (function () {
       "confirm.cancel": "Cancel",
       "confirm.confirm": "Yes, reset",
 
+      "carried.badge": "Carried over",
+      "carried.title": "This section is carried over from your previous application",
+      "carried.body":
+        "In a scope extension application you do not need to complete this section again; the information comes from your application in force. Update it if anything has changed. If your previous application is not loaded, add it using Import in the top bar.",
       "exempt.badge": "Exempt",
       "exempt.title": "This section is exempted",
       "exempt.body":

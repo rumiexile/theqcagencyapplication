@@ -3855,6 +3855,24 @@ legend {
   background: var(--color-accent);
 }
 
+/* --------------------------------------------------------------------------
+   Devralınan bölüm — kapsam genişletmede önceki başvurudan gelenler
+
+   Muafiyetten farklı işaretlenir: muaf bölümün başlığı üstü çizili ve
+   numarası "—" olur, çünkü hiç istenmez. Devralınan bölüm istenir, sadece
+   yeniden yazılmaz; bu yüzden başlık okunur kalır, yalnızca alt etiket
+   bilgi rengine döner.
+   -------------------------------------------------------------------------- */
+.tab--carried .tab__index {
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
+}
+
+.tab--carried .tab__label-sub {
+  color: var(--color-info-text);
+  font-weight: var(--weight-semibold);
+}
+
 </style>
 
     <link
@@ -4141,6 +4159,10 @@ window.I18N = (function () {
       "confirm.cancel": "Vazgeç",
       "confirm.confirm": "Evet, sıfırla",
 
+      "carried.badge": "Devralındı",
+      "carried.title": "Bu bölüm önceki başvurunuzdan devralınır",
+      "carried.body":
+        "Kapsam genişletme başvurusunda bu bölümü yeniden doldurmanız gerekmez; bilgiler yürürlükteki başvurunuzdan gelir. Değişen bir husus varsa güncelleyiniz. Önceki başvurunuz yüklü değilse üst çubuktaki İçe aktar ile ekleyiniz.",
       "exempt.badge": "Muaf",
       "exempt.title": "Bu bölüm muaf tutulmuştur",
       "exempt.body":
@@ -4355,6 +4377,10 @@ window.I18N = (function () {
       "confirm.cancel": "Cancel",
       "confirm.confirm": "Yes, reset",
 
+      "carried.badge": "Carried over",
+      "carried.title": "This section is carried over from your previous application",
+      "carried.body":
+        "In a scope extension application you do not need to complete this section again; the information comes from your application in force. Update it if anything has changed. If your previous application is not loaded, add it using Import in the top bar.",
       "exempt.badge": "Exempt",
       "exempt.title": "This section is exempted",
       "exempt.body":
@@ -7216,13 +7242,30 @@ window.Validate = (function () {
    * EQAR kayıtlı bir ajans tarafından yapılmış dış değerlendirme raporu
    * sunulduğunda ESG 3 ve ESG 2 bölümleri zorunlu olmaktan çıkar.
    */
-  function isTabExempt(tab, store) {
-    if (!tab.exemptIf) return false;
-    var c = tab.exemptIf;
+  function kosulTutar(c, store) {
+    if (!c) return false;
     var v = store.get(c.field);
     if (c.equals !== undefined) return v === c.equals;
     if (c.in !== undefined) return c.in.indexOf(v) !== -1;
     return false;
+  }
+
+  function isTabExempt(tab, store) {
+    return kosulTutar(tab.exemptIf, store);
+  }
+
+  /**
+   * Devralınan bölüm — muafiyetten farklıdır.
+   *
+   * Muaf bölüm hiç istenmez ve tamamlanma toplamına girmez. Devralınan
+   * bölüm ise istenir: başvurunun eksiksiz olması için verinin bulunması
+   * gerekir. Fark, verinin bu başvuruda yeniden yazılmıyor olmasıdır —
+   * önceki başvurudan gelir. Bu yüzden toplamdan düşülmez, yalnızca
+   * kullanıcıya nereyi doldurması gerektiği söylenir.
+   */
+  function isTabCarriedOver(tab, store) {
+    if (isTabExempt(tab, store)) return false; // muafiyet önce gelir
+    return kosulTutar(tab.carriedOverIf, store);
   }
 
   function isEmpty(v) {
@@ -7458,6 +7501,7 @@ window.Validate = (function () {
   return {
     isVisible: isVisible,
     isTabExempt: isTabExempt,
+    isTabCarriedOver: isTabCarriedOver,
     isEmpty: isEmpty,
     field: validateField,
     step: validateStep,
@@ -7817,6 +7861,9 @@ window.SCHEMA = (function () {
     {
       id: "agency",
       label: { tr: "Ajans Bilgileri", en: "Agency Details" },
+      /* Kapsam genişletmede kuruluşun kimliği değişmez; önceki
+         başvurudan devralınır. */
+      carriedOverIf: { field: "applicationKind", equals: "kapsam" },
       steps: [
         {
           id: "identity",
@@ -8101,6 +8148,7 @@ window.SCHEMA = (function () {
     {
       id: "evidence",
       label: { tr: "Belgeler", en: "Documents" },
+      carriedOverIf: { field: "applicationKind", equals: "kapsam" },
       steps: [
         {
           id: "evidence-library",
@@ -8135,6 +8183,7 @@ window.SCHEMA = (function () {
       /* EQAR kayıtlı ajans tarafından yapılmış geçerli bir dış değerlendirme
          raporu sunulduysa bu bölüm muaf tutulur. */
       exemptIf: { field: "priorReview.has", equals: "evet" },
+      carriedOverIf: { field: "applicationKind", equals: "kapsam" },
       steps: esg.part3.map(function (s) {
         return esgStep(s, PART3_LABEL);
       }),
@@ -8147,6 +8196,7 @@ window.SCHEMA = (function () {
       sublabel: { tr: "Dış Kalite Güvencesi", en: "External Quality Assurance" },
       intro: PART2_LABEL,
       exemptIf: { field: "priorReview.has", equals: "evet" },
+      carriedOverIf: { field: "applicationKind", equals: "kapsam" },
       steps: esg.part2.map(function (s) {
         return esgStep(s, PART2_LABEL);
       }),
@@ -10721,13 +10771,15 @@ window.Fields = (function () {
     tabs.forEach(function (tab, i) {
       var prog = V.tabProgress(tab, S);
       var exempt = V.isTabExempt(tab, S);
+      var carried = V.isTabCarriedOver(tab, S);
       var complete = !exempt && prog.total > 0 && prog.done === prog.total;
 
       var btn = el("button", {
         type: "button",
         role: "tab",
         id: "tab_" + tab.id,
-        class: "tab" + (complete ? " tab--complete" : "") + (exempt ? " tab--exempt" : ""),
+        class: "tab" + (complete ? " tab--complete" : "") + (exempt ? " tab--exempt" : "")
+          + (carried ? " tab--carried" : ""),
         "aria-selected": i === state.tab ? "true" : "false",
         "aria-controls": "panel_" + tab.id,
         tabindex: i === state.tab ? "0" : "-1",
@@ -10743,7 +10795,9 @@ window.Fields = (function () {
         el("span", { class: "tab__label-main", text: pick(tab.label) }),
         el("span", {
           class: "tab__label-sub",
-          text: exempt ? t("exempt.badge") : tab.sublabel ? pick(tab.sublabel) : "",
+          text: exempt ? t("exempt.badge")
+            : carried ? t("carried.badge")
+            : tab.sublabel ? pick(tab.sublabel) : "",
         }),
       ]);
       btn.appendChild(labelBox);
@@ -10948,6 +11002,19 @@ window.Fields = (function () {
       );
     }
 
+    /* Devir uyarısı — kapsam genişletmede önceki başvurudan gelen bölümler */
+    if (V.isTabCarriedOver(tab, S)) {
+      view.appendChild(
+        el("div", { class: "alert alert--info", style: "margin-bottom:var(--space-8)" }, [
+          icon("info", "alert__icon"),
+          el("div", {}, [
+            el("div", { class: "alert__title", text: t("carried.title") }),
+            el("div", { text: t("carried.body") }),
+          ]),
+        ])
+      );
+    }
+
     /* Alanlar */
     if (step.fields.some(function (f) { return f.type === "review"; })) {
       view.appendChild(renderReview());
@@ -11004,6 +11071,7 @@ window.Fields = (function () {
     }
     tabs.forEach(function (tab) {
       note(tab.exemptIf);
+      note(tab.carriedOverIf);
       tab.steps.forEach(function (step) {
         note(step.showIf);
         step.fields.forEach(function (f) {

@@ -45,13 +45,30 @@ window.Validate = (function () {
    * EQAR kayıtlı bir ajans tarafından yapılmış dış değerlendirme raporu
    * sunulduğunda ESG 3 ve ESG 2 bölümleri zorunlu olmaktan çıkar.
    */
-  function isTabExempt(tab, store) {
-    if (!tab.exemptIf) return false;
-    var c = tab.exemptIf;
+  function kosulTutar(c, store) {
+    if (!c) return false;
     var v = store.get(c.field);
     if (c.equals !== undefined) return v === c.equals;
     if (c.in !== undefined) return c.in.indexOf(v) !== -1;
     return false;
+  }
+
+  function isTabExempt(tab, store) {
+    return kosulTutar(tab.exemptIf, store);
+  }
+
+  /**
+   * Devralınan bölüm — muafiyetten farklıdır.
+   *
+   * Muaf bölüm hiç istenmez ve tamamlanma toplamına girmez. Devralınan
+   * bölüm ise istenir: başvurunun eksiksiz olması için verinin bulunması
+   * gerekir. Fark, verinin bu başvuruda yeniden yazılmıyor olmasıdır —
+   * önceki başvurudan gelir. Bu yüzden toplamdan düşülmez, yalnızca
+   * kullanıcıya nereyi doldurması gerektiği söylenir.
+   */
+  function isTabCarriedOver(tab, store) {
+    if (isTabExempt(tab, store)) return false; // muafiyet önce gelir
+    return kosulTutar(tab.carriedOverIf, store);
   }
 
   function isEmpty(v) {
@@ -287,6 +304,7 @@ window.Validate = (function () {
   return {
     isVisible: isVisible,
     isTabExempt: isTabExempt,
+    isTabCarriedOver: isTabCarriedOver,
     isEmpty: isEmpty,
     field: validateField,
     step: validateStep,

@@ -1112,3 +1112,21 @@
   border-radius: 50%;
   background: var(--color-accent);
 }
+
+/* --------------------------------------------------------------------------
+   Devralınan bölüm — kapsam genişletmede önceki başvurudan gelenler
+
+   Muafiyetten farklı işaretlenir: muaf bölümün başlığı üstü çizili ve
+   numarası "—" olur, çünkü hiç istenmez. Devralınan bölüm istenir, sadece
+   yeniden yazılmaz; bu yüzden başlık okunur kalır, yalnızca alt etiket
+   bilgi rengine döner.
+   -------------------------------------------------------------------------- */
+.tab--carried .tab__index {
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
+}
+
+.tab--carried .tab__label-sub {
+  color: var(--color-info-text);
+  font-weight: var(--weight-semibold);
+}

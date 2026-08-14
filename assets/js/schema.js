@@ -344,6 +344,9 @@ window.SCHEMA = (function () {
     {
       id: "agency",
       label: { tr: "Ajans Bilgileri", en: "Agency Details" },
+      /* Kapsam genişletmede kuruluşun kimliği değişmez; önceki
+         başvurudan devralınır. */
+      carriedOverIf: { field: "applicationKind", equals: "kapsam" },
       steps: [
         {
           id: "identity",
@@ -628,6 +631,7 @@ window.SCHEMA = (function () {
     {
       id: "evidence",
       label: { tr: "Belgeler", en: "Documents" },
+      carriedOverIf: { field: "applicationKind", equals: "kapsam" },
       steps: [
         {
           id: "evidence-library",
@@ -662,6 +666,7 @@ window.SCHEMA = (function () {
       /* EQAR kayıtlı ajans tarafından yapılmış geçerli bir dış değerlendirme
          raporu sunulduysa bu bölüm muaf tutulur. */
       exemptIf: { field: "priorReview.has", equals: "evet" },
+      carriedOverIf: { field: "applicationKind", equals: "kapsam" },
       steps: esg.part3.map(function (s) {
         return esgStep(s, PART3_LABEL);
       }),
@@ -674,6 +679,7 @@ window.SCHEMA = (function () {
       sublabel: { tr: "Dış Kalite Güvencesi", en: "External Quality Assurance" },
       intro: PART2_LABEL,
       exemptIf: { field: "priorReview.has", equals: "evet" },
+      carriedOverIf: { field: "applicationKind", equals: "kapsam" },
       steps: esg.part2.map(function (s) {
         return esgStep(s, PART2_LABEL);
       }),

@@ -370,12 +370,12 @@ window.KILAVUZ = {
                     {
                       tr: [
                         "Kapsam genişletme",
-                        "Belge kapsamına yeni program veya öğretim düzeyi eklenmesi.",
+                        "Yürürlükteki belgenin süresi içinde, kapsama yeni program veya öğretim düzeyi eklenmesi. Yalnızca kapsam beyanı ve eklenen programlara ilişkin destekleyici bölümler doldurulur.",
                         "Yürürlükteki belgenin kapsamı ve o kapsamdaki izleme bulguları.",
                       ],
                       en: [
                         "Scope extension",
-                        "Addition of new programmes or levels of study to the scope of the certificate.",
+                        "Addition of new programmes or levels of study to the scope, within the period of the certificate in force. Only the scope declaration and the supporting sections relating to the programmes being added are completed.",
                         "The scope of the certificate in force and the monitoring findings within that scope.",
                       ],
                     },
@@ -393,6 +393,22 @@ window.KILAVUZ = {
                   metin: {
                     tr: "Yenileme başvurusunun Kurul karar tarihi, mevcut belgenin bitiş tarihinden önce ise kararda belirtilen süre, bitiş tarihinden itibaren başlar. Kapsam genişletme kararı, yürürlükteki belgenin süresini değiştirmez.",
                     en: "Where the date of the Council's decision on a renewal application precedes the expiry of the existing certificate, the period stated in the decision begins on the date of that expiry. A scope extension decision does not alter the period of the certificate in force.",
+                  },
+                },
+                {
+                  tip: "p",
+                  metin: {
+                    tr: "Kapsam genişletme başvurusu, yürürlükteki belgenin süresi içinde yapılır ve yalnızca kapsama eklenmek istenen yeni program ve öğretim düzeylerine ilişkindir. Bu başvuruda kuruluş, yalnızca kapsam beyanını ve eklenen programlara ilişkin destekleyici bölümleri doldurur; kuruluşun kimliği, yasal statüsü, yönetişimi ile ESG'nin üçüncü ve ikinci bölümlerine ilişkin bilgiler yürürlükteki başvurudan devralınır.",
+                    en: "A scope extension application is made within the period of the certificate in force and concerns only the new programmes and levels of study to be added to the scope. In such an application the organisation completes only the scope declaration and the supporting sections relating to the programmes being added; the identity, legal status and governance of the organisation and the information relating to Parts 3 and 2 of the ESG are carried over from the application in force.",
+                  },
+                },
+                {
+                  tip: "not",
+                  tur: "bilgi",
+                  baslik: { tr: "Devralınan bölümler", en: "Carried-over sections" },
+                  metin: {
+                    tr: "Devralınan bölümler başvurudan düşmez; başvurunun eksiksiz sayılması için bu bilgilerin bulunması gerekir. Devir, bilgilerin bu başvuruda yeniden yazılmadığı anlamına gelir. Devralınan bir bölümde değişiklik olmuşsa kuruluş bunu günceller; güncellenen husus, değerlendirmede dikkate alınır.",
+                    en: "Carried-over sections are not removed from the application; the information must be present for the application to be considered complete. Carrying over means that the information is not written afresh in this application. Where something has changed in a carried-over section, the organisation updates it; the updated matter is taken into account in the evaluation.",
                   },
                 },
               ],
