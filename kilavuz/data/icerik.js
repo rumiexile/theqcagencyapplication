@@ -1293,6 +1293,30 @@ window.KILAVUZ = {
             },
           ],
         },
+        {
+          id: "k10",
+          no: "10",
+          baslik: {
+            tr: "Program Akreditasyonunda Kullanılacak Ölçütler",
+            en: "Criteria to be Used in Programme Accreditation",
+          },
+          bloklar: [
+            {
+              tip: "p",
+              metin: {
+                tr: "Kuruluşlar, program akreditasyonunda kullanacakları genel ve özel ölçütleri başvuru sırasında Kurula bildirmek zorundadır.",
+                en: "Organisations are obliged to notify the Council, at the time of application, of the general and specific criteria they will use in programme accreditation.",
+              },
+            },
+            {
+              tip: "p",
+              metin: {
+                tr: "Kullanılacak genel ölçütlerin, YÖKAK tarafından yayımlanan Ulusal Program Akreditasyonu Ölçütleri (ESG 1) ile başlık düzeyinde ilişkisinin başvuru sisteminde tanımlanması zorunludur.",
+                en: "The relationship, at heading level, between the general criteria to be used and the National Programme Accreditation Criteria (ESG 1) published by YÖKAK must be defined in the application system.",
+              },
+            },
+          ],
+        },
       ],
     },
 
@@ -1304,8 +1328,8 @@ window.KILAVUZ = {
       baslik: { tr: "Mali Hükümler", en: "Financial Provisions" },
       kisimlar: [
         {
-          id: "k10",
-          no: "10",
+          id: "k11",
+          no: "11",
           baslik: { tr: "Akreditasyon Ücret Tarifesi", en: "Accreditation Fee Tariff" },
           kaynak: "M12",
           bloklar: [{ tip: "mali", kaynak: "m12" }],
