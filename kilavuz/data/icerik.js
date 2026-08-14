@@ -1311,8 +1311,8 @@ window.KILAVUZ = {
             {
               tip: "p",
               metin: {
-                tr: "Kullanılacak genel ölçütlerin, YÖKAK tarafından yayımlanan Ulusal Program Akreditasyonu Ölçütleri (ESG 1) ile başlık düzeyinde ilişkisinin başvuru sisteminde tanımlanması zorunludur.",
-                en: "The relationship, at heading level, between the general criteria to be used and the National Programme Accreditation Criteria (ESG 1) published by YÖKAK must be defined in the application system.",
+                tr: "Kullanılacak genel ölçütlerin, Avrupa Yükseköğretim Alanında Kalite Güvencesi İlke ve Standartları Bölüm 1 (ESG 1) ile başlık düzeyinde ilişkisinin başvuru sisteminde tanımlanması zorunludur.",
+                en: "The relationship, at heading level, between the general criteria to be used and Part 1 of the Standards and Guidelines for Quality Assurance in the European Higher Education Area (ESG 1) must be defined in the application system.",
               },
             },
           ],
@@ -1474,32 +1474,31 @@ window.KILAVUZ = {
       kisimlar: [
         {
           id: "ek7-1",
-          kaynak: "YÖKAK Program Akreditasyonu Ölçütleri · Değerlendirme Ölçütleri",
+          kaynak: "ESG Bölüm 1 · Kurumsal iç kalite güvencesi standartları",
           bloklar: [
             {
               tip: "p",
               metin: {
-                tr: "Bu ek, YÖKAK'ın Ulusal Program Akreditasyonu Ölçütleri olarak kabul ettiği ölçüt setini içerir. Set, ESG'nin birinci bölümündeki dokuz standartla birebir örtüşen dokuz ana ölçütten ve bunlara bağlı elli yedi alt ölçütten oluşur. Her alt ölçüt için göstergeler ile beklenen kanıt örnekleri verilir; ayrıca alt ölçütün YÖKAK Kurumsal Akreditasyon rubriğindeki karşılıkları gösterilir.",
-                en: "This Annex sets out the body of criteria that YÖKAK has adopted as the National Programme Accreditation Criteria. The set consists of nine main criteria, corresponding one-to-one with the nine standards of Part 1 of the ESG, and fifty-seven sub-criteria under them. For each sub-criterion, indicators and examples of expected evidence are given, together with the corresponding references in the YÖKAK institutional accreditation rubric.",
+                tr: "YÖKAK, ulusal program akreditasyonu ölçütü olarak ESG'nin birinci bölümünü kabul etmiştir. Bu ek, söz konusu dokuz standardı EK 1 ile aynı düzende verir; her standart için ölçüt metni ile o standardın YÖKAK ana ölçütlerindeki karşılığı gösterilir.",
+                en: "YÖKAK has adopted Part 1 of the ESG as the national programme accreditation criteria. This Annex sets out those nine standards in the same layout as ANNEX 1; for each standard the text of the criterion is given, together with its counterpart among the YÖKAK main criteria.",
               },
             },
             {
               tip: "p",
               metin: {
-                tr: "Kuruluşlar, 10. kısım uyarınca kullanacakları genel ölçütlerin bu setle başlık düzeyindeki ilişkisini başvuru sisteminde tanımlar.",
-                en: "Pursuant to section 10, Organisations define in the application system the relationship, at heading level, between the general criteria they will use and this set.",
-              },
-            },
-            {
-              tip: "not",
-              tur: "bilgi",
-              baslik: { tr: "Ölçüt metinlerinin dili", en: "Language of the criteria" },
-              metin: {
-                tr: "Ana ölçüt başlıkları iki dilde verilmiştir. Alt ölçüt metinleri, göstergeler ve kanıt örnekleri, yayımlandıkları hâliyle Türkçe olarak yer alır; İngilizce görünümde de değişmez.",
-                en: "The main criterion headings are given in both languages. The sub-criterion texts, indicators and examples of evidence appear in Turkish as published, and are unchanged in the English view.",
+                tr: "Kuruluşlar, 10. kısım uyarınca kullanacakları genel ölçütlerin bu bölümle başlık düzeyindeki ilişkisini başvuru sisteminde tanımlar. Ölçütlerin ESG'nin birinci bölümünü bütüncül biçimde nasıl karşıladığı ise ESG 2.1 kapsamında ayrıca açıklanır.",
+                en: "Pursuant to section 10, Organisations define in the application system the relationship, at heading level, between the general criteria they will use and this Part. How the criteria cover Part 1 of the ESG holistically is explained separately under ESG 2.1.",
               },
             },
             { tip: "olcutler7" },
+            {
+              tip: "p",
+              metin: {
+                tr: "Bu bölümdeki standartların tamamı için beklenen kanıtlar ortaktır:",
+                en: "The expected evidence is common to all the standards in this Part:",
+              },
+            },
+            { tip: "ortakKanitlar" },
           ],
         },
       ],

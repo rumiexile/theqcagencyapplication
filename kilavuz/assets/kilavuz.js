@@ -33,8 +33,7 @@
       olcut: "Ölçüt",
       aciklama: "Açıklama",
       kanitlar: "Beklenen kanıtlar",
-      gostergeler: "Göstergeler",
-      rubrik: "YÖKAK rubrik ilişkisi",
+      yokakKarsiligi: "YÖKAK ana ölçüt karşılığı",
       bekliyor: "Kaynak bekleniyor",
       bekliyorMetin:
         "Bu kısmın normatif metni henüz kaynağından alınmamıştır. Taslak iskelettir; mevzuat hükmü olarak kullanılamaz.",
@@ -60,8 +59,7 @@
       olcut: "Criterion",
       aciklama: "Explanation",
       kanitlar: "Expected evidence",
-      gostergeler: "Indicators",
-      rubrik: "YÖKAK rubric mapping",
+      yokakKarsiligi: "Corresponding YÖKAK main criterion",
       bekliyor: "Awaiting source",
       bekliyorMetin:
         "The normative text of this section has not yet been taken from its source. It is a draft skeleton and cannot be used as a regulatory provision.",
@@ -152,6 +150,7 @@
     if (b.tip === "beyanlar") return beyanBlok();
     if (b.tip === "olcutler") return olcutBlok();
     if (b.tip === "olcutler7") return olcut7Blok();
+    if (b.tip === "ortakKanitlar") return ortakKanitBlok();
     if (b.tip === "surec") return surecBlok();
     return null;
   }
@@ -207,49 +206,38 @@
     }));
   }
 
-  /* EK 7 — YÖKAK program akreditasyonu ölçütleri, ana ölçüt altında gruplu.
-     Kart düzeni EK 1 ile aynıdır; ölçüt metni Türkçe yayımlandığı hâliyle
-     verilir, bu yüzden dile göre değişmez. */
+  /* EK 7 — ESG Bölüm 1 standartları, EK 1 ile aynı kart düzeninde.
+     Bölüm 1 verisinde ayrı bir açıklama alanı yoktur; beklenen kanıtlar
+     bölümün tamamı için ortak olduğundan ekte bir kez verilir. */
   function olcut7Blok() {
-    return el("div", {}, (EK7.gruplar || []).map(function (g) {
-      return el("section", { class: "kv-ek7", id: "yolcut-" + g.kod }, [
-        el("h4", { class: "kv-ek7__baslik" }, [
-          el("span", { class: "kv-ek7__kod", text: g.kod }),
-          el("span", { text: p(g.ad) }),
-          el("span", { class: "kv-ek7__esg", text: "ESG " + g.esg1 }),
+    return el("div", {}, (EK7.olcutler || []).map(function (o) {
+      return el("div", { class: "kv-olcut", id: "esg1-" + o.kod.replace(".", "-") }, [
+        el("div", { class: "kv-olcut__ust" }, [
+          el("span", { class: "kv-olcut__sira", text: o.sira + "." }),
+          el("span", { class: "kv-olcut__kod", text: "ESG " + o.kod }),
+          el("span", { class: "kv-olcut__ad", text: p(o.baslik) }),
         ]),
-      ].concat((g.altlar || []).map(function (a) {
-        return el("div", { class: "kv-olcut", id: "yolcut-" + a.kod.replace(".", "-") }, [
-          el("div", { class: "kv-olcut__ust" }, [
-            el("span", { class: "kv-olcut__sira", text: a.kod }),
-            el("span", { class: "kv-olcut__ad", text: a.metin }),
+        el("div", { class: "kv-olcut__govde" }, [
+          el("div", { class: "kv-olcut__blok" }, [
+            el("h5", { text: t("olcut") }),
+            el("p", { class: "kv-olcut__metin", text: p(o.olcut) }),
           ]),
-          el("div", { class: "kv-olcut__govde" }, [
-            (a.gostergeler || []).length
-              ? el("div", { class: "kv-olcut__blok" }, [
-                  el("h5", { text: t("gostergeler") }),
-                  el("ul", {}, a.gostergeler.map(function (x) {
-                    return el("li", { text: x });
-                  })),
-                ])
-              : null,
-            (a.kanitlar || []).length
-              ? el("div", { class: "kv-olcut__blok" }, [
-                  el("h5", { text: t("kanitlar") }),
-                  el("ul", {}, a.kanitlar.map(function (x) {
-                    return el("li", { text: x });
-                  })),
-                ])
-              : null,
-            (a.rubrik || []).length
-              ? el("div", { class: "kv-olcut__blok" }, [
-                  el("h5", { text: t("rubrik") }),
-                  el("p", { class: "kv-ek7__rubrik", text: a.rubrik.join(" · ") }),
-                ])
-              : null,
-          ]),
-        ]);
-      })));
+          o.yokak
+            ? el("div", { class: "kv-olcut__blok" }, [
+                el("h5", { text: t("yokakKarsiligi") }),
+                el("p", { class: "kv-ek7__rubrik",
+                          text: o.yokak.kod + " · " + p(o.yokak.ad) }),
+              ])
+            : null,
+        ]),
+      ]);
+    }));
+  }
+
+  /* EK 7 — bölümün tamamı için ortak kanıt listesi. */
+  function ortakKanitBlok() {
+    return el("ul", { class: "kv-liste" }, (EK7.ortakKanitlar || []).map(function (k) {
+      return el("li", { text: p(k) });
     }));
   }
 
