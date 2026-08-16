@@ -1338,8 +1338,8 @@ window.KILAVUZ = {
             {
               tip: "p",
               metin: {
-                tr: "Akredite programlara ilişkin bilgilerin toplanması, Komisyonca incelenmesi ve Kurul onayının ardından Yükseköğretim Kuruluna iletilmesi aşağıdaki esaslara göre yürütülür. Bu kısım, 9.1'de aranan iki yıllık asgari geçerlilik süresinin ve 3.1'in (c) bendinde Komisyona verilen görevin uygulama zeminidir.",
-                en: "The collection of information on accredited programmes, its examination by the Commission and, following approval by the Council, its transmission to the Council of Higher Education are carried out in accordance with the following principles. This section provides the operational basis for the two-year minimum validity period required under 9.1 and for the duty conferred on the Commission by point (c) of 3.1.",
+                tr: "Akredite programlara ilişkin bilgilerin toplanması, Komisyonca incelenmesi ve Kurul onayının ardından Yükseköğretim Kuruluna iletilmesi aşağıdaki esaslara göre yürütülür.",
+                en: "The collection of information on accredited programmes, its examination by the Commission and, following approval by the Council, its transmission to the Council of Higher Education are carried out in accordance with the following principles.",
               },
             },
             {
