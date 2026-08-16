@@ -163,7 +163,6 @@
   /* Ekran içi çapa bağlantıları adres basmasın */
   .kv-govde a[href^="#"]::after { content: none; }
 
-  .kv-kaynak { font-size: 8pt; }
 
   /* Sayfa altı künyesi — her sayfada */
   .kv-baski-alt {

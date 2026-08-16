@@ -36,7 +36,6 @@
       bekliyor: "Kaynak bekleniyor",
       bekliyorMetin:
         "Bu kısmın normatif metni henüz kaynağından alınmamıştır. Taslak iskelettir; mevzuat hükmü olarak kullanılamaz.",
-      kaynak: "Kaynak",
       sayfa: "Sayfa",
       dayanak:
         "Bu Kılavuz, Yükseköğretim Kalite Güvencesi ve Yükseköğretim Kalite Kurulu Yönetmeliği uyarınca hazırlanmıştır.",
@@ -61,7 +60,6 @@
       bekliyor: "Awaiting source",
       bekliyorMetin:
         "The normative text of this section has not yet been taken from its source. It is a draft skeleton and cannot be used as a regulatory provision.",
-      kaynak: "Source",
       sayfa: "Page",
       dayanak:
         "This Guide has been prepared pursuant to the Regulation on Higher Education Quality Assurance and the Higher Education Quality Council.",
@@ -142,6 +140,16 @@
         b.baslik ? el("div", { class: "kv-not__baslik", text: p(b.baslik) }) : null,
         el("p", { text: p(b.metin) }),
       ]);
+    }
+
+    /* Mevzuat fıkraları — (1) (2) … numaralı bentler. */
+    if (b.tip === "fikralar") {
+      return el("div", {}, (b.ogeler || []).map(function (o, i) {
+        return el("div", { class: "kv-asama__oge" }, [
+          el("span", { class: "kv-asama__sure", text: "(" + (i + 1) + ")" }),
+          el("div", {}, [el("p", { text: p(o) })]),
+        ]);
+      }));
     }
 
     if (b.tip === "mali") return maliBlok();
@@ -269,9 +277,6 @@
 
     (k.altKisimlar || []).forEach(function (a) { kok.appendChild(kisimCiz(a, true)); });
 
-    if (k.kaynak) {
-      kok.appendChild(el("div", { class: "kv-kaynak", text: t("kaynak") + ": " + k.kaynak }));
-    }
     return kok;
   }
 

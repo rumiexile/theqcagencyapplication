@@ -6,8 +6,8 @@
    Tüm metin {tr, en} çiftidir; dil değişimi belgeyi yeniden çizmez,
    yalnızca metni değiştirir.
 
-   Her kısım `kaynak` alanı taşır: metnin nereden geldiği. Kaynağı henüz
-   olmayan kısımlar `kaynakBekliyor: true` taşır ve ekranda da baskıda da
+   Normatif metni henüz kaynağından alınmamış kısımlar `kaynakBekliyor: true`
+   taşır ve ekranda da baskıda da
    açıkça işaretlenir — taslak, mevzuat sanılmasın.
 
    KAYNAKLAR
@@ -46,8 +46,8 @@ window.KILAVUZ = {
       surum: "3.0",
       tarih: { tr: "2026", en: "2026" },
       degisiklik: {
-        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı; Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmek yerine başvuru formundan üretilir hâle geldi. Başvuru türleri ayrı ayrı düzenlendi; yenileme başvurusunun üç ay önce tamamlanması, süresinde başvurmayan kuruluşlar için altı aylık başvuru yasağı ve yenileme kararının yürürlük tarihi açıkça belirlendi. İki yıl süreli tescil kararı ilk yetkilendirme başvurusu ile sınırlandırıldı; Kalite Değerlendirme Tanınma Belgesinin beş yıl süreyle verileceği belirtildi. Kapsam genişletme başvurusunun yapılabileceği zaman aralığı tanımlandı. İtiraz ve şikâyetlerin YÖKAK İtiraz ve Şikâyet Yönergesi kapsamında ele alınacağı eklendi. Sürüm 2.1'de “Tanıma Belgesi” olarak geçen belge, mali hükümlerdeki adlandırmayla birleştirilerek “Kalite Değerlendirme Tanınma Belgesi” olarak tanımlandı. Tanımlar bölümü genişletildi: Akreditasyon Ücret Tarifesi, Kapsam Genişletme, Kapsam genişletme başvurusu, Kayıtlı Elektronik Posta, Ölçütler, Program, Program Akreditasyonu, Raportör, Taslak Başvuru Değerlendirme Raporu ve Tescil/Tanınma Bedeli terimleri eklendi. “İtiraz Değerlendirme Komisyonu”, şikâyetleri de kapsayacak biçimde “İtiraz ve Şikâyet Komisyonu” olarak yeniden tanımlandı. Faaliyet Raporu, İzleme Raporu ve İzleme Yetkilisi tanımları Kalite Değerlendirme Tescil Belgesi sahibi kuruluşlarla sınırlandırıldı. Mevzuata uygunluk, görev bağdaşmazlığı, etik kurallar ve faaliyet raporuna ilişkin hükümleri içeren İdari Esaslar bölümü eklendi. Kuruluşların program akreditasyonunda verecekleri kararları, bu kararların sürelerini, ara değerlendirmeyi ve belgenin iptali hâlinde akreditasyonların durumunu düzenleyen Program Akreditasyonu bölümü eklendi. Mali Hükümler bölümü bunlara bağlı olarak V numarasını aldı. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
-        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS; the Self-Evaluation Report is produced from the application form instead of being drawn up as a separate document. The types of application were set out separately; the requirement to complete a renewal application three months in advance, the six-month bar on organisations that fail to apply in time, and the date from which a renewal decision takes effect were stated expressly. The two-year registration decision was confined to first applications for authorisation, and the Quality Evaluation Recognition Certificate was stated to be issued for five years. The window within which a scope extension application may be made was defined. It was added that appeals and complaints are dealt with under the YÖKAK Appeals and Complaints Directive. The certificate referred to in Version 2.1 as the “Recognition Certificate” was aligned with the naming used in the financial provisions and defined as the “Quality Evaluation Recognition Certificate”. The definitions were expanded with the Accreditation Fee Schedule, Scope Extension, Scope extension application, Registered Electronic Mail, Criteria, Programme, Programme Accreditation, Rapporteur, Draft Application Evaluation Report and Registration/Recognition Fee. The “Appeals Evaluation Commission” was redefined as the “Appeals and Complaints Commission” so as to cover complaints as well. The definitions of the Activity Report, the Monitoring Report and the Monitoring Officer were confined to organisations holding a Quality Evaluation Registration Certificate. A chapter on Administrative Principles was added, covering compliance with legislation, incompatibility of office, the code of ethics and the activity report. A chapter on Programme Accreditation was added, governing the decisions Organisations take in programme accreditation, the periods of those decisions, the intermediate evaluation and the status of accreditations where a certificate is cancelled. The chapter on Financial Provisions was renumbered as V accordingly. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
+        tr: "Değerlendirme ölçütleri ESG 2027 ile uyumlu olarak yeniden yazıldı. Başvurular MİS üzerinden alınmaya başlandı; Öz Değerlendirme Raporu ayrı bir belge olarak düzenlenmek yerine başvuru formundan üretilir hâle geldi. Başvuru türleri ayrı ayrı düzenlendi; yenileme başvurusunun üç ay önce tamamlanması, süresinde başvurmayan kuruluşlar için altı aylık başvuru yasağı ve yenileme kararının yürürlük tarihi açıkça belirlendi. İki yıl süreli tescil kararı ilk yetkilendirme başvurusu ile sınırlandırıldı; Kalite Değerlendirme Tanınma Belgesinin beş yıl süreyle verileceği belirtildi. Kapsam genişletme başvurusunun yapılabileceği zaman aralığı tanımlandı. İtiraz ve şikâyetlerin YÖKAK İtiraz ve Şikâyet Yönergesi kapsamında ele alınacağı eklendi. Sürüm 2.1'de “Tanıma Belgesi” olarak geçen belge, mali hükümlerdeki adlandırmayla birleştirilerek “Kalite Değerlendirme Tanınma Belgesi” olarak tanımlandı. Tanımlar bölümü genişletildi: Akreditasyon Ücret Tarifesi, Kapsam Genişletme, Kapsam genişletme başvurusu, Kayıtlı Elektronik Posta, Ölçütler, Program, Program Akreditasyonu, Raportör, Taslak Başvuru Değerlendirme Raporu ve Tescil/Tanınma Bedeli terimleri eklendi. “İtiraz Değerlendirme Komisyonu”, şikâyetleri de kapsayacak biçimde “İtiraz ve Şikâyet Komisyonu” olarak yeniden tanımlandı. Faaliyet Raporu, İzleme Raporu ve İzleme Yetkilisi tanımları Kalite Değerlendirme Tescil Belgesi sahibi kuruluşlarla sınırlandırıldı. Mevzuata uygunluk, görev bağdaşmazlığı, etik kurallar ve faaliyet raporuna ilişkin hükümleri içeren İdari Esaslar bölümü eklendi. Kuruluşların program akreditasyonunda verecekleri kararları, bu kararların sürelerini, ara değerlendirmeyi ve belgenin iptali hâlinde akreditasyonların durumunu düzenleyen Program Akreditasyonu bölümü eklendi. Akredite program bilgilerinin toplanmasını, Komisyonca incelenmesini ve Yükseköğretim Kuruluna iletilmesini düzenleyen Akredite Program Bilgileri bölümü eklendi. Tanımlara AKSİS ile Kılavuz terimleri girdi; MİS tanımı, sistemin YÖKAK Bilgi Yönetim Sistemi olarak da anıldığını belirtecek şekilde genişletildi. Mali Hükümler bölümü bunlara bağlı olarak VI numarasını aldı. Akreditasyon kapsamının ISCED-F 2013 ile beyanı, mali hükümler ve ölçüt değişikliği bildirim yükümlülüğü eklendi.",
+        en: "The evaluation criteria were rewritten in alignment with ESG 2027. Applications are now received through MİS; the Self-Evaluation Report is produced from the application form instead of being drawn up as a separate document. The types of application were set out separately; the requirement to complete a renewal application three months in advance, the six-month bar on organisations that fail to apply in time, and the date from which a renewal decision takes effect were stated expressly. The two-year registration decision was confined to first applications for authorisation, and the Quality Evaluation Recognition Certificate was stated to be issued for five years. The window within which a scope extension application may be made was defined. It was added that appeals and complaints are dealt with under the YÖKAK Appeals and Complaints Directive. The certificate referred to in Version 2.1 as the “Recognition Certificate” was aligned with the naming used in the financial provisions and defined as the “Quality Evaluation Recognition Certificate”. The definitions were expanded with the Accreditation Fee Schedule, Scope Extension, Scope extension application, Registered Electronic Mail, Criteria, Programme, Programme Accreditation, Rapporteur, Draft Application Evaluation Report and Registration/Recognition Fee. The “Appeals Evaluation Commission” was redefined as the “Appeals and Complaints Commission” so as to cover complaints as well. The definitions of the Activity Report, the Monitoring Report and the Monitoring Officer were confined to organisations holding a Quality Evaluation Registration Certificate. A chapter on Administrative Principles was added, covering compliance with legislation, incompatibility of office, the code of ethics and the activity report. A chapter on Programme Accreditation was added, governing the decisions Organisations take in programme accreditation, the periods of those decisions, the intermediate evaluation and the status of accreditations where a certificate is cancelled. A chapter on Information on Accredited Programmes was added, governing the collection of information on accredited programmes, its examination by the Commission and its transmission to the Council of Higher Education. The terms AKSİS and Guide were added to the definitions, and the definition of MİS was extended to note that the system is also referred to as the YÖKAK Information Management System. The chapter on Financial Provisions was renumbered as VI accordingly. Declaration of the accreditation scope using ISCED-F 2013, financial provisions and the obligation to notify changes of criteria were added.",
       },
     },
     {
@@ -69,7 +69,6 @@ window.KILAVUZ = {
       kisimlar: [
         {
           id: "onsoz-1",
-          kaynak: "K21 · Ön Söz",
           bloklar: [
             {
               tip: "p",
@@ -105,7 +104,6 @@ window.KILAVUZ = {
       kisimlar: [
         {
           id: "giris-1",
-          kaynak: "Y · md. 1–2 · K21 · Giriş",
           bloklar: [
             {
               tip: "p",
@@ -141,7 +139,6 @@ window.KILAVUZ = {
       kisimlar: [
         {
           id: "tanimlar-1",
-          kaynak: "K21 · Tanımlar (MİS ve ESG 2027 için güncellendi)",
           bloklar: [
             {
               tip: "p",
@@ -161,6 +158,16 @@ window.KILAVUZ = {
                   metin: {
                     tr: "Bağımsız dış değerlendirme ve akreditasyon kuruluşlarının, program akreditasyonunda bir program için uygulayacakları akreditasyon ücretini,",
                     en: "the accreditation fee that independent external evaluation and accreditation organisations charge for a single programme in programme accreditation,",
+                  },
+                },
+                {
+                  terim: {
+                    tr: "AKSİS",
+                    en: "AKSİS",
+                  },
+                  metin: {
+                    tr: "Kuruluşların akredite ettikleri programlara ilişkin bilgileri girdikleri, MİS içinde yer alan Akreditasyon Kuruluşları Sistemini,",
+                    en: "the Accreditation Organisations System within MİS, into which Organisations enter the information on the programmes they have accredited,",
                   },
                 },
                 {
@@ -280,6 +287,13 @@ window.KILAVUZ = {
                   },
                 },
                 {
+                  terim: { tr: "Kılavuz", en: "Guide" },
+                  metin: {
+                    tr: "Yükseköğretim Programları ve Kontenjanları Kılavuzunu (YKS),",
+                    en: "the Higher Education Programmes and Quotas Guide (YKS),",
+                  },
+                },
+                {
                   terim: { tr: "Komisyon", en: "Commission" },
                   metin: {
                     tr: "Dış Değerlendirme ve Akreditasyon Kuruluşlarının Tanınması ve Yetkilendirilmesi Komisyonunu,",
@@ -303,8 +317,8 @@ window.KILAVUZ = {
                 {
                   terim: { tr: "MİS", en: "MİS" },
                   metin: {
-                    tr: "Kuruluşların başvuru, değerlendirme ve izleme süreçlerinin yürütüldüğü çevrim içi sistemi,",
-                    en: "the online system through which the application, evaluation and monitoring processes of Organisations are carried out,",
+                    tr: "Kuruluşların başvuru, değerlendirme ve izleme süreçlerinin yürütüldüğü, YÖKAK Bilgi Yönetim Sistemi olarak da anılan çevrim içi sistemi,",
+                    en: "the online system, also referred to as the YÖKAK Information Management System, through which the application, evaluation and monitoring processes of Organisations are carried out,",
                   },
                 },
                 {
@@ -387,7 +401,6 @@ window.KILAVUZ = {
           id: "k1",
           no: "1",
           baslik: { tr: "Değerlendirme Ölçütleri", en: "Evaluation Criteria" },
-          kaynak: "K21 §1 · ESG 2027 uyarınca yeniden yazıldı",
           bloklar: [
             {
               tip: "p",
@@ -408,8 +421,8 @@ window.KILAVUZ = {
               tur: "bilgi",
               baslik: { tr: "ESG'nin birinci bölümü", en: "Part 1 of the ESG" },
               metin: {
-                tr: "ESG'nin birinci bölümü, kuruluşun yetkilendirilmesinin ölçütü değildir. Bu bölüm, kuruluşun akreditasyon faaliyetinde kullandığı kendi ölçütlerinin iç kalite güvencesi alanını ne ölçüde kapsadığının değerlendirilmesinde kullanılır ve başvuruda ayrıca ele alınır.",
-                en: "Part 1 of the ESG is not a criterion for the authorisation of the organisation. It is used to assess the extent to which the organisation's own criteria, applied in its accreditation activity, cover the field of internal quality assurance, and is addressed separately in the application.",
+                tr: "ESG'nin birinci bölümü, yetkilendirme metodolojisinde doğrudan ölçüt değildir. Bu bölüm ESG 2.1 gereği, kuruluşun akreditasyon faaliyetlerinde kullandığı kendi ölçütlerinin programın iç kalite güvencesi alanını ne ölçüde kapsadığının değerlendirilmesinde kullanılır ve başvuruda ayrıca ele alınır.",
+                en: "Part 1 of the ESG is not itself a criterion in the authorisation methodology. Pursuant to ESG 2.1, it is used to assess the extent to which the organisation's own criteria, applied in its accreditation activities, cover the field of internal quality assurance of the programme, and it is addressed separately in the application.",
               },
             },
           ],
@@ -418,7 +431,6 @@ window.KILAVUZ = {
           id: "k2",
           no: "2",
           baslik: { tr: "Başvuru Süreci", en: "Application Process" },
-          kaynak: "K21 §2 · MİS ve yapılandırılmış form için güncellendi",
           bloklar: [],
           altKisimlar: [
             {
@@ -665,7 +677,6 @@ window.KILAVUZ = {
           id: "k3",
           no: "3",
           baslik: { tr: "Değerlendirme Süreci", en: "Evaluation Process" },
-          kaynak: "K21 §3",
           bloklar: [],
           altKisimlar: [
             {
@@ -786,7 +797,6 @@ window.KILAVUZ = {
           id: "k4",
           no: "4",
           baslik: { tr: "Karar Süreci", en: "Decision Process" },
-          kaynak: "K21 §4",
           bloklar: [],
           altKisimlar: [
             {
@@ -935,7 +945,6 @@ window.KILAVUZ = {
           id: "k5",
           no: "5",
           baslik: { tr: "Genel Bilgiler", en: "General Information" },
-          kaynak: "K21 §5",
           bloklar: [
             {
               tip: "p",
@@ -971,7 +980,6 @@ window.KILAVUZ = {
           id: "k6",
           no: "6",
           baslik: { tr: "Faaliyet Raporu", en: "Activity Report" },
-          kaynak: "K21 §6",
           bloklar: [],
           altKisimlar: [
             {
@@ -1047,7 +1055,6 @@ window.KILAVUZ = {
           id: "k7",
           no: "7",
           baslik: { tr: "İzleme Sisteminin Bileşenleri", en: "Components of the Monitoring System" },
-          kaynak: "K21 §7",
           bloklar: [],
           altKisimlar: [
             {
@@ -1325,14 +1332,80 @@ window.KILAVUZ = {
       id: "bolum-5",
       tur: "bolum",
       no: "V",
-      baslik: { tr: "Mali Hükümler", en: "Financial Provisions" },
+      baslik: {
+        tr: "Akredite Program Bilgileri",
+        en: "Information on Accredited Programmes",
+      },
       kisimlar: [
         {
           id: "k11",
           no: "11",
+          baslik: {
+            tr: "Akredite Program Bilgilerinin Toplanması ve Kabulü",
+            en: "Collection and Acceptance of Information on Accredited Programmes",
+          },
+          bloklar: [
+            {
+              tip: "p",
+              metin: {
+                tr: "Akredite programlara ilişkin bilgilerin toplanması, Komisyonca incelenmesi ve Kurul onayının ardından Yükseköğretim Kuruluna iletilmesi aşağıdaki esaslara göre yürütülür. Bu kısım, 9.1'de aranan iki yıllık asgari geçerlilik süresinin ve 3.1'in (c) bendinde Komisyona verilen görevin uygulama zeminidir.",
+                en: "The collection of information on accredited programmes, its examination by the Commission and, following approval by the Council, its transmission to the Council of Higher Education are carried out in accordance with the following principles. This section provides the operational basis for the two-year minimum validity period required under 9.1 and for the duty conferred on the Commission by point (c) of 3.1.",
+              },
+            },
+            {
+              tip: "fikralar",
+              ogeler: [
+                {
+                  tr: "Ulusal kuruluşlar, tescil belgeleri kapsamında akredite ettikleri programlara ilişkin bilgileri, nihai rapor tamamlandıktan sonra MİS içindeki Akreditasyon Kuruluşları Sistemine (AKSİS) doğru ve eksiksiz olarak yükler.",
+                  en: "National organisations upload, accurately and in full, the information on the programmes they have accredited within the scope of their registration certificates to the Accreditation Organisations System (AKSİS) within MİS, once the final report has been completed.",
+                },
+                {
+                  tr: "Kalite Değerlendirme Tanınma Belgesi sahibi uluslararası kuruluşlar, akredite ettikleri ve mezun vermiş programlar ile üniversitelerin adını ve akreditasyonun başlangıç ve bitiş tarihlerini aynı sisteme yükler.",
+                  en: "International organisations holding a Quality Evaluation Recognition Certificate upload to the same system the names of the programmes they have accredited that have produced graduates, together with the names of the universities and the start and end dates of the accreditation.",
+                },
+                {
+                  tr: "Kuruluşça girilen bilgiler, MİS'in Program Akreditasyonu modülündeki Üniversite Geri Bildirim menüsü üzerinden ilgili üniversite tarafından kontrol edilir; her program akreditasyonu için ilgili anket cevaplandırılır. Uluslararası kuruluşlarca akredite edilen programların akreditasyon raporu da aynı modüle yüklenir.",
+                  en: "The information entered by the organisation is checked by the university concerned through the University Feedback menu in the Programme Accreditation module of MİS, and the relevant survey is completed for each programme accreditation. The accreditation report of programmes accredited by international organisations is also uploaded to the same module.",
+                },
+                {
+                  tr: "Toplanan akredite program verileri ve dokümanları Komisyon tarafından incelenir. Doldurulması gereken bilgileri veya dokümanları eksik ya da yanlış olan programlar, Kurula sunulacak listeye dâhil edilmez.",
+                  en: "The accredited programme data and documents collected are examined by the Commission. Programmes whose required information or documents are missing or incorrect are not included in the list to be submitted to the Council.",
+                },
+                {
+                  tr: "Komisyon tarafından oluşturulan akredite program listesi Kurulun onayına sunulur.",
+                  en: "The list of accredited programmes drawn up by the Commission is submitted for the approval of the Council.",
+                },
+                {
+                  tr: "Kurul tarafından onaylanan liste, Yükseköğretim Kuruluna yazılı olarak ve web servisi aracılığıyla iletilir.",
+                  en: "The list approved by the Council is transmitted to the Council of Higher Education in writing and by means of a web service.",
+                },
+                {
+                  tr: "Akreditasyon bilgileri AKSİS'e 15 Mayıs'a kadar girilen programlara Yükseköğretim Programları ve Kontenjanları Kılavuzunda yer verilir.",
+                  en: "Programmes whose accreditation information has been entered into AKSİS by 15 May are included in the Higher Education Programmes and Quotas Guide.",
+                },
+                {
+                  tr: "Akredite program listesi, MİS'in Program Akreditasyonu modülündeki Raporlar menüsünün Akredite Programlar sekmesinde güncel olarak yayımlanır.",
+                  en: "The list of accredited programmes is published and kept up to date on the Accredited Programmes tab of the Reports menu in the Programme Accreditation module of MİS.",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+
+    /* ================== BÖLÜM VI ================== */
+    {
+      id: "bolum-6",
+      tur: "bolum",
+      no: "VI",
+      baslik: { tr: "Mali Hükümler", en: "Financial Provisions" },
+      kisimlar: [
+        {
+          id: "k12",
+          no: "12",
           baslik: { tr: "Akreditasyon Ücret Tarifesi", en: "Accreditation Fee Tariff" },
-          kaynak: "M12",
-          bloklar: [{ tip: "mali", kaynak: "m12" }],
+          bloklar: [{ tip: "mali" }],
         },
       ],
     },
@@ -1349,7 +1422,6 @@ window.KILAVUZ = {
       kisimlar: [
         {
           id: "ek1-giris",
-          kaynak: "ESG 2027 · uygulama verisinden üretilir",
           bloklar: [
             {
               tip: "p",
@@ -1382,7 +1454,6 @@ window.KILAVUZ = {
       kisimlar: [
         {
           id: "ek2-1",
-          kaynak: "K21 · EK 2a/2b · süreç şeması",
           bloklar: [
             {
               tip: "p",
@@ -1404,7 +1475,6 @@ window.KILAVUZ = {
       kisimlar: [
         {
           id: "ek3-1",
-          kaynak: "K21 · EK 3",
           kaynakBekliyor: true,
           bloklar: [],
         },
@@ -1418,7 +1488,6 @@ window.KILAVUZ = {
       kisimlar: [
         {
           id: "ek4-1",
-          kaynak: "K21 · EK 4",
           kaynakBekliyor: true,
           bloklar: [],
         },
@@ -1435,7 +1504,6 @@ window.KILAVUZ = {
       kisimlar: [
         {
           id: "ek5-1",
-          kaynak: "K21 · EK 5",
           kaynakBekliyor: true,
           bloklar: [],
         },
@@ -1449,7 +1517,6 @@ window.KILAVUZ = {
       kisimlar: [
         {
           id: "ek6-1",
-          kaynak: "Başvuru formu · beyan maddeleri",
           bloklar: [
             {
               tip: "p",
@@ -1474,7 +1541,6 @@ window.KILAVUZ = {
       kisimlar: [
         {
           id: "ek7-1",
-          kaynak: "ESG Bölüm 1 · Kurumsal iç kalite güvencesi standartları",
           bloklar: [
             {
               tip: "p",
