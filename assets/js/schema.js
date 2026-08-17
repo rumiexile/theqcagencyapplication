@@ -657,7 +657,103 @@ window.SCHEMA = (function () {
       ],
     },
 
-    /* ==================== 3 — ESG 3 =================================== */
+    /* ==================== 3 — ÖZ DEĞERLENDİRME ======================== */
+    /* Öz değerlendirme raporunun (ÖDR) ESG standartlarından önce gelen
+       giriş bölümleri: raporun nasıl üretildiği ve ajansın kendisi. ESG
+       adımları bunların üzerine kurulduğundan bölüm ESG 3'ten önce yer
+       alır. */
+    {
+      id: "self-assessment",
+      label: { tr: "Öz Değerlendirme", en: "Self-Assessment" },
+      steps: [
+        {
+          id: "sar-introduction",
+          title: { tr: "Giriş", en: "Introduction" },
+          short: { tr: "Giriş", en: "Introduction" },
+          desc: {
+            tr:
+              "Öz değerlendirme raporunun giriş bölümünü yazınız: başvurunun amacı, raporun kapsamı ve raporun nasıl kurgulandığı.",
+            en:
+              "Write the introduction to the self-assessment report: the purpose of the application, the scope of the report and how the report is structured.",
+          },
+          fields: [
+            {
+              type: "textarea",
+              id: "sar.introduction",
+              large: true,
+              required: true,
+              minLength: 200,
+              maxLength: 6000,
+              label: { tr: "Giriş", en: "Introduction" },
+            },
+          ],
+        },
+        {
+          id: "sar-development",
+          title: {
+            tr: "Öz Değerlendirme Raporunun (ÖDR) Hazırlanması",
+            en: "Development of the self-assessment report (SAR)",
+          },
+          short: { tr: "ÖDR'nin hazırlanması", en: "Development of the SAR" },
+          desc: {
+            tr:
+              "Ajansın öz değerlendirme raporunu geliştirmek ve üretmek için kullandığı yöntemleri açıklayınız (ekibin görevlendirilmesi, paydaşların sürece katılımı, zaman çizelgesi vb.).",
+            en:
+              "Describe the means the agency has used to develop and produce the SAR (appointment of a team, involvement of stakeholders, timeline etc.).",
+          },
+          fields: [
+            {
+              type: "textarea",
+              id: "sar.development",
+              large: true,
+              required: true,
+              minLength: 200,
+              maxLength: 6000,
+              label: {
+                tr: "Raporun hazırlanma yöntemi",
+                en: "How the report was developed",
+              },
+            },
+          ],
+        },
+        {
+          id: "sar-profile",
+          title: {
+            tr: "Ajansın Tarihçesi, Profili ve Faaliyetleri",
+            en: "History, profile and activities of the agency",
+          },
+          short: { tr: "Tarihçe, profil ve faaliyetler", en: "History, profile and activities" },
+          desc: {
+            tr:
+              "Ajansın tarihçesini, profilini ve kalite güvencesi faaliyetleri dâhil olmak üzere tüm faaliyetlerini; ilgili olduğu ölçüde ulusal bağlamdaki konumunu ve statüsünü ve ulusal gerekliliklere uygunluğunu açıklayınız. Varsa ajansın uluslararası (sınır ötesi) dış kalite güvencesi faaliyetlerine ilişkin bilgi vermeyi ihmal etmeyiniz. Son olarak, ajansın profilinin anlaşılması bakımından gerekli olduğu ölçüde ajansın uluslararası faaliyetlere katılımını kısaca tanıtınız (ör. yurt dışındaki ilişkileri, uluslararası ağlara üyeliği, uluslararası projelerde yer alması ve bu proje çalışmalarının ajansın genel stratejisiyle nasıl bağdaştığı).",
+            en:
+              "Describe the history, profile and all activities of the agency (including its quality assurance activities) as well as the agency's position and status in the national context (where relevant) and its compliance with the national requirements. Make sure to provide information on the agency's international (cross-border) external QA activities, if applicable. Finally, briefly introduce the agency's engagement in international activities, to the extent relevant for understanding the agency's profile (e.g., external relations abroad, membership in international networks, involvement in international projects and how such project work fits the agency's overall strategy).",
+          },
+          fields: [
+            {
+              type: "textarea",
+              id: "sar.profile",
+              large: true,
+              required: true,
+              minLength: 300,
+              maxLength: 12000,
+              label: {
+                tr: "Tarihçe, profil ve faaliyetler",
+                en: "History, profile and activities",
+              },
+              hint: {
+                tr:
+                  "Ajansın kalite güvencesi faaliyetleri bu bölümde özet biçimde sunulmalı; ağırlıklı olarak her bir faaliyetin amaç ve hedefleri ile bu faaliyetlerin ajansın profiliyle nasıl bağdaştığı ele alınmalıdır.",
+                en:
+                  "The agency's quality assurance activities should be presented in this chapter in a brief manner, elaborating primarily on the aims and objectives of each activity and how these activities fit the agency's profile.",
+              },
+            },
+          ],
+        },
+      ],
+    },
+
+    /* ==================== 4 — ESG 3 =================================== */
     {
       id: "esg3",
       label: { tr: "ESG 3", en: "ESG 3" },
@@ -672,7 +768,7 @@ window.SCHEMA = (function () {
       }),
     },
 
-    /* ==================== 4 — ESG 2 =================================== */
+    /* ==================== 5 — ESG 2 =================================== */
     {
       id: "esg2",
       label: { tr: "ESG 2", en: "ESG 2" },
@@ -685,7 +781,7 @@ window.SCHEMA = (function () {
       }),
     },
 
-    /* ==================== 5 — ESG 1: KAPSAM VE ÖLÇÜTLER ============== */
+    /* ==================== 6 — ESG 1: KAPSAM VE ÖLÇÜTLER ============== */
     {
       id: "esg1",
       label: { tr: "ESG 1", en: "ESG 1" },
@@ -871,7 +967,7 @@ window.SCHEMA = (function () {
       ],
     },
 
-    /* ============= 6 — SONUÇ, BEYANLAR VE GÖNDERİM ==================== */
+    /* ============= 7 — SONUÇ, BEYANLAR VE GÖNDERİM ==================== */
     {
       id: "submit",
       label: { tr: "Sonuç, Beyanlar ve Gönderim", en: "Outcome, Declarations & Submission" },

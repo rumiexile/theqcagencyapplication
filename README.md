@@ -204,10 +204,11 @@ Sekmeler (`tabs`) → adımlar (`steps`) → alanlar (`fields`):
 | 1 | **Başvuru Türü** | Tür seçimi (Yetkilendirme / Tanınma), başvuru niteliği · **Niyet mektubu** (PDF, her senaryoda zorunlu) · **Önceki dış değerlendirme (EQAR)** |
 | 2 | **Ajans Bilgileri** | Kimlik (kuruluş bilgileri · **sicil numaraları** · **ağ ve çatı kuruluş üyelikleri**) · İletişim · Yasal statü (**kuruluş ve tescil dokümanları**) · Yönetişim ve kaynaklar |
 | 3 | **Belgeler** | **Kanıt koleksiyonu** — tüm kanıtlar, ESG standardı etiketleriyle |
-| 4 | **ESG 3** — Kalite Güvencesi Ajansları | 3.1 → 3.6 (her standart bir adım) · *EQAR raporu sunulduysa muaf* |
-| 5 | **ESG 2** — Dış Kalite Güvencesi | 2.1 → 2.7 · *EQAR raporu sunulduysa muaf* |
-| 6 | **ESG 1** — Kapsam ve Ölçütler | Program seçimi · Genel ölçütler · Programa özel ölçütler · **Ölçütlerin ESG 1 uyumu** · Karar sistemi |
-| 7 | **Sonuç, Beyanlar ve Gönderim** | **Gelişmeye açık yönlere yönelik faaliyetler** (yalnızca yenileme, en fazla 6000 kelime) · Taahhüt ve beyan · **Mali Beyanlar** (yalnızca yetkilendirme) · Önizleme ve gönderim |
+| 4 | **Öz Değerlendirme** | Giriş · **ÖDR'nin hazırlanması** · Ajansın tarihçesi, profili ve faaliyetleri |
+| 5 | **ESG 3** — Kalite Güvencesi Ajansları | 3.1 → 3.6 (her standart bir adım) · *EQAR raporu sunulduysa muaf* |
+| 6 | **ESG 2** — Dış Kalite Güvencesi | 2.1 → 2.7 · *EQAR raporu sunulduysa muaf* |
+| 7 | **ESG 1** — Kapsam ve Ölçütler | Program seçimi · Genel ölçütler · Programa özel ölçütler · **Ölçütlerin ESG 1 uyumu** · Karar sistemi |
+| 8 | **Sonuç, Beyanlar ve Gönderim** | **Gelişmeye açık yönlere yönelik faaliyetler** (yalnızca yenileme, en fazla 6000 kelime) · Taahhüt ve beyan · **Mali Beyanlar** (yalnızca yetkilendirme) · Önizleme ve gönderim |
 
 Her ESG adımı şunları ister: standardın resmî metni (okunur) → **ajansın
 uygulaması** (kelime/karakter sayaçlı) → **öz değerlendirme** (Tam / Büyük
