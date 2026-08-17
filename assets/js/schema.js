@@ -665,6 +665,10 @@ window.SCHEMA = (function () {
     {
       id: "self-assessment",
       label: { tr: "Öz Değerlendirme", en: "Self-Assessment" },
+      sublabel: {
+        tr: "Giriş, Tarihçe, Faaliyetler",
+        en: "Introduction, History, Activities",
+      },
       steps: [
         {
           id: "sar-introduction",
