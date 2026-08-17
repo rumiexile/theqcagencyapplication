@@ -451,6 +451,93 @@ window.I18N = (function () {
   var current = "tr";
   var listeners = [];
 
+  /* ==================================================================
+     {ajans} imi — kuruluşun kısaltmasıyla değişen metinler
+     ==================================================================
+     Yardım metinlerinde kuruluşun kendisinden söz edilen yerler, kullanıcı
+     Kısaltma alanını doldurduğunda o kısaltmayla anılır:
+
+       "{Ajans:in} bu standarda ilişkin uygulaması"
+         kısaltma yokken  → "Ajansın bu standarda ilişkin uygulaması"
+         MÜDEK girilince  → "MÜDEK'in bu standarda ilişkin uygulaması"
+
+     İm yalnızca başvuru sahibi kuruluşu anlatan cümlelere konur. Başka
+     ajanslardan söz eden metinler (ESG standart metinleri, EQAR'a kayıtlı
+     değerlendirici ajans) imsizdir ve olduğu gibi kalır.
+
+     Hâller: {ajans} yalın · :in tamlayan · :e yönelme · :i belirtme
+             :de bulunma · :den ayrılma. İngilizcede yalnızca :s (iyelik).
+     Büyük harfle yazılan im ({Ajans}), kısaltma yokken cümle başına uygun
+     büyük harfli karşılığı verir; kısaltma zaten büyük harflidir.
+
+     Ek, kısaltmanın son ünlüsüne göre uyum sağlar ve kesme işaretiyle
+     ayrılır (MÜDEK'in, SABAK'ın, TEPDAD'a, ODTÜ'nün). Harf harf okunan
+     kısaltmalarda uyum okunuşa göre değişebilir; burada yazılış esastır.
+     ================================================================== */
+
+  var TR_UNLU = "aeıioöuü";
+  var TR_SERT = "pçtkfhsş";
+  /* son ünlüye göre dar (ı i u ü) ve geniş (a e) ek ünlüsü */
+  var DAR = { a: "ı", "ı": "ı", e: "i", i: "i", o: "u", u: "u", "ö": "ü", "ü": "ü" };
+  var GENIS = { a: "a", "ı": "a", o: "a", u: "a", e: "e", i: "e", "ö": "e", "ü": "e" };
+
+  var TR_KARSILIK = {
+    "": "ajans", in: "ajansın", e: "ajansa", i: "ajansı",
+    de: "ajansta", den: "ajanstan",
+  };
+  var EN_KARSILIK = { "": "the agency", s: "the agency's" };
+
+  function trKucuk(s) {
+    return s.replace(/I/g, "ı").replace(/İ/g, "i").toLowerCase();
+  }
+
+  function sonUnlu(s) {
+    var k = trKucuk(s);
+    for (var i = k.length - 1; i >= 0; i--) {
+      if (TR_UNLU.indexOf(k.charAt(i)) !== -1) return k.charAt(i);
+    }
+    return "a"; // ünlüsüz kısaltma (ör. TRT) — kalın sayılır
+  }
+
+  function trEk(kisa, hal) {
+    if (!hal) return "";
+    var k = trKucuk(kisa);
+    var son = k.charAt(k.length - 1);
+    var unluBitisi = TR_UNLU.indexOf(son) !== -1;
+    var u = sonUnlu(kisa);
+    var d = TR_SERT.indexOf(son) !== -1 ? "t" : "d";
+    if (hal === "in") return "'" + (unluBitisi ? "n" : "") + DAR[u] + "n";
+    if (hal === "e") return "'" + (unluBitisi ? "y" : "") + GENIS[u];
+    if (hal === "i") return "'" + (unluBitisi ? "y" : "") + DAR[u];
+    if (hal === "de") return "'" + (unluBitisi ? "d" : d) + GENIS[u];
+    if (hal === "den") return "'" + (unluBitisi ? "d" : d) + GENIS[u] + "n";
+    return "";
+  }
+
+  function kisaltma() {
+    var S = window.Store;
+    var v = S && typeof S.get === "function" ? S.get("agency.acronym", "") : "";
+    return typeof v === "string" ? v.trim() : "";
+  }
+
+  function ajansImleri(metin) {
+    return metin.replace(/\{(ajans|Ajans|agency|Agency)(?::([a-z]+))?\}/g,
+      function (tam, im, hal) {
+        var kisa = kisaltma();
+        var ingilizce = im.toLowerCase() === "agency";
+        hal = hal || "";
+        if (kisa) {
+          return ingilizce
+            ? kisa + (hal === "s" ? "'s" : "")
+            : kisa + trEk(kisa, hal);
+        }
+        var karsilik = ingilizce ? EN_KARSILIK[hal] : TR_KARSILIK[hal];
+        if (karsilik === undefined) return tam; // tanınmayan hâl: ime dokunma
+        return im.charAt(0) === im.charAt(0).toUpperCase()
+          ? karsilik.charAt(0).toLocaleUpperCase("tr") + karsilik.slice(1)
+          : karsilik;
+      });
+  }
   return {
     get lang() {
       return current;
@@ -487,11 +574,18 @@ window.I18N = (function () {
     /**
      * {tr, en} nesnesinden geçerli dildeki değeri döndürür.
      * Düz string verilirse olduğu gibi döner.
+     * Metindeki {ajans}/{agency} imleri kuruluşun kısaltmasıyla değişir.
      */
     pick: function (value) {
       if (value === null || value === undefined) return "";
-      if (typeof value === "string") return value;
-      return value[current] !== undefined ? value[current] : value.tr || value.en || "";
+      var s = typeof value === "string"
+        ? value
+        : value[current] !== undefined ? value[current] : value.tr || value.en || "";
+      return s.indexOf("{") === -1 ? s : ajansImleri(s);
     },
+
+    /** Test ve doğrulama için: imleri tek başına çözer. */
+    ajans: ajansImleri,
   };
+
 })();

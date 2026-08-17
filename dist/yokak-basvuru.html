@@ -4400,6 +4400,93 @@ window.I18N = (function () {
   var current = "tr";
   var listeners = [];
 
+  /* ==================================================================
+     {ajans} imi — kuruluşun kısaltmasıyla değişen metinler
+     ==================================================================
+     Yardım metinlerinde kuruluşun kendisinden söz edilen yerler, kullanıcı
+     Kısaltma alanını doldurduğunda o kısaltmayla anılır:
+
+       "{Ajans:in} bu standarda ilişkin uygulaması"
+         kısaltma yokken  → "Ajansın bu standarda ilişkin uygulaması"
+         MÜDEK girilince  → "MÜDEK'in bu standarda ilişkin uygulaması"
+
+     İm yalnızca başvuru sahibi kuruluşu anlatan cümlelere konur. Başka
+     ajanslardan söz eden metinler (ESG standart metinleri, EQAR'a kayıtlı
+     değerlendirici ajans) imsizdir ve olduğu gibi kalır.
+
+     Hâller: {ajans} yalın · :in tamlayan · :e yönelme · :i belirtme
+             :de bulunma · :den ayrılma. İngilizcede yalnızca :s (iyelik).
+     Büyük harfle yazılan im ({Ajans}), kısaltma yokken cümle başına uygun
+     büyük harfli karşılığı verir; kısaltma zaten büyük harflidir.
+
+     Ek, kısaltmanın son ünlüsüne göre uyum sağlar ve kesme işaretiyle
+     ayrılır (MÜDEK'in, SABAK'ın, TEPDAD'a, ODTÜ'nün). Harf harf okunan
+     kısaltmalarda uyum okunuşa göre değişebilir; burada yazılış esastır.
+     ================================================================== */
+
+  var TR_UNLU = "aeıioöuü";
+  var TR_SERT = "pçtkfhsş";
+  /* son ünlüye göre dar (ı i u ü) ve geniş (a e) ek ünlüsü */
+  var DAR = { a: "ı", "ı": "ı", e: "i", i: "i", o: "u", u: "u", "ö": "ü", "ü": "ü" };
+  var GENIS = { a: "a", "ı": "a", o: "a", u: "a", e: "e", i: "e", "ö": "e", "ü": "e" };
+
+  var TR_KARSILIK = {
+    "": "ajans", in: "ajansın", e: "ajansa", i: "ajansı",
+    de: "ajansta", den: "ajanstan",
+  };
+  var EN_KARSILIK = { "": "the agency", s: "the agency's" };
+
+  function trKucuk(s) {
+    return s.replace(/I/g, "ı").replace(/İ/g, "i").toLowerCase();
+  }
+
+  function sonUnlu(s) {
+    var k = trKucuk(s);
+    for (var i = k.length - 1; i >= 0; i--) {
+      if (TR_UNLU.indexOf(k.charAt(i)) !== -1) return k.charAt(i);
+    }
+    return "a"; // ünlüsüz kısaltma (ör. TRT) — kalın sayılır
+  }
+
+  function trEk(kisa, hal) {
+    if (!hal) return "";
+    var k = trKucuk(kisa);
+    var son = k.charAt(k.length - 1);
+    var unluBitisi = TR_UNLU.indexOf(son) !== -1;
+    var u = sonUnlu(kisa);
+    var d = TR_SERT.indexOf(son) !== -1 ? "t" : "d";
+    if (hal === "in") return "'" + (unluBitisi ? "n" : "") + DAR[u] + "n";
+    if (hal === "e") return "'" + (unluBitisi ? "y" : "") + GENIS[u];
+    if (hal === "i") return "'" + (unluBitisi ? "y" : "") + DAR[u];
+    if (hal === "de") return "'" + (unluBitisi ? "d" : d) + GENIS[u];
+    if (hal === "den") return "'" + (unluBitisi ? "d" : d) + GENIS[u] + "n";
+    return "";
+  }
+
+  function kisaltma() {
+    var S = window.Store;
+    var v = S && typeof S.get === "function" ? S.get("agency.acronym", "") : "";
+    return typeof v === "string" ? v.trim() : "";
+  }
+
+  function ajansImleri(metin) {
+    return metin.replace(/\{(ajans|Ajans|agency|Agency)(?::([a-z]+))?\}/g,
+      function (tam, im, hal) {
+        var kisa = kisaltma();
+        var ingilizce = im.toLowerCase() === "agency";
+        hal = hal || "";
+        if (kisa) {
+          return ingilizce
+            ? kisa + (hal === "s" ? "'s" : "")
+            : kisa + trEk(kisa, hal);
+        }
+        var karsilik = ingilizce ? EN_KARSILIK[hal] : TR_KARSILIK[hal];
+        if (karsilik === undefined) return tam; // tanınmayan hâl: ime dokunma
+        return im.charAt(0) === im.charAt(0).toUpperCase()
+          ? karsilik.charAt(0).toLocaleUpperCase("tr") + karsilik.slice(1)
+          : karsilik;
+      });
+  }
   return {
     get lang() {
       return current;
@@ -4436,13 +4523,20 @@ window.I18N = (function () {
     /**
      * {tr, en} nesnesinden geçerli dildeki değeri döndürür.
      * Düz string verilirse olduğu gibi döner.
+     * Metindeki {ajans}/{agency} imleri kuruluşun kısaltmasıyla değişir.
      */
     pick: function (value) {
       if (value === null || value === undefined) return "";
-      if (typeof value === "string") return value;
-      return value[current] !== undefined ? value[current] : value.tr || value.en || "";
+      var s = typeof value === "string"
+        ? value
+        : value[current] !== undefined ? value[current] : value.tr || value.en || "";
+      return s.indexOf("{") === -1 ? s : ajansImleri(s);
     },
+
+    /** Test ve doğrulama için: imleri tek başına çözer. */
+    ajans: ajansImleri,
   };
+
 })();
 
 </script>
@@ -7807,8 +7901,8 @@ window.SCHEMA = (function () {
           minLength: 200,
           maxLength: 6000,
           label: {
-            tr: "Ajansın bu standarda ilişkin uygulaması",
-            en: "The agency's practice regarding this standard",
+            tr: "{Ajans:in} bu standarda ilişkin uygulaması",
+            en: "{Agency:s} practice regarding this standard",
           },
           hint: {
             tr:
@@ -8118,7 +8212,7 @@ window.SCHEMA = (function () {
     /* ==================== 1 — AJANS BİLGİLERİ ========================= */
     {
       id: "agency",
-      label: { tr: "Ajans Bilgileri", en: "Agency Details" },
+      label: { tr: "{Ajans} Bilgileri", en: "{Agency} Details" },
       /* Kapsam genişletmede kuruluşun kimliği değişmez; önceki
          başvurudan devralınır. */
       carriedOverIf: { field: "applicationKind", equals: "kapsam" },
@@ -8171,7 +8265,18 @@ window.SCHEMA = (function () {
                 en: "The English name the organisation uses in international correspondence.",
               },
             },
-            { type: "text", id: "agency.acronym", required: true, half: true, label: { tr: "Kısaltma", en: "Acronym" }, placeholder: { tr: "ör. MÜDEK", en: "e.g. MÜDEK" } },
+            {
+              /* Kısaltma yardım metinlerinde {ajans} imiyle geçer: girildiği
+                 anda uygulamanın her yerinde "ajans" yerine bu ad kullanılır. */
+              type: "text", id: "agency.acronym", required: true, half: true,
+              refreshesLabels: true,
+              label: { tr: "Kısaltma", en: "Acronym" },
+              placeholder: { tr: "ör. MÜDEK", en: "e.g. MÜDEK" },
+              hint: {
+                tr: "Girdiğiniz kısaltma, başvuru boyunca yardım metinlerinde kuruluşunuzun adı olarak kullanılır.",
+                en: "The acronym you enter is used as your organisation's name in the guidance texts throughout the application.",
+              },
+            },
             { type: "number", id: "agency.foundedYear", required: true, half: true, min: 1900, max: 2100, label: { tr: "Kuruluş yılı", en: "Year of establishment" } },
             { type: "text", id: "agency.country", required: true, half: true, label: { tr: "Ülke", en: "Country" }, showIf: { field: "applicationType", equals: "taninma" } },
             {
@@ -8249,8 +8354,8 @@ window.SCHEMA = (function () {
             {
               type: "repeater", id: "agency.networks", minItems: 0,
               label: {
-                tr: "Ajansın üye olduğu ağlar ve çatı kuruluşlar",
-                en: "Networks and umbrella organisations the agency is a member of",
+                tr: "{Ajans:in} üye olduğu ağlar ve çatı kuruluşlar",
+                en: "Networks and umbrella organisations {agency} is a member of",
               },
               hint: {
                 tr:
@@ -8513,9 +8618,9 @@ window.SCHEMA = (function () {
           short: { tr: "ÖDR'nin hazırlanması", en: "Development of the SAR" },
           desc: {
             tr:
-              "Ajansın öz değerlendirme raporunu geliştirmek ve üretmek için kullandığı yöntemleri açıklayınız (ekibin görevlendirilmesi, paydaşların sürece katılımı, zaman çizelgesi vb.).",
+              "{Ajans:in} öz değerlendirme raporunu geliştirmek ve üretmek için kullandığı yöntemleri açıklayınız (ekibin görevlendirilmesi, paydaşların sürece katılımı, zaman çizelgesi vb.).",
             en:
-              "Describe the means the agency has used to develop and produce the SAR (appointment of a team, involvement of stakeholders, timeline etc.).",
+              "Describe the means {agency} has used to develop and produce the SAR (appointment of a team, involvement of stakeholders, timeline etc.).",
           },
           fields: [
             {
@@ -8535,15 +8640,15 @@ window.SCHEMA = (function () {
         {
           id: "sar-profile",
           title: {
-            tr: "Ajansın Tarihçesi, Profili ve Faaliyetleri",
-            en: "History, profile and activities of the agency",
+            tr: "{Ajans:in} Tarihçesi, Profili ve Faaliyetleri",
+            en: "History, profile and activities of {agency}",
           },
           short: { tr: "Tarihçe, profil ve faaliyetler", en: "History, profile and activities" },
           desc: {
             tr:
-              "Ajansın tarihçesini, profilini ve kalite güvencesi faaliyetleri dâhil olmak üzere tüm faaliyetlerini; ilgili olduğu ölçüde ulusal bağlamdaki konumunu ve statüsünü ve ulusal gerekliliklere uygunluğunu açıklayınız. Varsa ajansın uluslararası (sınır ötesi) dış kalite güvencesi faaliyetlerine ilişkin bilgi vermeyi ihmal etmeyiniz. Son olarak, ajansın profilinin anlaşılması bakımından gerekli olduğu ölçüde ajansın uluslararası faaliyetlere katılımını kısaca tanıtınız (ör. yurt dışındaki ilişkileri, uluslararası ağlara üyeliği, uluslararası projelerde yer alması ve bu proje çalışmalarının ajansın genel stratejisiyle nasıl bağdaştığı).",
+              "{Ajans:in} tarihçesini, profilini ve kalite güvencesi faaliyetleri dâhil olmak üzere tüm faaliyetlerini; ilgili olduğu ölçüde ulusal bağlamdaki konumunu ve statüsünü ve ulusal gerekliliklere uygunluğunu açıklayınız. Varsa {ajans:in} uluslararası (sınır ötesi) dış kalite güvencesi faaliyetlerine ilişkin bilgi vermeyi ihmal etmeyiniz. Son olarak, {ajans:in} profilinin anlaşılması bakımından gerekli olduğu ölçüde {ajans:in} uluslararası faaliyetlere katılımını kısaca tanıtınız (ör. yurt dışındaki ilişkileri, uluslararası ağlara üyeliği, uluslararası projelerde yer alması ve bu proje çalışmalarının {ajans:in} genel stratejisiyle nasıl bağdaştığı).",
             en:
-              "Describe the history, profile and all activities of the agency (including its quality assurance activities) as well as the agency's position and status in the national context (where relevant) and its compliance with the national requirements. Make sure to provide information on the agency's international (cross-border) external QA activities, if applicable. Finally, briefly introduce the agency's engagement in international activities, to the extent relevant for understanding the agency's profile (e.g., external relations abroad, membership in international networks, involvement in international projects and how such project work fits the agency's overall strategy).",
+              "Describe the history, profile and all activities of {agency} (including its quality assurance activities) as well as {agency:s} position and status in the national context (where relevant) and its compliance with the national requirements. Make sure to provide information on {agency:s} international (cross-border) external QA activities, if applicable. Finally, briefly introduce {agency:s} engagement in international activities, to the extent relevant for understanding {agency:s} profile (e.g., external relations abroad, membership in international networks, involvement in international projects and how such project work fits {agency:s} overall strategy).",
           },
           fields: [
             {
@@ -8559,9 +8664,9 @@ window.SCHEMA = (function () {
               },
               hint: {
                 tr:
-                  "Ajansın kalite güvencesi faaliyetleri bu bölümde özet biçimde sunulmalı; ağırlıklı olarak her bir faaliyetin amaç ve hedefleri ile bu faaliyetlerin ajansın profiliyle nasıl bağdaştığı ele alınmalıdır.",
+                  "{Ajans:in} kalite güvencesi faaliyetleri bu bölümde özet biçimde sunulmalı; ağırlıklı olarak her bir faaliyetin amaç ve hedefleri ile bu faaliyetlerin {ajans:in} profiliyle nasıl bağdaştığı ele alınmalıdır.",
                 en:
-                  "The agency's quality assurance activities should be presented in this chapter in a brief manner, elaborating primarily on the aims and objectives of each activity and how these activities fit the agency's profile.",
+                  "{Agency:s} quality assurance activities should be presented in this chapter in a brief manner, elaborating primarily on the aims and objectives of each activity and how these activities fit {agency:s} profile.",
               },
             },
           ],
@@ -8675,9 +8780,9 @@ window.SCHEMA = (function () {
           eyebrow: PART1_LABEL,
           desc: {
             tr:
-              "ESG 2.1 gereği, ajansın dış değerlendirmede kullandığı ölçütlerin ESG Bölüm 1'in tüm standartlarını bütüncül biçimde nasıl kapsadığını her standart için açıklayınız.",
+              "ESG 2.1 gereği, {ajans:in} dış değerlendirmede kullandığı ölçütlerin ESG Bölüm 1'in tüm standartlarını bütüncül biçimde nasıl kapsadığını her standart için açıklayınız.",
             en:
-              "Per ESG 2.1, explain for each standard how the criteria the agency uses in external evaluation cover all standards of ESG Part 1 holistically.",
+              "Per ESG 2.1, explain for each standard how the criteria {agency} uses in external evaluation cover all standards of ESG Part 1 holistically.",
           },
           fields: [{ type: "esg1-coverage", id: "esg1.coverage", required: true }],
         },
@@ -9127,6 +9232,14 @@ window.Fields = (function () {
       touched = true;
       showError(field.id, V.field(field, S));
     });
+    /* Değeri başka metinlerde geçen alanlar (kısaltma → {ajans} imi)
+       alandan çıkılınca adımın tazelenmesini ister. change olayı yalnızca
+       değer gerçekten değiştiğinde gelir, her tuşta değil. */
+    if (field.refreshesLabels) {
+      input.addEventListener("change", function () {
+        onDirty(field, true);
+      });
+    }
     return wrap(field, input);
   }
 
@@ -11070,10 +11183,13 @@ window.Fields = (function () {
       state.step = Math.min(prefs.position.step || 0, tabs[state.tab].steps.length - 1);
     }
 
-    F.onDirty(function (field) {
+    F.onDirty(function (field, tazele) {
       // Bir alan başka alanların görünürlüğünü (showIf) veya bir bölümün
       // muafiyetini (exemptIf) denetliyorsa adımı yeniden çiz.
       if (controlsVisibility(field)) return render();
+      // Metinlerde {ajans} imiyle geçen alan (kısaltma) değiştiğinde adımın
+      // yazıları da değişir; odağı ve kaydırma konumunu bozmadan tazele.
+      if (tazele) return odakKorunarakCiz();
       clearSatisfiedErrors();
       refreshChrome();
     });
@@ -11411,7 +11527,11 @@ window.Fields = (function () {
   /* ==================================================================
      Adım görünümü / step view
      ================================================================== */
-  function render() {
+  /**
+   * Adımı çizer. secenekler.kaydirma === false verilirse sayfa başa
+   * sarılmaz — yerinde tazeleme için.
+   */
+  function render(secenekler) {
     var tab = tabs[state.tab];
     var step = tab.steps[state.step];
     var main = document.getElementById("stepview");
@@ -11479,7 +11599,28 @@ window.Fields = (function () {
     buildTopProgress();
     buildTabs();
     persistPosition();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (!secenekler || secenekler.kaydirma !== false) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  /**
+   * Odağı ve kaydırma konumunu koruyarak yeniden çizer.
+   * change olayı, tıklanan ya da sekmeyle geçilen yeni alan odağı almadan
+   * önce gelir; bu yüzden çizimi bir sonraki döngüye bırakıp o an odakta
+   * olan alanı çizimden sonra geri buluyoruz.
+   */
+  function odakKorunarakCiz() {
+    setTimeout(function () {
+      var etkin = document.activeElement;
+      var kutu = etkin && etkin.closest ? etkin.closest("[data-field]") : null;
+      var kimlik = kutu ? kutu.getAttribute("data-field") : null;
+      render({ kaydirma: false });
+      if (!kimlik) return;
+      var sec = '[data-field="' + kimlik + '"] ';
+      var yeni = document.querySelector(sec + "input, " + sec + "textarea, " + sec + "select");
+      if (yeni) yeni.focus();
+    }, 0);
   }
 
   function refreshChrome() {

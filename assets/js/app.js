@@ -51,10 +51,13 @@
       state.step = Math.min(prefs.position.step || 0, tabs[state.tab].steps.length - 1);
     }
 
-    F.onDirty(function (field) {
+    F.onDirty(function (field, tazele) {
       // Bir alan başka alanların görünürlüğünü (showIf) veya bir bölümün
       // muafiyetini (exemptIf) denetliyorsa adımı yeniden çiz.
       if (controlsVisibility(field)) return render();
+      // Metinlerde {ajans} imiyle geçen alan (kısaltma) değiştiğinde adımın
+      // yazıları da değişir; odağı ve kaydırma konumunu bozmadan tazele.
+      if (tazele) return odakKorunarakCiz();
       clearSatisfiedErrors();
       refreshChrome();
     });
@@ -392,7 +395,11 @@
   /* ==================================================================
      Adım görünümü / step view
      ================================================================== */
-  function render() {
+  /**
+   * Adımı çizer. secenekler.kaydirma === false verilirse sayfa başa
+   * sarılmaz — yerinde tazeleme için.
+   */
+  function render(secenekler) {
     var tab = tabs[state.tab];
     var step = tab.steps[state.step];
     var main = document.getElementById("stepview");
@@ -460,7 +467,28 @@
     buildTopProgress();
     buildTabs();
     persistPosition();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (!secenekler || secenekler.kaydirma !== false) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  /**
+   * Odağı ve kaydırma konumunu koruyarak yeniden çizer.
+   * change olayı, tıklanan ya da sekmeyle geçilen yeni alan odağı almadan
+   * önce gelir; bu yüzden çizimi bir sonraki döngüye bırakıp o an odakta
+   * olan alanı çizimden sonra geri buluyoruz.
+   */
+  function odakKorunarakCiz() {
+    setTimeout(function () {
+      var etkin = document.activeElement;
+      var kutu = etkin && etkin.closest ? etkin.closest("[data-field]") : null;
+      var kimlik = kutu ? kutu.getAttribute("data-field") : null;
+      render({ kaydirma: false });
+      if (!kimlik) return;
+      var sec = '[data-field="' + kimlik + '"] ';
+      var yeni = document.querySelector(sec + "input, " + sec + "textarea, " + sec + "select");
+      if (yeni) yeni.focus();
+    }, 0);
   }
 
   function refreshChrome() {

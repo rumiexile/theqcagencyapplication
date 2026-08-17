@@ -32,8 +32,8 @@ window.SCHEMA = (function () {
           minLength: 200,
           maxLength: 6000,
           label: {
-            tr: "Ajansın bu standarda ilişkin uygulaması",
-            en: "The agency's practice regarding this standard",
+            tr: "{Ajans:in} bu standarda ilişkin uygulaması",
+            en: "{Agency:s} practice regarding this standard",
           },
           hint: {
             tr:
@@ -343,7 +343,7 @@ window.SCHEMA = (function () {
     /* ==================== 1 — AJANS BİLGİLERİ ========================= */
     {
       id: "agency",
-      label: { tr: "Ajans Bilgileri", en: "Agency Details" },
+      label: { tr: "{Ajans} Bilgileri", en: "{Agency} Details" },
       /* Kapsam genişletmede kuruluşun kimliği değişmez; önceki
          başvurudan devralınır. */
       carriedOverIf: { field: "applicationKind", equals: "kapsam" },
@@ -396,7 +396,18 @@ window.SCHEMA = (function () {
                 en: "The English name the organisation uses in international correspondence.",
               },
             },
-            { type: "text", id: "agency.acronym", required: true, half: true, label: { tr: "Kısaltma", en: "Acronym" }, placeholder: { tr: "ör. MÜDEK", en: "e.g. MÜDEK" } },
+            {
+              /* Kısaltma yardım metinlerinde {ajans} imiyle geçer: girildiği
+                 anda uygulamanın her yerinde "ajans" yerine bu ad kullanılır. */
+              type: "text", id: "agency.acronym", required: true, half: true,
+              refreshesLabels: true,
+              label: { tr: "Kısaltma", en: "Acronym" },
+              placeholder: { tr: "ör. MÜDEK", en: "e.g. MÜDEK" },
+              hint: {
+                tr: "Girdiğiniz kısaltma, başvuru boyunca yardım metinlerinde kuruluşunuzun adı olarak kullanılır.",
+                en: "The acronym you enter is used as your organisation's name in the guidance texts throughout the application.",
+              },
+            },
             { type: "number", id: "agency.foundedYear", required: true, half: true, min: 1900, max: 2100, label: { tr: "Kuruluş yılı", en: "Year of establishment" } },
             { type: "text", id: "agency.country", required: true, half: true, label: { tr: "Ülke", en: "Country" }, showIf: { field: "applicationType", equals: "taninma" } },
             {
@@ -474,8 +485,8 @@ window.SCHEMA = (function () {
             {
               type: "repeater", id: "agency.networks", minItems: 0,
               label: {
-                tr: "Ajansın üye olduğu ağlar ve çatı kuruluşlar",
-                en: "Networks and umbrella organisations the agency is a member of",
+                tr: "{Ajans:in} üye olduğu ağlar ve çatı kuruluşlar",
+                en: "Networks and umbrella organisations {agency} is a member of",
               },
               hint: {
                 tr:
@@ -738,9 +749,9 @@ window.SCHEMA = (function () {
           short: { tr: "ÖDR'nin hazırlanması", en: "Development of the SAR" },
           desc: {
             tr:
-              "Ajansın öz değerlendirme raporunu geliştirmek ve üretmek için kullandığı yöntemleri açıklayınız (ekibin görevlendirilmesi, paydaşların sürece katılımı, zaman çizelgesi vb.).",
+              "{Ajans:in} öz değerlendirme raporunu geliştirmek ve üretmek için kullandığı yöntemleri açıklayınız (ekibin görevlendirilmesi, paydaşların sürece katılımı, zaman çizelgesi vb.).",
             en:
-              "Describe the means the agency has used to develop and produce the SAR (appointment of a team, involvement of stakeholders, timeline etc.).",
+              "Describe the means {agency} has used to develop and produce the SAR (appointment of a team, involvement of stakeholders, timeline etc.).",
           },
           fields: [
             {
@@ -760,15 +771,15 @@ window.SCHEMA = (function () {
         {
           id: "sar-profile",
           title: {
-            tr: "Ajansın Tarihçesi, Profili ve Faaliyetleri",
-            en: "History, profile and activities of the agency",
+            tr: "{Ajans:in} Tarihçesi, Profili ve Faaliyetleri",
+            en: "History, profile and activities of {agency}",
           },
           short: { tr: "Tarihçe, profil ve faaliyetler", en: "History, profile and activities" },
           desc: {
             tr:
-              "Ajansın tarihçesini, profilini ve kalite güvencesi faaliyetleri dâhil olmak üzere tüm faaliyetlerini; ilgili olduğu ölçüde ulusal bağlamdaki konumunu ve statüsünü ve ulusal gerekliliklere uygunluğunu açıklayınız. Varsa ajansın uluslararası (sınır ötesi) dış kalite güvencesi faaliyetlerine ilişkin bilgi vermeyi ihmal etmeyiniz. Son olarak, ajansın profilinin anlaşılması bakımından gerekli olduğu ölçüde ajansın uluslararası faaliyetlere katılımını kısaca tanıtınız (ör. yurt dışındaki ilişkileri, uluslararası ağlara üyeliği, uluslararası projelerde yer alması ve bu proje çalışmalarının ajansın genel stratejisiyle nasıl bağdaştığı).",
+              "{Ajans:in} tarihçesini, profilini ve kalite güvencesi faaliyetleri dâhil olmak üzere tüm faaliyetlerini; ilgili olduğu ölçüde ulusal bağlamdaki konumunu ve statüsünü ve ulusal gerekliliklere uygunluğunu açıklayınız. Varsa {ajans:in} uluslararası (sınır ötesi) dış kalite güvencesi faaliyetlerine ilişkin bilgi vermeyi ihmal etmeyiniz. Son olarak, {ajans:in} profilinin anlaşılması bakımından gerekli olduğu ölçüde {ajans:in} uluslararası faaliyetlere katılımını kısaca tanıtınız (ör. yurt dışındaki ilişkileri, uluslararası ağlara üyeliği, uluslararası projelerde yer alması ve bu proje çalışmalarının {ajans:in} genel stratejisiyle nasıl bağdaştığı).",
             en:
-              "Describe the history, profile and all activities of the agency (including its quality assurance activities) as well as the agency's position and status in the national context (where relevant) and its compliance with the national requirements. Make sure to provide information on the agency's international (cross-border) external QA activities, if applicable. Finally, briefly introduce the agency's engagement in international activities, to the extent relevant for understanding the agency's profile (e.g., external relations abroad, membership in international networks, involvement in international projects and how such project work fits the agency's overall strategy).",
+              "Describe the history, profile and all activities of {agency} (including its quality assurance activities) as well as {agency:s} position and status in the national context (where relevant) and its compliance with the national requirements. Make sure to provide information on {agency:s} international (cross-border) external QA activities, if applicable. Finally, briefly introduce {agency:s} engagement in international activities, to the extent relevant for understanding {agency:s} profile (e.g., external relations abroad, membership in international networks, involvement in international projects and how such project work fits {agency:s} overall strategy).",
           },
           fields: [
             {
@@ -784,9 +795,9 @@ window.SCHEMA = (function () {
               },
               hint: {
                 tr:
-                  "Ajansın kalite güvencesi faaliyetleri bu bölümde özet biçimde sunulmalı; ağırlıklı olarak her bir faaliyetin amaç ve hedefleri ile bu faaliyetlerin ajansın profiliyle nasıl bağdaştığı ele alınmalıdır.",
+                  "{Ajans:in} kalite güvencesi faaliyetleri bu bölümde özet biçimde sunulmalı; ağırlıklı olarak her bir faaliyetin amaç ve hedefleri ile bu faaliyetlerin {ajans:in} profiliyle nasıl bağdaştığı ele alınmalıdır.",
                 en:
-                  "The agency's quality assurance activities should be presented in this chapter in a brief manner, elaborating primarily on the aims and objectives of each activity and how these activities fit the agency's profile.",
+                  "{Agency:s} quality assurance activities should be presented in this chapter in a brief manner, elaborating primarily on the aims and objectives of each activity and how these activities fit {agency:s} profile.",
               },
             },
           ],
@@ -900,9 +911,9 @@ window.SCHEMA = (function () {
           eyebrow: PART1_LABEL,
           desc: {
             tr:
-              "ESG 2.1 gereği, ajansın dış değerlendirmede kullandığı ölçütlerin ESG Bölüm 1'in tüm standartlarını bütüncül biçimde nasıl kapsadığını her standart için açıklayınız.",
+              "ESG 2.1 gereği, {ajans:in} dış değerlendirmede kullandığı ölçütlerin ESG Bölüm 1'in tüm standartlarını bütüncül biçimde nasıl kapsadığını her standart için açıklayınız.",
             en:
-              "Per ESG 2.1, explain for each standard how the criteria the agency uses in external evaluation cover all standards of ESG Part 1 holistically.",
+              "Per ESG 2.1, explain for each standard how the criteria {agency} uses in external evaluation cover all standards of ESG Part 1 holistically.",
           },
           fields: [{ type: "esg1-coverage", id: "esg1.coverage", required: true }],
         },

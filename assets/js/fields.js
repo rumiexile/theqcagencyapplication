@@ -185,6 +185,14 @@ window.Fields = (function () {
       touched = true;
       showError(field.id, V.field(field, S));
     });
+    /* Değeri başka metinlerde geçen alanlar (kısaltma → {ajans} imi)
+       alandan çıkılınca adımın tazelenmesini ister. change olayı yalnızca
+       değer gerçekten değiştiğinde gelir, her tuşta değil. */
+    if (field.refreshesLabels) {
+      input.addEventListener("change", function () {
+        onDirty(field, true);
+      });
+    }
     return wrap(field, input);
   }
 

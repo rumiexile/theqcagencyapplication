@@ -214,6 +214,24 @@ Her ESG adımı şunları ister: standardın resmî metni (okunur) → **ajansı
 uygulaması** (kelime/karakter sayaçlı) → **öz değerlendirme** (Tam / Büyük
 ölçüde / Kısmen / Uyumsuz) → **kanıtlar** (ad, URL, belge referansı).
 
+### Kısaltmayla kişiselleşen metinler
+
+Kimlik adımındaki **Kısaltma** doldurulduğunda, yardım metinlerinde
+kuruluşun kendisinden söz edilen yerler "ajans" yerine o kısaltmayla
+anılır: *"Ajansın bu standarda ilişkin uygulaması"* → *"MÜDEK'in bu
+standarda ilişkin uygulaması"*.
+
+Metinde `{ajans}` / `{agency}` imi kullanılır ve `I18N.pick` çözer. Türkçe
+ekler kısaltmanın son ünlüsüne göre üretilir — `{ajans:in}` tamlayan,
+`:e` yönelme, `:i` belirtme, `:de` bulunma, `:den` ayrılma; İngilizcede
+`{agency:s}` iyelik. Büyük harfle yazılan im (`{Ajans}`), kısaltma yokken
+cümle başına uygun karşılığı verir.
+
+İm **yalnızca başvuru sahibi kuruluşu** anlatan cümlelere konur. Başka
+ajanslardan söz eden metinler — ESG standartlarının resmî metni, EQAR'a
+kayıtlı değerlendirici ajans, "Kalite Güvencesi Ajansları" bölüm başlığı —
+imsizdir ve olduğu gibi kalır.
+
 ### Sicil numaraları
 
 Yetkilendirme başvurusunda kimlik adımı ulusal sicil numaralarını da ister.
