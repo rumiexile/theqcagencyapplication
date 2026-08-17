@@ -781,6 +781,49 @@ window.KILAVUZ = {
             },
               ],
             },
+            {
+              id: "k3-3",
+              no: "3.3",
+              baslik: {
+                tr: "EQAR Kaydı Bulunan Kuruluşların Değerlendirilmesi",
+                en: "Evaluation of Organisations Holding an EQAR Registration",
+              },
+              bloklar: [
+                {
+                  tip: "fikralar",
+                  ogeler: [
+                    {
+                      tr: "Başvuru tarihi itibarıyla EQAR kaydı geçerli olan kuruluşlar, ESG Bölüm 2 ve Bölüm 3'e ilişkin başvuru formu alanlarını doldurmak yerine, EQAR kaydına esas olan güncel dış değerlendirme raporunu ve EQAR kayıt bilgilerini başvuru sistemine yükleyebilir.",
+                      en: "Organisations whose EQAR registration is valid as at the date of application may, instead of completing the application form fields relating to Parts 2 and 3 of the ESG, upload to the application system the current external review report on which the EQAR registration is based, together with the EQAR registration details.",
+                    },
+                    {
+                      tr: "Bu uygulama, kuruluşun ESG Bölüm 2 ve Bölüm 3 hükümlerine uyma veya bunlara ilişkin değerlendirmeden geçme yükümlülüğünü ortadan kaldırmaz. İlgili ölçütlere uygunluk, kuruluş tarafından sunulan dış değerlendirme raporu ve gerektiğinde talep edilen ek bilgi ve kanıtlar üzerinden Komisyon tarafından incelenir.",
+                      en: "This does not remove the organisation's obligation to comply with the provisions of Parts 2 and 3 of the ESG or to undergo evaluation against them. Compliance with the relevant criteria is examined by the Commission on the basis of the external review report submitted by the organisation and, where necessary, such additional information and evidence as may be requested.",
+                    },
+                    {
+                      tr: "Sunulan raporun kuruluşun başvuru kapsamındaki faaliyetlerini veya ESG Bölüm 2 ve Bölüm 3 ölçütlerini yeterli ölçüde kapsamaması, güncelliğini yitirmiş olması ya da değerlendirme için gerekli bilgileri içermemesi hâlinde kuruluştan ilgili başvuru alanlarını doldurması veya ek bilgi ve kanıt sunması istenir.",
+                      en: "Where the report submitted does not sufficiently cover the organisation's activities within the scope of the application or the criteria of Parts 2 and 3 of the ESG, where it has become out of date, or where it does not contain the information necessary for the evaluation, the organisation is required to complete the relevant application fields or to submit additional information and evidence.",
+                    },
+                    {
+                      tr: "EQAR kaydının geçerlilik bitiş tarihi, Kurul tarafından verilen Kalite Değerlendirme Tescil Belgesi veya Kalite Değerlendirme Tanınma Belgesinin geçerlilik bitiş tarihinden önce ise, belge geçerliliği EQAR kayıt süresiyle sınırlı olarak tesis edilir.",
+                      en: "Where the expiry date of the EQAR registration falls before the expiry date of the Quality Evaluation Registration Certificate or the Quality Evaluation Recognition Certificate issued by the Council, the validity of the certificate is established as limited to the period of the EQAR registration.",
+                    },
+                    {
+                      tr: "Kuruluşun EQAR kaydının yenilenmesi hâlinde kuruluş, yeni kayıt döneminin başlangıç ve bitiş tarihlerini ve yenilemeye esas dış değerlendirme raporunu, mevcut EQAR kaydının sona ermesinden önce “EQAR Kayıt Süresi Güncelleme Başvurusu” aracılığıyla sisteme yükler. Komisyon tarafından yapılacak inceleme sonucunda Kurul, kuruluşun tescil veya tanınma belgesinin geçerlilik süresinin daha önce verilen karar süresini aşmamak üzere devamına karar verebilir.",
+                      en: "Where the organisation's EQAR registration is renewed, the organisation shall upload to the system, before the expiry of its current EQAR registration, the start and end dates of the new registration period and the external review report on which the renewal is based, by means of an “EQAR Registration Period Update Application”. Following the examination to be carried out by the Commission, the Council may decide that the period of validity of the organisation's registration or recognition certificate shall continue, provided that it does not exceed the period of the decision previously taken.",
+                    },
+                    {
+                      tr: "Kuruluşun beşinci fıkrada belirtilen başvuruyu süresi içinde yapmaması veya EQAR kaydının yenilenmemesi hâlinde, EQAR kaydına bağlı olarak verilen tescil veya tanınma belgesi, kuruluşun EQAR kaydının sona erdiği tarih itibarıyla başka bir işleme gerek kalmaksızın sona erer.",
+                      en: "Where the organisation fails to make the application referred to in paragraph five within the period allowed, or where its EQAR registration is not renewed, the registration or recognition certificate issued on the basis of the EQAR registration shall terminate as of the date on which the organisation's EQAR registration ended, without any further action being required.",
+                    },
+                    {
+                      tr: "Kuruluş, EQAR kaydının askıya alınması, geri çekilmesi, kapsamının daraltılması veya sona ermesi dâhil kayıt durumundaki her türlü değişikliği gecikmeksizin Kurula bildirmekle yükümlüdür. Kurul, değişikliğin kuruluşun tescil veya tanınma belgesine etkisini ayrıca değerlendirir.",
+                      en: "The organisation is obliged to notify the Council without delay of any change in its registration status, including the suspension, withdrawal, narrowing of the scope, or termination of its EQAR registration. The Council separately assesses the effect of the change on the organisation's registration or recognition certificate.",
+                    },
+                  ],
+                },
+              ],
+            },
           ],
         },
         {
