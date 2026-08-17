@@ -970,7 +970,10 @@ window.SCHEMA = (function () {
     /* ============= 7 — SONUÇ, BEYANLAR VE GÖNDERİM ==================== */
     {
       id: "submit",
-      label: { tr: "Sonuç, Beyanlar ve Gönderim", en: "Outcome, Declarations & Submission" },
+      /* Üst menüde ESG bölümlerindeki gibi iki satır: ana etiket ve altında
+         alt başlık. */
+      label: { tr: "Sonuç", en: "Outcome" },
+      sublabel: { tr: "Beyanlar ve Gönderim", en: "Declarations & Submission" },
       steps: [
         {
           /* Yalnızca yenileme başvurularında istenir: bir önceki
