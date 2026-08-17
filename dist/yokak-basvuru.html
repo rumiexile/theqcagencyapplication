@@ -8127,8 +8127,30 @@ window.SCHEMA = (function () {
             en: "Enter the official identity details of the applicant organisation.",
           },
           fields: [
-            { type: "text", id: "agency.nameTr", required: true, half: true, label: { tr: "Kuruluşun adı (Türkçe)", en: "Organisation name (Turkish)" } },
-            { type: "text", id: "agency.nameEn", required: true, half: true, label: { tr: "Kuruluşun adı (İngilizce)", en: "Organisation name (English)" } },
+            {
+              /* Alan kimliği (nameTr) MİS eşlemesinde ve dışa aktarılan
+                 dosyalarda kullanıldığı için değiştirilmedi; sorulan şey
+                 artık Türkçe ad değil, tüzel kişiliğin tescil edildiği
+                 ülkedeki resmî addır. Tanınma başvurusunda kuruluşun
+                 Türkçe bir adı olmayabilir. */
+              type: "text", id: "agency.nameTr", required: true, half: true,
+              label: {
+                tr: "Kuruluşun adı (tescil ülkesindeki resmî ad)",
+                en: "Organisation name (country of origin)",
+              },
+              hint: {
+                tr: "Tescil edildiği ülkedeki sicile kayıtlı resmî ad, o ülkenin dilinde.",
+                en: "The registered name in the country of establishment, in its own language.",
+              },
+            },
+            {
+              type: "text", id: "agency.nameEn", required: true, half: true,
+              label: { tr: "Kuruluşun adı (İngilizce)", en: "Organisation name (English)" },
+              hint: {
+                tr: "Kuruluşun uluslararası yazışmalarda kullandığı İngilizce adı.",
+                en: "The English name the organisation uses in international correspondence.",
+              },
+            },
             { type: "text", id: "agency.acronym", required: true, half: true, label: { tr: "Kısaltma", en: "Acronym" }, placeholder: { tr: "ör. MÜDEK", en: "e.g. MÜDEK" } },
             { type: "number", id: "agency.foundedYear", required: true, half: true, min: 1900, max: 2100, label: { tr: "Kuruluş yılı", en: "Year of establishment" } },
             { type: "text", id: "agency.country", required: true, half: true, label: { tr: "Ülke", en: "Country" }, showIf: { field: "applicationType", equals: "taninma" } },
