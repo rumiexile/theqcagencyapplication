@@ -357,13 +357,28 @@ window.SCHEMA = (function () {
             en: "Enter the official identity details of the applicant organisation.",
           },
           fields: [
+            /* Kuruluşun resmî adı — etiketi başvuru türüne göre değişir.
+               İkisi de aynı alan kimliğini (nameTr) taşır: kimlik MİS
+               eşlemesinde ve dışa aktarılan dosyalarda kullanıldığından
+               değiştirilemez, ayrıca tür değiştirilse bile yazılan değer
+               korunur. equals/notEquals çifti sayesinde her durumda tam
+               olarak biri görünür. */
             {
-              /* Alan kimliği (nameTr) MİS eşlemesinde ve dışa aktarılan
-                 dosyalarda kullanıldığı için değiştirilmedi; sorulan şey
-                 artık Türkçe ad değil, tüzel kişiliğin tescil edildiği
-                 ülkedeki resmî addır. Tanınma başvurusunda kuruluşun
-                 Türkçe bir adı olmayabilir. */
+              /* Ulusal kuruluş: Türkiye'de tescilli, adı Türkçedir. */
               type: "text", id: "agency.nameTr", required: true, half: true,
+              showIf: { field: "applicationType", equals: "yetkilendirme" },
+              label: { tr: "Kuruluşun adı (Türkçe)", en: "Organisation name (Turkish)" },
+              hint: {
+                tr: "Kuruluşun Türkiye'deki sicile kayıtlı resmî adı.",
+                en: "The organisation's official name as registered in Türkiye.",
+              },
+            },
+            {
+              /* Tanınma başvurusu (ve tür henüz seçilmemişken): kuruluşun
+                 Türkçe bir adı olmayabilir; sorulan, tüzel kişiliğin
+                 tescil edildiği ülkedeki resmî addır. */
+              type: "text", id: "agency.nameTr", required: true, half: true,
+              showIf: { field: "applicationType", notEquals: "yetkilendirme" },
               label: {
                 tr: "Kuruluşun adı (tescil ülkesindeki resmî ad)",
                 en: "Organisation name (country of origin)",

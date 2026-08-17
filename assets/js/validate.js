@@ -14,10 +14,15 @@ window.Validate = (function () {
      Koşullu görünürlük / conditional visibility
      showIf: { field: "applicationKind", equals: "yenileme" }
      showIf: { field: "applicationKind", in: ["yenileme", "kapsam"] }
+     showIf: { field: "applicationType", notEquals: "yetkilendirme" }
      ------------------------------------------------------------------ */
   function matches(c, store) {
     var v = store.get(c.field);
     if (c.equals !== undefined) return v === c.equals;
+    /* notEquals seçilmemiş değeri de kapsar: equals ile birlikte
+       kullanıldığında ikisinden tam olarak biri görünür, alan hiçbir
+       durumda kaybolmaz. */
+    if (c.notEquals !== undefined) return v !== c.notEquals;
     if (c.in !== undefined) return c.in.indexOf(v) !== -1;
     if (c.truthy !== undefined) return !!v === !!c.truthy;
     return true;
