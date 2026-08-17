@@ -201,6 +201,17 @@ window.Validate = (function () {
     if (field.maxLength && s.length > field.maxLength) {
       return t("validate.maxLength", { n: field.maxLength });
     }
+    /* Kelime sınırı — uzun anlatım alanlarında karakter yerine kelime
+       üzerinden sınır konur (ör. 6000 kelimelik faaliyet anlatımı). */
+    if (field.minWords || field.maxWords) {
+      var wc = s ? s.split(/\s+/).length : 0;
+      if (field.minWords && wc < field.minWords) {
+        return t("validate.minWords", { n: field.minWords });
+      }
+      if (field.maxWords && wc > field.maxWords) {
+        return t("validate.maxWords", { n: field.maxWords });
+      }
+    }
     /* Biçim kalıbı — sicil/kimlik numaraları gibi sabit desenli alanlar için.
        Hata iletisi alanın kendi diline sahip olduğundan şemadan gelir. */
     if (field.pattern && !new RegExp(field.pattern).test(s)) {

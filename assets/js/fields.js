@@ -198,23 +198,30 @@ window.Fields = (function () {
     ta.value = S.get(field.id, "") || "";
 
     var counter = null;
-    if (field.minLength || field.maxLength) {
+    if (field.minLength || field.maxLength || field.minWords || field.maxWords) {
       counter = el("div", { class: "field__counter" });
     }
 
+    /* Sınır kelime üzerinden konulmuşsa sayaç da kelimeyi ölçer; aksi
+       hâlde karakter sayısına bakar. İkisi bir arada kullanılmaz. */
     function updateCounter() {
       if (!counter) return;
       var len = ta.value.trim().length;
       var words = ta.value.trim() ? ta.value.trim().split(/\s+/).length : 0;
+      var kelimeSiniri = field.minWords || field.maxWords;
       var parts = [words + " " + t("field.words"), len + " " + t("field.chars")];
-      if (field.minLength) parts.push(t("field.min") + " " + field.minLength);
-      if (field.maxLength) parts.push(t("field.max") + " " + field.maxLength);
+      var alt = kelimeSiniri ? field.minWords : field.minLength;
+      var ust = kelimeSiniri ? field.maxWords : field.maxLength;
+      var birim = kelimeSiniri ? t("field.words") : t("field.chars");
+      var olculen = kelimeSiniri ? words : len;
+      if (alt) parts.push(t("field.min") + " " + alt + " " + birim);
+      if (ust) parts.push(t("field.max") + " " + ust + " " + birim);
       counter.textContent = parts.join(" · ");
       counter.className =
         "field__counter" +
-        (field.maxLength && len > field.maxLength
+        (ust && olculen > ust
           ? " field__counter--over"
-          : field.minLength && len > 0 && len < field.minLength
+          : alt && olculen > 0 && olculen < alt
           ? " field__counter--warn"
           : "");
     }

@@ -871,11 +871,50 @@ window.SCHEMA = (function () {
       ],
     },
 
-    /* ==================== 6 — BEYAN VE GÖNDERİM ====================== */
+    /* ============= 6 — SONUÇ, BEYANLAR VE GÖNDERİM ==================== */
     {
       id: "submit",
-      label: { tr: "Beyan ve Gönderim", en: "Declaration & Submission" },
+      label: { tr: "Sonuç, Beyanlar ve Gönderim", en: "Outcome, Declarations & Submission" },
       steps: [
+        {
+          /* Yalnızca yenileme başvurularında istenir: bir önceki
+             değerlendirmenin gelişmeye açık yönlerine karşılık hangi
+             faaliyetlerin yürütüldüğünün hesabı. İlk başvuruda önceki bir
+             değerlendirme, kapsam genişletmede ise yeniden değerlendirilen
+             bir dönem bulunmadığından bu adım gösterilmez. */
+          id: "prior-improvements",
+          showIf: { field: "applicationKind", equals: "yenileme" },
+          title: {
+            tr: "Önceki Değerlendirmede Verilen Gelişmeye Açık Yönlere Yönelik Faaliyetler",
+            en: "Activities Addressing the Areas for Improvement Identified in the Previous Evaluation",
+          },
+          short: { tr: "Gelişmeye açık yönler", en: "Areas for improvement" },
+          desc: {
+            tr:
+              "Kuruluşunuzun bir önceki yetkilendirme veya tanınma değerlendirmesinde belirlenen gelişmeye açık yönlerin her biri için, tescil/tanınma süresi boyunca yürüttüğünüz faaliyetleri ve ulaştığınız sonuçları anlatınız.",
+            en:
+              "For each area for improvement identified in your organisation's previous authorisation or recognition evaluation, describe the activities you carried out during the registration/recognition period and the results you achieved.",
+          },
+          fields: [
+            {
+              type: "textarea",
+              id: "priorImprovements.narrative",
+              large: true,
+              required: true,
+              maxWords: 6000,
+              label: {
+                tr: "Gelişmeye açık yönlere yönelik faaliyetler",
+                en: "Activities addressing the areas for improvement",
+              },
+              hint: {
+                tr:
+                  "Gelişmeye açık yönleri bir önceki Kurul kararında yer aldıkları sırayla ele alınız. Her biri için yürütülen faaliyeti, faaliyetin tarihini, sorumlusunu ve ulaşılan sonucu belirtiniz; sonucu gösteren kanıtlara Belgeler bölümündeki adlarıyla atıf yapınız. En fazla 6000 kelime.",
+                en:
+                  "Address the areas for improvement in the order in which they appear in the previous Board decision. For each, state the activity carried out, its date, the person responsible and the result achieved; refer to the evidence demonstrating the result by the names used in the Documents section. Maximum 6000 words.",
+              },
+            },
+          ],
+        },
         {
           id: "declaration",
           title: { tr: "Taahhüt ve Beyan", en: "Undertaking and Declaration" },

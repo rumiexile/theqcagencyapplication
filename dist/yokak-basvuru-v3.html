@@ -4011,6 +4011,8 @@ window.I18N = (function () {
       "validate.url": "Geçerli bir adres giriniz (https:// ile başlamalı).",
       "validate.minLength": "En az {n} karakter giriniz.",
       "validate.maxLength": "En fazla {n} karakter girebilirsiniz.",
+      "validate.minWords": "En az {n} kelime yazınız.",
+      "validate.maxWords": "En fazla {n} kelime yazabilirsiniz.",
       "validate.pattern": "Girdiğiniz değer beklenen biçimde değil.",
       "validate.minItems": "En az {n} kayıt eklemelisiniz.",
       "validate.number": "Geçerli bir sayı giriniz.",
@@ -4228,6 +4230,8 @@ window.I18N = (function () {
       "validate.url": "Enter a valid address (must start with https://).",
       "validate.minLength": "Enter at least {n} characters.",
       "validate.maxLength": "Enter no more than {n} characters.",
+      "validate.minWords": "Write at least {n} words.",
+      "validate.maxWords": "Write no more than {n} words.",
       "validate.pattern": "The value is not in the expected format.",
       "validate.minItems": "Add at least {n} entries.",
       "validate.number": "Enter a valid number.",
@@ -7636,6 +7640,17 @@ window.Validate = (function () {
     if (field.maxLength && s.length > field.maxLength) {
       return t("validate.maxLength", { n: field.maxLength });
     }
+    /* Kelime sınırı — uzun anlatım alanlarında karakter yerine kelime
+       üzerinden sınır konur (ör. 6000 kelimelik faaliyet anlatımı). */
+    if (field.minWords || field.maxWords) {
+      var wc = s ? s.split(/\s+/).length : 0;
+      if (field.minWords && wc < field.minWords) {
+        return t("validate.minWords", { n: field.minWords });
+      }
+      if (field.maxWords && wc > field.maxWords) {
+        return t("validate.maxWords", { n: field.maxWords });
+      }
+    }
     /* Biçim kalıbı — sicil/kimlik numaraları gibi sabit desenli alanlar için.
        Hata iletisi alanın kendi diline sahip olduğundan şemadan gelir. */
     if (field.pattern && !new RegExp(field.pattern).test(s)) {
@@ -8626,11 +8641,50 @@ window.SCHEMA = (function () {
       ],
     },
 
-    /* ==================== 6 — BEYAN VE GÖNDERİM ====================== */
+    /* ============= 6 — SONUÇ, BEYANLAR VE GÖNDERİM ==================== */
     {
       id: "submit",
-      label: { tr: "Beyan ve Gönderim", en: "Declaration & Submission" },
+      label: { tr: "Sonuç, Beyanlar ve Gönderim", en: "Outcome, Declarations & Submission" },
       steps: [
+        {
+          /* Yalnızca yenileme başvurularında istenir: bir önceki
+             değerlendirmenin gelişmeye açık yönlerine karşılık hangi
+             faaliyetlerin yürütüldüğünün hesabı. İlk başvuruda önceki bir
+             değerlendirme, kapsam genişletmede ise yeniden değerlendirilen
+             bir dönem bulunmadığından bu adım gösterilmez. */
+          id: "prior-improvements",
+          showIf: { field: "applicationKind", equals: "yenileme" },
+          title: {
+            tr: "Önceki Değerlendirmede Verilen Gelişmeye Açık Yönlere Yönelik Faaliyetler",
+            en: "Activities Addressing the Areas for Improvement Identified in the Previous Evaluation",
+          },
+          short: { tr: "Gelişmeye açık yönler", en: "Areas for improvement" },
+          desc: {
+            tr:
+              "Kuruluşunuzun bir önceki yetkilendirme veya tanınma değerlendirmesinde belirlenen gelişmeye açık yönlerin her biri için, tescil/tanınma süresi boyunca yürüttüğünüz faaliyetleri ve ulaştığınız sonuçları anlatınız.",
+            en:
+              "For each area for improvement identified in your organisation's previous authorisation or recognition evaluation, describe the activities you carried out during the registration/recognition period and the results you achieved.",
+          },
+          fields: [
+            {
+              type: "textarea",
+              id: "priorImprovements.narrative",
+              large: true,
+              required: true,
+              maxWords: 6000,
+              label: {
+                tr: "Gelişmeye açık yönlere yönelik faaliyetler",
+                en: "Activities addressing the areas for improvement",
+              },
+              hint: {
+                tr:
+                  "Gelişmeye açık yönleri bir önceki Kurul kararında yer aldıkları sırayla ele alınız. Her biri için yürütülen faaliyeti, faaliyetin tarihini, sorumlusunu ve ulaşılan sonucu belirtiniz; sonucu gösteren kanıtlara Belgeler bölümündeki adlarıyla atıf yapınız. En fazla 6000 kelime.",
+                en:
+                  "Address the areas for improvement in the order in which they appear in the previous Board decision. For each, state the activity carried out, its date, the person responsible and the result achieved; refer to the evidence demonstrating the result by the names used in the Documents section. Maximum 6000 words.",
+              },
+            },
+          ],
+        },
         {
           id: "declaration",
           title: { tr: "Taahhüt ve Beyan", en: "Undertaking and Declaration" },
@@ -8941,23 +8995,30 @@ window.Fields = (function () {
     ta.value = S.get(field.id, "") || "";
 
     var counter = null;
-    if (field.minLength || field.maxLength) {
+    if (field.minLength || field.maxLength || field.minWords || field.maxWords) {
       counter = el("div", { class: "field__counter" });
     }
 
+    /* Sınır kelime üzerinden konulmuşsa sayaç da kelimeyi ölçer; aksi
+       hâlde karakter sayısına bakar. İkisi bir arada kullanılmaz. */
     function updateCounter() {
       if (!counter) return;
       var len = ta.value.trim().length;
       var words = ta.value.trim() ? ta.value.trim().split(/\s+/).length : 0;
+      var kelimeSiniri = field.minWords || field.maxWords;
       var parts = [words + " " + t("field.words"), len + " " + t("field.chars")];
-      if (field.minLength) parts.push(t("field.min") + " " + field.minLength);
-      if (field.maxLength) parts.push(t("field.max") + " " + field.maxLength);
+      var alt = kelimeSiniri ? field.minWords : field.minLength;
+      var ust = kelimeSiniri ? field.maxWords : field.maxLength;
+      var birim = kelimeSiniri ? t("field.words") : t("field.chars");
+      var olculen = kelimeSiniri ? words : len;
+      if (alt) parts.push(t("field.min") + " " + alt + " " + birim);
+      if (ust) parts.push(t("field.max") + " " + ust + " " + birim);
       counter.textContent = parts.join(" · ");
       counter.className =
         "field__counter" +
-        (field.maxLength && len > field.maxLength
+        (ust && olculen > ust
           ? " field__counter--over"
-          : field.minLength && len > 0 && len < field.minLength
+          : alt && olculen > 0 && olculen < alt
           ? " field__counter--warn"
           : "");
     }
@@ -11390,8 +11451,17 @@ window.Fields = (function () {
       ])
     );
 
+    /* Son sekme önizlemeye girmez — orada imzalanan beyanlar vardır, geri
+       okunacak içerik değil. Tek istisnası gelişmeye açık yönler adımıdır:
+       diğer sekmelerdeki anlatımlar gibi bir içerik alanı olduğundan
+       gönderim öncesi burada da okunabilmelidir. */
+    var ATLANAN_ADIM = {
+      declaration: true,
+      "financial-declaration": true,
+      review: true,
+    };
+
     tabs.forEach(function (tab) {
-      if (tab.id === "submit") return;
       var group = el("section", { class: "review-group" });
       group.appendChild(
         el("h2", { class: "review-group__title" }, [
@@ -11402,6 +11472,7 @@ window.Fields = (function () {
 
       var list = el("div", { class: "review-list" });
       tab.steps.forEach(function (step) {
+        if (ATLANAN_ADIM[step.id]) return;
         if (!V.isVisible(step, S)) return; // koşulu sağlanmayan adım önizlemeye girmez
         step.fields.forEach(function (f) {
           if (!f.id || f.type === "esg-standard" || f.type === "review") return;
@@ -11419,6 +11490,7 @@ window.Fields = (function () {
           );
         });
       });
+      if (!list.childNodes.length) return; // gösterilecek alanı kalmayan sekme
       group.appendChild(list);
       host.appendChild(group);
     });

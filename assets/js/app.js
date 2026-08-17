@@ -577,8 +577,17 @@
       ])
     );
 
+    /* Son sekme önizlemeye girmez — orada imzalanan beyanlar vardır, geri
+       okunacak içerik değil. Tek istisnası gelişmeye açık yönler adımıdır:
+       diğer sekmelerdeki anlatımlar gibi bir içerik alanı olduğundan
+       gönderim öncesi burada da okunabilmelidir. */
+    var ATLANAN_ADIM = {
+      declaration: true,
+      "financial-declaration": true,
+      review: true,
+    };
+
     tabs.forEach(function (tab) {
-      if (tab.id === "submit") return;
       var group = el("section", { class: "review-group" });
       group.appendChild(
         el("h2", { class: "review-group__title" }, [
@@ -589,6 +598,7 @@
 
       var list = el("div", { class: "review-list" });
       tab.steps.forEach(function (step) {
+        if (ATLANAN_ADIM[step.id]) return;
         if (!V.isVisible(step, S)) return; // koşulu sağlanmayan adım önizlemeye girmez
         step.fields.forEach(function (f) {
           if (!f.id || f.type === "esg-standard" || f.type === "review") return;
@@ -606,6 +616,7 @@
           );
         });
       });
+      if (!list.childNodes.length) return; // gösterilecek alanı kalmayan sekme
       group.appendChild(list);
       host.appendChild(group);
     });
