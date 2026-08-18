@@ -214,6 +214,11 @@ Her ESG adımı şunları ister: standardın resmî metni (okunur) → **ajansı
 uygulaması** (kelime/karakter sayaçlı) → **öz değerlendirme** (Tam / Büyük
 ölçüde / Kısmen / Uyumsuz) → **kanıtlar** (ad, URL, belge referansı).
 
+Sekiz bölümün sırası, birinci sekmedeki üç yanıtın açtığı dallar (muafiyet,
+devir, koşullu adım) ve gönderim denetimi tek bir akış diyagramında
+toplanmıştır: [`docs/basvuru-akisi.html`](docs/basvuru-akisi.html). Dosya tek
+başına açılır; kurulum ya da derleme gerektirmez.
+
 ### Kısaltmayla kişiselleşen metinler
 
 Kimlik adımındaki **Kısaltma** doldurulduğunda, yardım metinlerinde
@@ -368,6 +373,8 @@ kilavuz/
     icerik.js               ← Kılavuz metni (bölüm → kısım → blok)
     ek1.js                  ÜRETİLMİŞ — tools/gen-ek1.js
     ekler.js                ÜRETİLMİŞ — tools/gen-ekler.js
+docs/
+  basvuru-akisi.html        Başvuru akış diyagramı (tek dosya, tarayıcıda açılır)
 tools/
   bundle.py                 Tek dosyalık paketleyici (--source ile kaynak seçilir)
   gen-ek1.js                EK 1'i ESG verisinden üretir

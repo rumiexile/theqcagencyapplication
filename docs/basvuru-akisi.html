@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Başvuru Akışı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" />
+<style>
+/* ==========================================================================
+   Başvuru akışı — akış diyagramı
+   Renk ve tipografi assets/css/tokens.css içindeki kurumsal ölçeklerden
+   türetilmiştir; bu sayfa tek başına açılabilsin diye jetonlar burada
+   yeniden tanımlanır.
+   ========================================================================== */
+
+:root {
+  --paper:    #f4f7fa;
+  --surface:  #ffffff;
+  --sunken:   #eef3f8;
+  --ink:      #121d2c;
+  --muted:    #56687e;
+  --faint:    #7d8ea3;
+  --hairline: #d3ddea;
+  --rule:     #b9c8d9;
+  --brand:    #1a4270;
+
+  /* Dal renkleri — üç ayrı mekanizma, üç ayrı renk */
+  --c-exempt: #a24906;  /* muaf      — bölüm hiç istenmez        */
+  --c-carry:  #0a6675;  /* devralınır — veri önceki başvurudan gelir */
+  --c-add:    #15734a;  /* koşullu ek adım                        */
+
+  --shadow: 0 1px 2px rgba(18, 29, 44, .05), 0 8px 24px -18px rgba(18, 29, 44, .35);
+
+  --sans: "Inter", "Segoe UI", "Noto Sans", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --serif: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:    #0b1420;
+    --surface:  #121e2d;
+    --sunken:   #0f1a28;
+    --ink:      #e3ecf6;
+    --muted:    #9fb2c7;
+    --faint:    #7f93aa;
+    --hairline: #24384f;
+    --rule:     #33495f;
+    --brand:    #8fb6dd;
+
+    --c-exempt: #e6a659;
+    --c-carry:  #62cbd8;
+    --c-add:    #62c391;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 28px -20px rgba(0, 0, 0, .9);
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:    #0b1420;
+  --surface:  #121e2d;
+  --sunken:   #0f1a28;
+  --ink:      #e3ecf6;
+  --muted:    #9fb2c7;
+  --faint:    #7f93aa;
+  --hairline: #24384f;
+  --rule:     #33495f;
+  --brand:    #8fb6dd;
+
+  --c-exempt: #e6a659;
+  --c-carry:  #62cbd8;
+  --c-add:    #62c391;
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 28px -20px rgba(0, 0, 0, .9);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.1rem, 4vw, 2.5rem) 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.75rem, 5vw, 4.25rem);
+}
+
+/* ---- başlık ------------------------------------------------------------ */
+
+.masthead { display: flex; flex-direction: column; gap: .85rem; }
+
+.eyebrow {
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(2rem, 4.6vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: -.015em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.thesis {
+  max-width: 62ch;
+  font-size: 1.06rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem 1.4rem;
+  padding-top: .5rem;
+  border-top: 1px solid var(--hairline);
+  font-family: var(--mono);
+  font-size: .72rem;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- bölümler ---------------------------------------------------------- */
+
+section { display: flex; flex-direction: column; gap: 1.1rem; }
+
+h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.42rem;
+  line-height: 1.25;
+  margin: 0;
+  letter-spacing: -.008em;
+}
+
+h2 .num {
+  font-family: var(--mono);
+  font-size: .72rem;
+  font-weight: 500;
+  color: var(--faint);
+  margin-inline-end: .6rem;
+  vertical-align: .22em;
+}
+
+p { margin: 0; max-width: 68ch; }
+p.lede { color: var(--muted); }
+
+/* ---- figür ------------------------------------------------------------- */
+
+figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+}
+
+.plate {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: clamp(.9rem, 2.5vw, 1.6rem);
+  overflow-x: auto;
+}
+
+.plate svg {
+  display: block;
+  width: 100%;
+  min-width: 900px;
+  height: auto;
+  color: var(--ink);
+}
+
+figcaption {
+  font-size: .87rem;
+  color: var(--muted);
+  max-width: 76ch;
+}
+
+figcaption b { color: var(--ink); font-weight: 600; }
+
+/* ---- gösterge ---------------------------------------------------------- */
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: .1rem 1.5rem;
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--hairline);
+  list-style: none;
+  margin: 0;
+}
+
+.legend li {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: start;
+  gap: .7rem;
+  padding: .55rem 0;
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+.legend .swatch {
+  margin-top: .48rem;
+  height: 0;
+  border-top: 2px solid currentColor;
+}
+
+.legend .swatch.dash { border-top-style: dashed; }
+.legend b { display: block; color: var(--ink); font-weight: 600; font-size: .88rem; }
+
+.k-exempt { color: var(--c-exempt); }
+.k-carry  { color: var(--c-carry); }
+.k-add    { color: var(--c-add); }
+
+/* ---- tablo ------------------------------------------------------------- */
+
+.scroller { overflow-x: auto; }
+
+table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: .88rem;
+}
+
+thead th {
+  text-align: start;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 1rem .6rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+tbody td {
+  padding: .8rem 1rem .8rem 0;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+  color: var(--muted);
+}
+
+tbody td:first-child { color: var(--ink); width: 27%; }
+tbody td:nth-child(2) { width: 20%; font-family: var(--mono); font-size: .76rem; }
+tbody tr:last-child td { border-bottom: 0; }
+
+td b { color: var(--ink); font-weight: 600; }
+
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 500;
+  padding: .1rem .42rem;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* ---- arka plan listesi ------------------------------------------------- */
+
+.always {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.always div {
+  background: var(--surface);
+  padding: 1.05rem 1.15rem;
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+.always h3 {
+  margin: 0 0 .3rem;
+  font-family: var(--sans);
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -.002em;
+}
+
+.always code {
+  font-family: var(--mono);
+  font-size: .78em;
+  background: var(--sunken);
+  padding: .08em .34em;
+  border-radius: 4px;
+  color: var(--ink);
+}
+
+footer {
+  border-top: 1px solid var(--hairline);
+  padding-top: 1.1rem;
+  font-size: .78rem;
+  color: var(--faint);
+  max-width: 72ch;
+}
+
+footer code { font-family: var(--mono); font-size: .95em; }
+
+/* ---- SVG tipografisi --------------------------------------------------- */
+
+svg text { font-family: var(--sans); }
+
+.n-title { font-size: 13px; font-weight: 600; fill: var(--ink); }
+.n-sub   { font-size: 10.5px; fill: var(--muted); }
+.n-count { font-family: var(--mono); font-size: 10px; font-weight: 500; fill: var(--faint); }
+.n-row   { font-size: 11px; fill: var(--ink); }
+.n-tag   { font-size: 9.5px; font-weight: 500; fill: var(--muted); }
+.d-title { font-size: 11.5px; font-weight: 600; fill: var(--ink); }
+.d-opt   { font-size: 10px; fill: var(--muted); }
+.e-lab   { font-size: 10.5px; font-weight: 500; fill: var(--muted); }
+.e-note  { font-size: 9.5px; fill: var(--faint); }
+
+.lab-exempt { fill: var(--c-exempt); font-weight: 600; }
+.lab-carry  { fill: var(--c-carry);  font-weight: 600; }
+.lab-add    { fill: var(--c-add);    font-weight: 600; }
+
+.node { fill: var(--surface); stroke: var(--hairline); stroke-width: 1.4; }
+.node--key { stroke: var(--brand); stroke-width: 1.8; }
+.node--ghost { fill: none; stroke: var(--rule); stroke-width: 1.4; stroke-dasharray: 5 4; }
+.node--sunken { fill: var(--sunken); stroke: var(--hairline); stroke-width: 1.4; }
+.hex { fill: var(--sunken); stroke: var(--rule); stroke-width: 1.5; }
+
+.flow { fill: none; stroke: currentColor; stroke-width: 1.6; }
+.flow--ghost { fill: none; stroke: var(--rule); stroke-width: 1.4; stroke-dasharray: 5 4; }
+.lane-exempt { fill: none; stroke: var(--c-exempt); stroke-width: 1.6; }
+.lane-carry  { fill: none; stroke: var(--c-carry);  stroke-width: 1.6; }
+.lane-add    { fill: none; stroke: var(--c-add);    stroke-width: 1.6; }
+
+.dot-exempt { fill: var(--c-exempt); }
+.dot-carry  { fill: var(--c-carry); }
+.dot-add    { fill: var(--c-add); }
+
+.divider { stroke: var(--hairline); stroke-width: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+a:focus-visible, :focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">YÖKAK · Kalite Güvencesi Ajansı Başvuru Sistemi</div>
+    <h1>Başvuru Akışı</h1>
+    <p class="thesis">
+      Form sekiz bölümden oluşur, ama hiçbir başvuru sekizini de aynı biçimde doldurmaz.
+      İlk sekmede verilen üç yanıt — başvuru türü, başvuru niteliği ve önceki dış
+      değerlendirme — geri kalan bölümlerin hangisinin isteneceğini, hangisinin devralınacağını
+      ve hangisinin hiç sorulmayacağını belirler.
+    </p>
+    <div class="meta">
+      <span>8 sekme · 29 adım (azami)</span>
+      <span>ESG 2027 — Draft 3</span>
+      <span>kaynak: assets/js/schema.js</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="num">01</span>Uçtan uca akış</h2>
+    <p class="lede">
+      Orta sütun sırayla gezilen bölümlerdir. Yanlardaki hatlar, birinci sekmedeki
+      yanıtların hangi bölümü nasıl değiştirdiğini gösterir.
+    </p>
+
+    <figure>
+      <div class="plate">
+        <svg viewBox="0 0 1200 1530" role="img"
+             aria-label="Başvuru akış diyagramı: MİS ön başvurudan başlayıp Başvuru Türü sekmesine, oradan üç karar noktasına (başvuru türü, başvuru niteliği, önceki EQAR değerlendirmesi) ayrılan; ardından Ajans Bilgileri, Belgeler, Öz Değerlendirme, ESG 3, ESG 2, ESG 1 ve Sonuç bölümlerinden geçip zorunlu alan denetimine ulaşan akış. EQAR yanıtı evet ise ESG 3 ve ESG 2 muaf tutulur; kapsam genişletmede Ajans Bilgileri, Belgeler, ESG 3 ve ESG 2 devralınır; yenileme ve yetkilendirme Sonuç bölümüne koşullu adım ekler. Denetim başarısızsa akış ilk eksik adıma döner, başarılıysa başvuru numarası üretilir.">
+
+          <defs>
+            <marker id="f1-ah" viewBox="0 0 10 10" refX="9.2" refY="5"
+                    markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="currentColor"></path>
+            </marker>
+            <marker id="f1-ah-ghost" viewBox="0 0 10 10" refX="9.2" refY="5"
+                    markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="var(--rule)"></path>
+            </marker>
+            <marker id="f1-ah-exempt" viewBox="0 0 10 10" refX="9.2" refY="5"
+                    markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="var(--c-exempt)"></path>
+            </marker>
+            <marker id="f1-ah-carry" viewBox="0 0 10 10" refX="9.2" refY="5"
+                    markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="var(--c-carry)"></path>
+            </marker>
+            <marker id="f1-ah-add" viewBox="0 0 10 10" refX="9.2" refY="5"
+                    markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="var(--c-add)"></path>
+            </marker>
+          </defs>
+
+          <!-- ============ giriş: MİS ön başvuru ============ -->
+          <rect class="node--ghost" x="420" y="16" width="320" height="52" rx="10"></rect>
+          <text class="n-title" x="440" y="40" style="fill:var(--muted)">MİS ön başvuru</text>
+          <text class="n-sub" x="440" y="56">isteğe bağlı · mis.yokak.gov.tr</text>
+          <line class="flow--ghost" x1="580" y1="68" x2="580" y2="102" marker-end="url(#f1-ah-ghost)"></line>
+          <text class="e-lab" x="600" y="82">kimlik ve iletişim alanları önyüklenir —</text>
+          <text class="e-lab" x="600" y="96">dolu alanın üzerine yazılmaz</text>
+
+          <!-- ============ 1 · Başvuru Türü ============ -->
+          <rect class="node node--key" x="420" y="104" width="320" height="80" rx="10"></rect>
+          <text class="n-title" x="440" y="134">1 · Başvuru Türü</text>
+          <text class="n-sub" x="440" y="160">Tür seçimi · Niyet mektubu · EQAR sorusu</text>
+          <text class="n-count" x="720" y="160" text-anchor="end">3 adım</text>
+
+          <!-- üç yanıta dağılım -->
+          <polyline class="flow" points="580,184 580,204"></polyline>
+          <polyline class="flow" points="580,204 230,204 230,222" marker-end="url(#f1-ah)"></polyline>
+          <polyline class="flow" points="580,204 580,222" marker-end="url(#f1-ah)"></polyline>
+          <polyline class="flow" points="580,204 965,204 965,222" marker-end="url(#f1-ah)"></polyline>
+
+          <!-- karar noktaları -->
+          <polygon class="hex" points="144,224 316,224 340,270 316,316 144,316 120,270"></polygon>
+          <text class="d-title" x="230" y="258" text-anchor="middle">Önceki EQAR</text>
+          <text class="d-title" x="230" y="274" text-anchor="middle">değerlendirmesi?</text>
+          <text class="d-opt" x="230" y="292" text-anchor="middle">Evet · Hayır</text>
+
+          <polygon class="hex" points="454,224 706,224 730,270 706,316 454,316 430,270"></polygon>
+          <text class="d-title" x="580" y="264" text-anchor="middle">Başvuru niteliği?</text>
+          <text class="d-opt" x="580" y="284" text-anchor="middle">İlk · Yenileme · Kapsam genişletme</text>
+
+          <polygon class="hex" points="854,224 1076,224 1100,270 1076,316 854,316 830,270"></polygon>
+          <text class="d-title" x="965" y="264" text-anchor="middle">Başvuru türü?</text>
+          <text class="d-opt" x="965" y="284" text-anchor="middle">Yetkilendirme · Tanınma</text>
+
+          <!-- ============ omurga ============ -->
+          <polyline class="flow" points="580,316 580,354" marker-end="url(#f1-ah)"></polyline>
+
+          <rect class="node" x="420" y="356" width="320" height="80" rx="10"></rect>
+          <text class="n-title" x="440" y="386">2 · Ajans Bilgileri</text>
+          <text class="n-sub" x="440" y="412">Kimlik · İletişim · Yasal statü · Yönetişim</text>
+          <text class="n-count" x="720" y="412" text-anchor="end">4 adım</text>
+          <polyline class="flow" points="580,436 580,474" marker-end="url(#f1-ah)"></polyline>
+
+          <rect class="node" x="420" y="476" width="320" height="80" rx="10"></rect>
+          <text class="n-title" x="440" y="506">3 · Belgeler</text>
+          <text class="n-sub" x="440" y="532">Kanıt koleksiyonu — ESG etiketli</text>
+          <text class="n-count" x="720" y="532" text-anchor="end">1 adım</text>
+          <polyline class="flow" points="580,556 580,594" marker-end="url(#f1-ah)"></polyline>
+
+          <rect class="node" x="420" y="596" width="320" height="80" rx="10"></rect>
+          <text class="n-title" x="440" y="626">4 · Öz Değerlendirme</text>
+          <text class="n-sub" x="440" y="652">Giriş · ÖDR&#39;nin hazırlanması · Profil</text>
+          <text class="n-count" x="720" y="652" text-anchor="end">3 adım</text>
+          <polyline class="flow" points="580,676 580,714" marker-end="url(#f1-ah)"></polyline>
+
+          <rect class="node" x="420" y="716" width="320" height="80" rx="10"></rect>
+          <text class="n-title" x="440" y="746">5 · ESG 3 — Kalite Güvencesi Ajansları</text>
+          <text class="n-sub" x="440" y="772">3.1 → 3.6, her standart bir adım</text>
+          <text class="n-count" x="720" y="772" text-anchor="end">6 adım</text>
+          <polyline class="flow" points="580,796 580,834" marker-end="url(#f1-ah)"></polyline>
+
+          <rect class="node" x="420" y="836" width="320" height="80" rx="10"></rect>
+          <text class="n-title" x="440" y="866">6 · ESG 2 — Dış Kalite Güvencesi</text>
+          <text class="n-sub" x="440" y="892">2.1 → 2.7, her standart bir adım</text>
+          <text class="n-count" x="720" y="892" text-anchor="end">7 adım</text>
+          <polyline class="flow" points="580,916 580,954" marker-end="url(#f1-ah)"></polyline>
+
+          <rect class="node" x="420" y="956" width="320" height="80" rx="10"></rect>
+          <text class="n-title" x="440" y="986">7 · ESG 1 — Kapsam ve Ölçütler</text>
+          <text class="n-sub" x="440" y="1012">Program seçimi · Ölçütler · Karar sistemi</text>
+          <text class="n-count" x="720" y="1012" text-anchor="end">5 adım</text>
+          <polyline class="flow" points="580,1036 580,1074" marker-end="url(#f1-ah)"></polyline>
+
+          <!-- 8 · Sonuç — adımları koşul etiketleriyle -->
+          <rect class="node" x="420" y="1076" width="320" height="160" rx="10"></rect>
+          <text class="n-title" x="440" y="1104">8 · Sonuç — Beyanlar ve Gönderim</text>
+          <text class="n-count" x="720" y="1104" text-anchor="end">4 adım</text>
+          <line class="divider" x1="436" y1="1118" x2="724" y2="1118"></line>
+
+          <circle class="dot-add" cx="444" cy="1137" r="3"></circle>
+          <text class="n-row" x="456" y="1141">Gelişmeye açık yönler</text>
+          <text class="n-tag lab-add" x="724" y="1141" text-anchor="end">yalnızca yenileme</text>
+
+          <text class="n-row" x="456" y="1169">Taahhüt ve beyan</text>
+          <text class="n-tag" x="724" y="1169" text-anchor="end">her başvuruda</text>
+
+          <circle class="dot-add" cx="444" cy="1193" r="3"></circle>
+          <text class="n-row" x="456" y="1197">Mali Beyanlar</text>
+          <text class="n-tag lab-add" x="724" y="1197" text-anchor="end">yalnızca yetkilendirme</text>
+
+          <text class="n-row" x="456" y="1225">Önizleme ve gönderim</text>
+          <text class="n-tag" x="724" y="1225" text-anchor="end">her başvuruda</text>
+
+          <!-- ============ gönderim kapısı ============ -->
+          <polyline class="flow" points="580,1236 580,1274" marker-end="url(#f1-ah)"></polyline>
+          <polygon class="hex" points="580,1276 760,1332 580,1388 400,1332"></polygon>
+          <text class="d-title" x="580" y="1328" text-anchor="middle">Zorunlu alanların</text>
+          <text class="d-title" x="580" y="1344" text-anchor="middle">tümü tam mı?</text>
+
+          <!-- hayır: forma dönüş -->
+          <polyline class="flow" points="400,1332 70,1332 70,144 418,144" marker-end="url(#f1-ah)"></polyline>
+          <text class="e-lab" x="235" y="1308" text-anchor="middle">hayır — eksik alan sayısı bildirilir,</text>
+          <text class="e-lab" x="235" y="1322" text-anchor="middle">ilk eksik adım açılır</text>
+
+          <!-- evet: tamamlanma -->
+          <polyline class="flow" points="580,1388 580,1426" marker-end="url(#f1-ah)"></polyline>
+          <text class="e-lab" x="596" y="1412">evet</text>
+          <rect class="node node--key" x="420" y="1428" width="320" height="80" rx="10"></rect>
+          <text class="n-title" x="440" y="1458">Başvuru tamamlandı</text>
+          <text class="n-sub" x="440" y="1484">YOK-2026-XXXXXX · bir kez üretilir, değişmez</text>
+
+          <!-- ============ hat: EQAR muafiyeti ============ -->
+          <polyline class="lane-exempt" points="230,316 230,336 330,336 330,876"></polyline>
+          <polyline class="lane-exempt" points="330,756 418,756" marker-end="url(#f1-ah-exempt)"></polyline>
+          <polyline class="lane-exempt" points="330,876 418,876" marker-end="url(#f1-ah-exempt)"></polyline>
+          <circle class="dot-exempt" cx="330" cy="756" r="3.2"></circle>
+          <text class="n-tag lab-exempt" x="374" y="748" text-anchor="middle">muaf</text>
+          <text class="n-tag lab-exempt" x="374" y="868" text-anchor="middle">muaf</text>
+          <text class="e-note" x="282" y="350" text-anchor="middle">Evet ise</text>
+
+          <!-- ============ hat: kapsam genişletme devri ============ -->
+          <polyline class="lane-carry" points="640,316 640,360 990,360 990,876"></polyline>
+          <polyline class="lane-carry" points="990,396 742,396" marker-end="url(#f1-ah-carry)"></polyline>
+          <polyline class="lane-carry" points="990,516 742,516" marker-end="url(#f1-ah-carry)"></polyline>
+          <polyline class="lane-carry" points="990,756 742,756" marker-end="url(#f1-ah-carry)"></polyline>
+          <polyline class="lane-carry" points="990,876 742,876" marker-end="url(#f1-ah-carry)"></polyline>
+          <circle class="dot-carry" cx="990" cy="396" r="3.2"></circle>
+          <circle class="dot-carry" cx="990" cy="516" r="3.2"></circle>
+          <circle class="dot-carry" cx="990" cy="756" r="3.2"></circle>
+          <text class="n-tag lab-carry" x="866" y="388" text-anchor="middle">devralınır</text>
+          <text class="n-tag lab-carry" x="866" y="508" text-anchor="middle">devralınır</text>
+          <text class="n-tag lab-carry" x="866" y="748" text-anchor="middle">devralınır</text>
+          <text class="n-tag lab-carry" x="866" y="868" text-anchor="middle">devralınır</text>
+          <text class="e-note" x="866" y="812" text-anchor="middle">muafiyet varsa devir uygulanmaz</text>
+          <text class="e-note" x="790" y="352" text-anchor="middle">Kapsam genişletme ise</text>
+
+          <!-- ============ hat: koşullu ek adım ============ -->
+          <polyline class="lane-add" points="1100,270 1150,270 1150,1096 742,1096" marker-end="url(#f1-ah-add)"></polyline>
+          <polyline class="lane-add" points="700,316 700,336 1150,336"></polyline>
+          <circle class="dot-add" cx="1150" cy="336" r="3.2"></circle>
+          <text class="n-tag lab-add" x="925" y="1088" text-anchor="middle">koşullu ek adım</text>
+          <text class="e-note" x="800" y="330" text-anchor="middle">Yenileme ise</text>
+          <text class="e-note" x="1150" y="258" text-anchor="middle">Yetkilendirme ise</text>
+
+        </svg>
+      </div>
+      <figcaption>
+        Birinci sekmedeki üç yanıt üç ayrı mekanizmayı çalıştırır:
+        <b>muafiyet</b> bölümü tümüyle kaldırır ve tamamlanma toplamından düşer;
+        <b>devir</b> bölümü yerinde bırakır ama veriyi önceki başvurudan getirir, toplamdan düşmez;
+        <b>koşullu ek adım</b> Sonuç bölümüne yeni bir adım ekler.
+        ESG 1 hiçbirinden etkilenmez — kapsam genişletmenin konusu zaten odur.
+        Gönderim bir kapıdır: eksik alan varsa akış forma, ilk eksik adıma döner.
+      </figcaption>
+    </figure>
+
+    <ul class="legend">
+      <li>
+        <span class="swatch k-exempt"></span>
+        <span><b>Muaf</b>Önceki dış değerlendirme raporu sunulduysa bölüm hiç istenmez; sekmede “—” rozeti çıkar.</span>
+      </li>
+      <li>
+        <span class="swatch k-carry"></span>
+        <span><b>Devralınır</b>Kapsam genişletmede veri önceki başvurudan gelir; “Devralındı” rozeti çıkar, veri yine gereklidir.</span>
+      </li>
+      <li>
+        <span class="swatch k-add"></span>
+        <span><b>Koşullu ek adım</b>Yalnızca belirli bir yanıtta görünen adım; diğer başvurularda listelenmez.</span>
+      </li>
+      <li>
+        <span class="swatch dash" style="color:var(--rule)"></span>
+        <span><b>İsteğe bağlı giriş</b>MİS ön başvurusu olmadan da form baştan doldurulabilir.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span>Koşullar ve etkileri</h2>
+    <p class="lede">
+      Akışı dallandıran her koşul birinci sekmede sorulur; etkisi formun tamamına yayılır.
+    </p>
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Koşul</th>
+            <th scope="col">Alan</th>
+            <th scope="col">Etkisi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Önceki dış değerlendirme = <b>Evet</b><br />(EQAR kayıtlı ajans raporu)</td>
+            <td>priorReview.has</td>
+            <td><span class="tag k-exempt">muaf</span> ESG 3 ve ESG 2 istenmez; tamamlanma toplamından düşer, sekmede sıra numarası yerine “—” görünür. Rapor dosyası ve bağlantısı zorunlu olur.</td>
+          </tr>
+          <tr>
+            <td>Başvuru niteliği = <b>Kapsam genişletme</b></td>
+            <td>applicationKind</td>
+            <td><span class="tag k-carry">devralınır</span> Ajans Bilgileri, Belgeler, ESG 3 ve ESG 2 önceki başvurudan gelir. Devir muafiyet değildir: veri yine gerekir, yalnızca yeniden yazılmaz. Muafiyet varsa devri bastırır.</td>
+          </tr>
+          <tr>
+            <td>Başvuru niteliği = <b>Yenileme</b></td>
+            <td>applicationKind</td>
+            <td><span class="tag k-add">+ adım</span> Sonuç bölümüne “Önceki değerlendirmede verilen gelişmeye açık yönlere yönelik faaliyetler” eklenir (en fazla 6000 kelime).</td>
+          </tr>
+          <tr>
+            <td>Başvuru niteliği = Yenileme <i>veya</i> Kapsam</td>
+            <td>applicationKind</td>
+            <td>“Önceki YÖKAK karar tarihi ve sayısı” alanı açılır.</td>
+          </tr>
+          <tr>
+            <td>Başvuru türü = <b>Yetkilendirme</b><br />(ulusal ajanslar)</td>
+            <td>applicationType</td>
+            <td><span class="tag k-add">+ adım</span> Sonuç bölümüne “Mali Beyanlar” eklenir — Mali Esaslar MADDE 12&#39;nin altı fıkrası, her biri beyan ve kanıtla.</td>
+          </tr>
+          <tr>
+            <td>Başvuru türü = <b>Tanınma</b><br />(uluslararası ajanslar)</td>
+            <td>applicationType</td>
+            <td>Kimlik adımında “Ülke” alanı açılır; Mali Beyanlar istenmez. Türkiye sicil numaraları yerine tescil ülkesindeki resmî ad sorulur.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span>Bir ESG adımının içi ve kanıt bağı</h2>
+    <p class="lede">
+      ESG 3 ve ESG 2&#39;deki on üç adımın hepsi aynı dört parçadan kurulur. Kanıt parçası
+      adımın kendi listesi değildir: Belgeler bölümündeki tek koleksiyona iki yönlü bağlanır.
+    </p>
+
+    <figure>
+      <div class="plate">
+        <svg viewBox="0 22 1000 424" role="img"
+             aria-label="Kanıt koleksiyonu ile bir ESG adımı arasındaki iki yönlü bağ. Koleksiyondaki bir kanıta ESG standardı etiketi verildiğinde kanıt o adımda görünür; adımda eklenen kanıt koleksiyona yazılır ve adımın etiketini alır. ESG adımı dört parçadan oluşur: standardın resmî metni, ajansın uygulaması, öz değerlendirme ve kanıtlar. Hiçbir standarda bağlanmayan kanıt koleksiyonda tasnif dışı olarak kalır.">
+
+          <defs>
+            <marker id="f2-ah" viewBox="0 0 10 10" refX="9.2" refY="5"
+                    markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="currentColor"></path>
+            </marker>
+            <marker id="f2-ah-ghost" viewBox="0 0 10 10" refX="9.2" refY="5"
+                    markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 Z" fill="var(--rule)"></path>
+            </marker>
+          </defs>
+
+          <!-- Kanıt koleksiyonu -->
+          <rect class="node" x="40" y="70" width="330" height="230" rx="10"></rect>
+          <text class="n-title" x="62" y="100">Belgeler · Kanıt koleksiyonu</text>
+          <text class="n-sub" x="62" y="122">tek kayıt, tek yer — kopyalanmaz</text>
+          <line class="divider" x1="58" y1="140" x2="352" y2="140"></line>
+          <text class="n-row" x="62" y="166">Kanıt adı</text>
+          <text class="n-tag" x="352" y="166" text-anchor="end">zorunlu</text>
+          <text class="n-row" x="62" y="196">Bağlantı ve / veya dosya</text>
+          <text class="n-tag" x="352" y="196" text-anchor="end">en az biri</text>
+          <text class="n-row" x="62" y="226">ESG standardı etiketleri</text>
+          <text class="n-tag" x="352" y="226" text-anchor="end">0, 1 veya çok</text>
+          <line class="divider" x1="58" y1="248" x2="352" y2="248"></line>
+          <text class="n-sub" x="62" y="272">Bir kanıt kaç standarda bağlıysa</text>
+          <text class="n-sub" x="62" y="288">dizinde o kadar klasörde görünür.</text>
+
+          <!-- ESG adımı -->
+          <rect class="node node--key" x="630" y="40" width="330" height="290" rx="10"></rect>
+          <text class="n-title" x="652" y="70">ESG adımı — örnek: 2.4</text>
+          <text class="n-sub" x="652" y="92">ESG 3 ve ESG 2&#39;deki 13 adımın tümü aynı</text>
+          <line class="divider" x1="648" y1="110" x2="942" y2="110"></line>
+
+          <rect class="node--sunken" x="648" y="124" width="294" height="40" rx="7"></rect>
+          <text class="n-row" x="664" y="142">Standardın resmî metni</text>
+          <text class="n-tag" x="664" y="157">okunur · TR + EN, rehber ilkeleriyle</text>
+
+          <rect class="node--sunken" x="648" y="172" width="294" height="40" rx="7"></rect>
+          <text class="n-row" x="664" y="190">Ajansın uygulaması</text>
+          <text class="n-tag" x="664" y="205">200 – 6000 karakter, sayaçlı</text>
+
+          <rect class="node--sunken" x="648" y="220" width="294" height="40" rx="7"></rect>
+          <text class="n-row" x="664" y="238">Öz değerlendirme</text>
+          <text class="n-tag" x="664" y="253">Tam · Büyük ölçüde · Kısmen · Uyumsuz</text>
+
+          <rect class="node--sunken" x="648" y="268" width="294" height="40" rx="7"></rect>
+          <text class="n-row" x="664" y="286">Kanıtlar</text>
+          <text class="n-tag" x="664" y="301">en az 1 — koleksiyondan gelir</text>
+
+          <!-- iki yönlü bağ -->
+          <polyline class="flow" points="372,150 628,150" marker-end="url(#f2-ah)"></polyline>
+          <text class="e-lab" x="500" y="130" text-anchor="middle">kanıta «2.4» etiketi verilince</text>
+          <text class="e-lab" x="500" y="144" text-anchor="middle">kanıt bu adımda görünür</text>
+
+          <polyline class="flow" points="628,288 372,288" marker-end="url(#f2-ah)"></polyline>
+          <text class="e-lab" x="500" y="268" text-anchor="middle">adımda eklenen kanıt koleksiyona</text>
+          <text class="e-lab" x="500" y="282" text-anchor="middle">yazılır ve «2.4» etiketini alır</text>
+
+          <!-- tasnif dışı -->
+          <polyline class="flow--ghost" points="205,300 205,368" marker-end="url(#f2-ah-ghost)"></polyline>
+          <text class="e-note" x="220" y="338">etiketsiz kanıt</text>
+          <rect class="node--ghost" x="40" y="370" width="330" height="66" rx="10"></rect>
+          <text class="n-row" x="62" y="398" style="fill:var(--muted)">Tasnif dışı</text>
+          <text class="n-tag" x="62" y="418">koleksiyonda kalır, hiçbir ESG adımına girmez</text>
+
+          <text class="e-note" x="795" y="366" text-anchor="middle">Aynı kanıt birden çok standarda bağlanabilir;</text>
+          <text class="e-note" x="795" y="382" text-anchor="middle">kayıt kopyalanmaz, yalnızca etiket eklenir.</text>
+        </svg>
+      </div>
+      <figcaption>
+        Kanıt tek bir kayıttır; etiket onu ESG adımlarına bağlar. Bu yüzden eşitleme sorunu
+        doğmaz — bir adımda silinen kanıt, silme penceresinde “yalnızca bu tasniften çıkar”
+        seçilirse öteki adımlarda görünmeyi sürdürür.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2><span class="num">04</span>Her adımda arka planda</h2>
+    <div class="always">
+      <div>
+        <h3>Otomatik kayıt</h3>
+        Her değişiklik <code>localStorage</code>&#39;a yazılır; kaldığınız sekme ve adım da saklanır.
+      </div>
+      <div>
+        <h3>Doğrulama</h3>
+        Metin alanlarında kural alandan çıkılınca uygulanır; hata düzeltilince anında kalkar.
+      </div>
+      <div>
+        <h3>Tamamlanma</h3>
+        Sekme çubuğunun altında yüzde ve <code>tamamlanan / toplam</code>; muaf bölüm toplama girmez.
+      </div>
+      <div>
+        <h3>Taşınabilirlik</h3>
+        Başvuru JSON olarak dışa ve içe aktarılabilir; sunucu ya da hesap gerekmez.
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Diyagram <code>assets/js/schema.js</code> (sekme → adım → alan),
+    <code>assets/js/validate.js</code> (muafiyet, devir, görünürlük) ve
+    <code>assets/js/app.js</code> (gönderim) dosyalarındaki davranıştan türetilmiştir.
+    Adım sayıları azami durumu gösterir: muafiyet ve koşullu adımlar uygulandığında
+    gerçek sayı düşer.
+  </footer>
+
+</div>
+</body>
+</html>
