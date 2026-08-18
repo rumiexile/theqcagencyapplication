@@ -403,10 +403,6 @@ window.SCHEMA = (function () {
               refreshesLabels: true,
               label: { tr: "Kısaltma", en: "Acronym" },
               placeholder: { tr: "ör. MÜDEK", en: "e.g. MÜDEK" },
-              hint: {
-                tr: "Girdiğiniz kısaltma, başvuru boyunca yardım metinlerinde kuruluşunuzun adı olarak kullanılır.",
-                en: "The acronym you enter is used as your organisation's name in the guidance texts throughout the application.",
-              },
             },
             { type: "number", id: "agency.foundedYear", required: true, half: true, min: 1900, max: 2100, label: { tr: "Kuruluş yılı", en: "Year of establishment" } },
             { type: "text", id: "agency.country", required: true, half: true, label: { tr: "Ülke", en: "Country" }, showIf: { field: "applicationType", equals: "taninma" } },
